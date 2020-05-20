@@ -25,7 +25,7 @@ client.connect((err) => {
   console.log('database!!!!: ', client);
   require('./backend/routes')(app, client.db(dbName));
   app.listen(PORT, () => {
-    console.log('We are live on ' + port);
+    console.log('We are live on ' + PORT);
   });               
 })
 
