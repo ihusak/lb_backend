@@ -23,6 +23,7 @@ const client = new MongoClient(DB_URL, { useNewUrlParser: true, useUnifiedTopolo
 client.connect((err) => {
   if (err) return console.log(err);
   console.log('database!!!!: ', client);
+  console.log('db name!!!!: ', dbName);
   require('./backend/routes')(app, client.db(dbName));
   app.listen(PORT, () => {
     console.log('We are live on ' + PORT);
@@ -30,11 +31,11 @@ client.connect((err) => {
 })
 
 // connect to localhost
-// MongoClient.connect(db.url, (err, database) => {
+// MongoClient.connect(DB_URL, (err, database) => {
 //   if (err) return console.log(err);
 //   console.log('database!!!!: ', database);
 //   require('./backend/routes')(app, database.db(dbName));
-//   app.listen(port, () => {
-//     console.log('We are live on ' + port);
+//   app.listen(PORT, () => {
+//     console.log('We are live on ' + PORT);
 //   });               
 // })
