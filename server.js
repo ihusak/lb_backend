@@ -5,7 +5,9 @@ const app = express();
 const db = require('./backend/config/db');
 // const dbName = 'librarytricks_db'; //compass
 const dbName = 'librarytricks'; // web
-const cors = require('cors')
+const cors = require('cors');
+const PORT = process.env.PORT || 8000;
+const DB_URL = process.env.MONGODB_URI || db.url;
 
 var corsOptions = {
   origin: 'http://localhost:8000',
@@ -16,14 +18,13 @@ app.use(cors(corsOptions))
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const port = 8000;
 // connect to web cluster
-const client = new MongoClient(db.url, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect((err) => {
   if (err) return console.log(err);
   console.log('database!!!!: ', client);
   require('./backend/routes')(app, client.db(dbName));
-  app.listen(port, () => {
+  app.listen(PORT, () => {
     console.log('We are live on ' + port);
   });               
 })
