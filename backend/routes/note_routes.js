@@ -1,5 +1,9 @@
 module.exports = function(app, db) {
   const ObjectID = require('mongodb').ObjectID;
+
+  app.get('/', (req, res) => {
+    res.send('Main page');
+  })
   app.post('/users', (req, res) => {
     const user = {name: req.body.name, surname: req.body.surname};
     db.collection('users').insertOne(user, (err, result) => {
