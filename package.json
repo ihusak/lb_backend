@@ -1,9 +1,9 @@
 {
 	"name": "Node",
-  "version": "0.0.1",
-  "scripts": {
-    "start": "node server"
-  },
+	"version": "0.0.1",
+	"scripts": {
+		"start": "node server"
+	},
 	"dependencies": {
 		"body-parser": "^1.19.0",
 		"cors": "^2.8.5",
