@@ -9,12 +9,12 @@ const cors = require('cors');
 const PORT = process.env.PORT || 8000;
 const DB_URL = process.env.MONGODB_URI || db.url;
 
-var corsOptions = {
-  origin: 'http://localhost:8000',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
-}
+// var corsOptions = {
+//   origin: 'http://localhost:8000',
+//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
+// }
 
-app.use(cors(corsOptions))
+// app.use(cors(corsOptions))
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
