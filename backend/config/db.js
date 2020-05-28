@@ -1,4 +1,19 @@
-module.exports = {
-  // url : 'mongodb://127.0.0.1:27017' //compass
-  url: 'mongodb+srv://iHusak:JmX2D7YTR2ChC2Ro@librarytricks-wszau.mongodb.net/test?retryWrites=true&w=majority' // web
+const mongoose = require('mongoose');
+const state = {
+  db: null
 };
+
+exports.connect = (url, done) => {
+  if(state.db) {
+    return done();
+  };
+  mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
+    if(err) return done(err);
+    state.db = db;
+    done();
+  });
+}
+
+exports.get = () => {
+  return state.db;
+}
