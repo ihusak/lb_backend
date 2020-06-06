@@ -1,5 +1,6 @@
 {
   "url_local": "mongodb://127.0.0.1:27017/librarytricks_db",
   "url_web": "mongodb+srv://iHusak:JmX2D7YTR2ChC2Ro@librarytricks-wszau.mongodb.net/test?retryWrites=true&w=majority/librarytricks_db",
-  "secret": "wearefreestylers"
+  "accesToken": "36aff2b17b33235f156b03d66e0c58c791623919de9c331e2cca0dc7093159966e92b4581732025eab27b4ba5f4db24e563d473a3b82101799b3040de37bab22",
+  "refreshToken": "3024ca012711af8f52a47fd0b8c3d35d8c469aadb1e603ff75e88fefb0a3fb14eebfbc1c1dc03e5ffe97305d96d7d6deb349607e9f89560e7923b307414737ea"
 }

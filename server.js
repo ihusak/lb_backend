@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const MongoClient = require('mongodb').MongoClient;
 const app = express();
 const db = require('./backend/config/db');
 const config = require('./config.json')
@@ -8,6 +7,7 @@ const cors = require('cors');
 const PORT = process.env.PORT || 8000;
 const DB_URL = process.env.MONGODB_URI || config.url_local;
 const routes = require('./backend/routes');
+const errorHandler = require('./backend/config/error-handler');
 
 const userController = require('./backend/controllers/users');
 
@@ -19,22 +19,16 @@ if(!process.env.MONGODB_URI) {
   app.use(cors(corsOptions))
 }
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
+app.use('/users', require('./backend/routes/users/users'));
+app.use(errorHandler);
+     
 // MONGOOSE
 db.connect(DB_URL, (err) => {
   if(err) return console.log(err);
   app.listen(PORT, function(){
       console.log(`Server connected and listen posrt ${PORT}`);
-      routes(app, userController);
+      // routes(app, userController);
   });
 });
-
-// dbConnection.on('error', (err) => console.log('Connect error', err));
-// dbConnection.once('open', () => {
-//   console.log('CONNECT');
-// })
-// connect to localhost
-// MongoClient.connect(DB_URL, (err, database) => {
-//   if (err) return console.log(err);
-//   require('./backend/routes')(app, database.db(dbName));              
-// }) 
