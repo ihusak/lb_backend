@@ -18,7 +18,7 @@ function errorHandler(err, req, res, next) {
     }
 
     if(err.name === 'User already exist') {
-      return res.status(410).json({ message: 'User already exist' });
+      return res.status(err.code).json({ message: 'User already exist' });
     }
 
     // default to 500 server error

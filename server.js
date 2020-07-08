@@ -18,17 +18,21 @@ if(!process.env.MONGODB_URI) {
 }
   app.use(cors(corsOptions))
 }
+app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-
-app.use('/users', require('./backend/routes/users/users'));
-app.use(errorHandler);
      
 // MONGOOSE
 db.connect(DB_URL, (err) => {
   if(err) return console.log(err);
   app.listen(PORT, function(){
       console.log(`Server connected and listen posrt ${PORT}`);
+      app.use('/users', require('./backend/routes/users/users'));
+      app.use('/roles', require('./backend/routes/roles/roles'));
+      app.use('/userInfo', require('./backend/routes/userInfo/userInfo'));
+      app.use('/uploadImage', require('./backend/routes/files/files'));
+      app.use(errorHandler);
       // routes(app, userController);
   });
 });

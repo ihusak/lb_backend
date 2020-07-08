@@ -46,22 +46,29 @@ exports.updateUser = (updatedUser, id, cb) => {
 };
 
 exports.loginUser = (user, cb) => {
-  const accesToken = generateAccesToken(user);
+  const accessToken = generateAccessToken(user);
   const refreshToken = jwt.sign(user, config.refreshToken);
   db.get().collection('users').find({}).toArray((err, docs) => {
     db.get().collection('roles').find({}).toArray((err, roles) => {
-      cb(err, docs, {accesToken, refreshToken}, roles);
+      cb(err, docs, {accessToken, refreshToken}, roles);
     })
   });
-  db.get().collection('tokens').insertOne({refreshToken, accesToken});
+  db.get().collection('tokens').insertOne({refreshToken, accessToken});
 }
 
-exports.tokens = (cb) => {
+exports.logoutUser = (token, cb) => {
+  console.log('DELETE TOKEN', token);
+  db.get().collection('tokens').deleteOne({refreshToken: token}, (err, doc) => {
+    cb(err, doc);
+  });
+}
+
+exports.userToken = (cb) => {
   db.get().collection('tokens').find({}).toArray((err, tokens) => {
-    cb(err, tokens, jwt, config, generateAccesToken);
+    cb(err, tokens, jwt, config, generateAccessToken);
   })
 }
 
-generateAccesToken = (user) => {
-  return jwt.sign(user, config.accesToken, {expiresIn: '30s'})
+generateAccessToken = (user) => {
+  return jwt.sign(user, config.accessToken, {expiresIn: '8h'})
 }
