@@ -2,6 +2,16 @@ const Users = require('../models/users');
 const ObjectID = require('mongodb').ObjectID;
 const bcrypt = require('bcrypt');
 const User = require('../models/schemas/userSchema');
+const jwt = require('jsonwebtoken');
+const config = require('../../config.json');
+const nodemailer = require('nodemailer');
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'afreestylers2016@gmail.com',
+    pass: 'afreestylers2016'
+  }
+})
 
 const salt = bcrypt.genSaltSync(10);
 
@@ -32,7 +42,32 @@ exports.createUser = (req, res, next) => {
       const err = {name: 'User already exist', title: 'User', code: 409};
       return next(err);
     };
+    sendConfirmUserByEmail(user);
     res.send(user);
+  })
+};
+
+exports.confirmUser = (req, res, next) => {
+  const token = req.params.token;
+  Users.confirmUserRegistration(token, (err, doc) => {
+  if(err) return res.sendStatus(500); 
+    if(!doc) {
+      const err = {name: 'Not confirmed', title: 'User', code: 409};
+      return next(err);
+    }  
+    res.send(doc);
+  })
+}
+
+exports.deleteUser = (req, res) => {
+  console.log('delete USER');
+  let userId = {'_id': new ObjectID(req.params.id)};
+  Users.deleteUser(userId, (err, doc) => {
+    if(err) {
+      console.log(err);
+      return res.sendStatus(500);
+    }
+    res.send('Note ' + req.params.id + ' deleted!');
   })
 };
 
@@ -48,45 +83,24 @@ exports.getUserById = (req, res) => {
   })
 };
 
-exports.deleteUser = (req, res) => {
-  console.log('delete USER');
-  let userId = {'_id': new ObjectID(req.params.id)};
-  Users.deleteUser(userId, (err, doc) => {
-    if(err) {
-      console.log(err);
-      return res.sendStatus(500);
-    }
-    res.send('Note ' + req.params.id + ' deleted!');
-  })
-};
-
-exports.updateUser = (req, res) => {
-  let userId = {'_id': new ObjectID(req.params.id)};
-  const user = {name: req.body.name, surname: req.body.surname};
-  Users.updateUser(user, userId, (err, doc) => {
-    if(err) {
-      console.log(err);
-      return res.sendStatus(500);
-    }
-    res.send('Note ' + req.params.id + ' UPDATED!');
-  })
-};
-
-exports.loginUser = (req, res) => {
+exports.loginUser = (req, res, next) => {
   const user = {email: req.body.email, userPassword: bcrypt.hashSync(req.body.userPassword, salt)};
-  let userInfo = {};
-  Users.loginUser(user, (err, docs, tokens) => {
+  Users.loginUser(user, (err, matchUser, tokens) => {
     if(err) {
       return res.sendStatus(500);
     };
-    let matchUser = docs.filter(userInDb => {
-      return bcrypt.compareSync(req.body.userPassword, userInDb.userPassword) && userInDb.email === user.email
-    });
-    userInfo = matchUser[0];
-    if(userInfo) {
-      delete userInfo.userPassword;
-      userInfo.tokens = tokens;
-      res.send(userInfo);
+    console.log('MATCH USER', matchUser);
+    let passwordMatch = bcrypt.compareSync(req.body.userPassword, matchUser.userPassword) && matchUser.email === user.email;
+    if(!matchUser.confirmed) {
+      const err = {name: 'Not confirmed', title: 'User', code: 409};
+      return next(err);
+    };
+    if(matchUser) {
+      delete matchUser.userPassword;
+      matchUser.tokens = tokens;
+      if(passwordMatch) {
+        res.send(matchUser);
+      }
     } else {
       res.sendStatus(404);
     }
@@ -101,6 +115,18 @@ exports.logoutUser = (req, res) => {
   })
 }
 
+exports.updateUser = (req, res) => {
+  let userId = {'_id': new ObjectID(req.params.id)};
+  const user = {name: req.body.name, surname: req.body.surname};
+  Users.updateUser(user, userId, (err, doc) => {
+    if(err) {
+      console.log(err);
+      return res.sendStatus(500);
+    }
+    res.send('Note ' + req.params.id + ' UPDATED!');
+  })
+};
+
 exports.userToken = (req, res) => {
   const refreshToken = req.body.refreshToken;
   Users.userToken((err, tokens, jwt, config, generateToken) => {
@@ -113,4 +139,29 @@ exports.userToken = (req, res) => {
       return res.json({accessToken});
     })
   })
+}
+
+sendConfirmUserByEmail = (createdUser) => {
+  const emailToken = jwt.sign(
+    {
+      user: createdUser._id
+    },
+    config.emailSercet,
+    {
+      expiresIn: '1d'
+    }
+  );
+  const url = `http://localhost:4200/confirm/${emailToken}`;
+  const mailOptions = {
+    from: 'afreestyler2016@gmail.com', // sender address
+    to: createdUser.email, // list of receivers
+    subject: 'Confirm registration', // Subject line
+    html: `<p>Please click to confirm register <a href='${url}'>Link to confir registration</a></p>`// plain text body
+  };
+  transporter.sendMail(mailOptions, (err, info) => {
+    if(err)
+      console.log(err)
+    else
+      console.log(info);
+ });
 }

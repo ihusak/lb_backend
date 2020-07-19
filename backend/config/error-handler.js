@@ -21,6 +21,10 @@ function errorHandler(err, req, res, next) {
       return res.status(err.code).json({ message: 'User already exist' });
     }
 
+    if(err.name === 'Not confirmed') {
+      return res.status(err.code).json({ message: 'User not confirmed' });
+    }
+
     // default to 500 server error
     return res.sendStatus(500).json({ message: err.message });
 }

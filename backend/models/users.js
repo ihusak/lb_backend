@@ -1,10 +1,57 @@
 const db = require('../config/db');
 const jwt = require('jsonwebtoken');
 const config = require('../../config.json');
+const ObjectID = require('mongodb').ObjectID;
+const userInfo = require('../models/userInfo');
 
 exports.all = (cb) => {
   db.get().collection('users').find({}).toArray((err, docs) => {
     cb(err, docs);
+  })
+};
+
+exports.createUser = async (user, cb) => {
+  let userExist;
+  db.get().collection('users').findOne({'email': user.email}, (err, matchUser) => {
+    if(!matchUser) {
+      db.get().collection('users').insertOne(user, (err, docs) => {
+        cb(err, docs);
+      });
+      db.get().collection('userInfo').findOne({'email': user.email}, (err, userInfoMatch) => {
+        if(!userInfoMatch) {
+          userInfo.createUserInfo(user, null);
+        }
+      })
+    } else {
+      cb(err, null);
+    }
+  })
+  // .toArray( async (err, docs) => {
+  //   userExist = docs.some(userInDb => userInDb.email === user.email);
+  //   if(!userExist) {
+  //     db.get().collection('users').insertOne(user, (err, docs) => {
+  //       cb(err, docs);
+  //     })
+  //   } else {
+  //     cb(err, null);
+  //   }
+  // });
+};
+
+exports.confirmUserRegistration = (token, cb) => {
+  const {user} = jwt.verify(token, config.emailSercet);
+  if(user) {
+    db.get().collection('users').updateOne({_id: new ObjectID(user)}, { $set: { 'confirmed' : true  } }, (err, doc) => {
+      cb(err, doc);
+    })
+  } else {
+    cb(err, doc);
+  }
+}
+
+exports.deleteUser = (id, cb) => {
+  db.get().collection('users').remove(id, (err, doc) => {
+    cb(err, doc);
   })
 };
 
@@ -14,33 +61,9 @@ exports.getRoles = (cb) => {
   })
 };
 
-exports.createUser = async (user, cb) => {
-  let userExist;
-  db.get().collection('users').find({}).toArray( async (err, docs) => {
-    userExist = docs.some(userInDb => userInDb.email === user.email);
-    if(!userExist) {
-      db.get().collection('users').insertOne(user, (err, docs) => {
-        cb(err, docs);
-      })
-    } else {
-      cb(err, null);
-    }
-  });
-};
+
 exports.getUserById = (id, cb) => {
   db.get().collection('users').findOne(id, (err, doc) => {
-    cb(err, doc);
-  })
-};
-
-exports.deleteUser = (id, cb) => {
-  db.get().collection('users').remove(id, (err, doc) => {
-    cb(err, doc);
-  })
-};
-
-exports.updateUser = (updatedUser, id, cb) => {
-  db.get().collection('users').update(id, updatedUser, (err, doc) => {
     cb(err, doc);
   })
 };
@@ -48,20 +71,26 @@ exports.updateUser = (updatedUser, id, cb) => {
 exports.loginUser = (user, cb) => {
   const accessToken = generateAccessToken(user);
   const refreshToken = jwt.sign(user, config.refreshToken);
-  db.get().collection('users').find({}).toArray((err, docs) => {
-    db.get().collection('roles').find({}).toArray((err, roles) => {
-      cb(err, docs, {accessToken, refreshToken}, roles);
-    })
-  });
+  db.get().collection('users').findOne({'email': user.email}, (err, matchUser) => {
+    cb(err, matchUser, {accessToken, refreshToken});
+  })
+  // .toArray((err, docs) => {
+  //   cb(err, docs, {accessToken, refreshToken});
+  // });
   db.get().collection('tokens').insertOne({refreshToken, accessToken});
 }
 
 exports.logoutUser = (token, cb) => {
-  console.log('DELETE TOKEN', token);
   db.get().collection('tokens').deleteOne({refreshToken: token}, (err, doc) => {
     cb(err, doc);
   });
 }
+
+exports.updateUser = (updatedUser, id, cb) => {
+  db.get().collection('users').update(id, updatedUser, (err, doc) => {
+    cb(err, doc);
+  })
+};
 
 exports.userToken = (cb) => {
   db.get().collection('tokens').find({}).toArray((err, tokens) => {

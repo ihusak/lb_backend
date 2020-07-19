@@ -10,9 +10,12 @@ exports.createUserInfo = (body, cb) => {
     id: body.id,
     email: body.email,
     userName: body.userName,
+    role: body.role
   });
   db.get().collection('userInfo').insertOne(userInfo, (err, doc) => {
-    cb(err, doc);
+    if(cb) {
+      cb(err, doc)
+    };
   })
 };
 

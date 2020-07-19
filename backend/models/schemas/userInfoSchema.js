@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userInfo = new Schema({
-  // _id: {type: mongoose.Types.ObjectId, auto: false},
   id: String,
   userImg: {type: String, default: ''},
   userName: {type: String, default: ''},
@@ -27,15 +26,15 @@ const userInfo = new Schema({
   level: {type: Number, default: 0},
   position: {type: Number, default: 0},
   progress: {type: Number, default: 0},
+  role: Object
 });
 
-// userInfo.set('toJSON', {
-//   virtuals: true,
-//   versionKey: false,
-//   transform: function (doc, ret) {
-//     console.log('ret', ret);
-//       delete ret._id;
-//   }
-// });
+userInfo.set('toJSON', {
+  virtuals: true,
+  versionKey: false,
+  transform: function (doc, ret) {
+      delete ret._id;
+  }
+});
 
 module.exports = mongoose.model('UserInfo', userInfo);

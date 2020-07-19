@@ -10,6 +10,7 @@ router.delete('/logout', auth.authUser, controller.logoutUser);
 router.post('/login', controller.loginUser);
 router.delete('/:id', auth.authUser, controller.deleteUser);
 router.put('/:id', auth.authUser, controller.updateUser);
+router.get('/confirm/:token', controller.confirmUser);
 
 router.post('/token', controller.userToken);
 

@@ -5,9 +5,14 @@ const userSchema = new Schema({
   userName: String,
   email: String,
   userPassword: String,
-  userType: String,
+  userType: {
+    title: String,
+    status: Boolean,
+    id: Number
+  },
   createdDate: { type: Date, default: Date.now },
-  role: Object
+  role: Object,
+  confirmed: {type: Boolean, default: false}
 });
 
 userSchema.set('toJSON', {
