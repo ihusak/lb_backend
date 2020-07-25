@@ -26,20 +26,11 @@ exports.createUser = async (user, cb) => {
       cb(err, null);
     }
   })
-  // .toArray( async (err, docs) => {
-  //   userExist = docs.some(userInDb => userInDb.email === user.email);
-  //   if(!userExist) {
-  //     db.get().collection('users').insertOne(user, (err, docs) => {
-  //       cb(err, docs);
-  //     })
-  //   } else {
-  //     cb(err, null);
-  //   }
-  // });
 };
 
 exports.confirmUserRegistration = (token, cb) => {
   const {user} = jwt.verify(token, config.emailSercet);
+  console.log(user);
   if(user) {
     db.get().collection('users').updateOne({_id: new ObjectID(user)}, { $set: { 'confirmed' : true  } }, (err, doc) => {
       cb(err, doc);
@@ -73,10 +64,7 @@ exports.loginUser = (user, cb) => {
   const refreshToken = jwt.sign(user, config.refreshToken);
   db.get().collection('users').findOne({'email': user.email}, (err, matchUser) => {
     cb(err, matchUser, {accessToken, refreshToken});
-  })
-  // .toArray((err, docs) => {
-  //   cb(err, docs, {accessToken, refreshToken});
-  // });
+  });
   db.get().collection('tokens').insertOne({refreshToken, accessToken});
 }
 

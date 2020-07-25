@@ -1,13 +1,19 @@
 const db = require('../config/db');
-const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const config = require('../../config.json');
 const userInfoSchema = require('./schemas/userInfoSchema');
-const ObjectID = mongoose.Types.ObjectId;
+const nodemailer = require('nodemailer');
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'afreestylers2016@gmail.com',
+    pass: 'afreestylers2016'
+  }
+})
 
 exports.createUserInfo = (body, cb) => {
   const userInfo = new userInfoSchema({
-    id: body.id,
+    id: body._id,
     email: body.email,
     userName: body.userName,
     role: body.role
@@ -26,12 +32,65 @@ exports.getUserInfo = (id, cb) => {
   })
 }
 
+exports.getAllUserInfo = (cb) => {
+  db.get().collection('userInfo').find({}).toArray((err, usersInfo) => {
+    cb(err, usersInfo);
+  })
+}
+
 exports.updateUserInfo = (id, userInfo, file, cb) => {
   let userId = {'id': id};
   let userInfoBody = JSON.parse(userInfo);
   if(file) userInfoBody.userImg = file.path;
   let userInfoReq = { $set: userInfoBody };
-  db.get().collection('userInfo').updateOne(userId, userInfoReq, (err, doc) => {
-    cb(err, doc);
+  db.get().collection('userInfo').findOneAndUpdate(userId, userInfoReq, {returnOriginal: false}, (err, doc) => {
+    cb(err, doc.value);
   })
+}
+
+
+exports.requestCoachPermission = (id, phone, cb) => {
+  let userId = {'id': id};
+  db.get().collection('userInfo').findOne(userId, (err, foundUser) => {
+    sendRequestCoachPermission(foundUser, phone);
+    cb(err, foundUser);
+  })
+}
+
+exports.acceptCoachRequest = (token, cb) => {
+  const {id} = jwt.verify(token, config.emailSercet);
+  if(id) {
+    db.get().collection('userInfo').updateOne({'id': id},{ $set: { 'role.status' : true  } }, (err, foundUser) => {
+      cb(err, foundUser);
+    })
+  }
+}
+
+sendRequestCoachPermission = (user, phone) => {
+  const userPhone = user.phone ? user.phone : phone;
+  const emailToken = jwt.sign(
+    {
+      id: user.id
+    },
+    config.emailSercet,
+    {
+      expiresIn: '1d'
+    }
+  );
+  const url = `http://localhost:4200/userInfo/confirm/coach/${emailToken}`;
+  const mailOptions = {
+    from: user.email, // sender address
+    to: 'ilyagusak@gmail.com', // list of receivers
+    subject: 'Request Coach Permission #LB', // Subject line
+    html: `<h1>${user.userName} want's to be a coach</h1>
+    <p>Please contact him to confirm coach permission: <b>${userPhone}</b></p>
+    <p>if everything fine click <a href='${url}'>Confirm coach request</a></p>
+    `// plain text body
+  };
+  transporter.sendMail(mailOptions, (err, info) => {
+    if(err)
+      console.log(err)
+    else
+      console.log(info);
+ });
 }

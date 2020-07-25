@@ -89,6 +89,10 @@ exports.loginUser = (req, res, next) => {
     if(err) {
       return res.sendStatus(500);
     };
+    if(!matchUser) {
+      const err = {name: 'Not registred', title: 'User', code: 403};
+      return next(err);
+    }
     console.log('MATCH USER', matchUser);
     let passwordMatch = bcrypt.compareSync(req.body.userPassword, matchUser.userPassword) && matchUser.email === user.email;
     if(!matchUser.confirmed) {
@@ -98,6 +102,8 @@ exports.loginUser = (req, res, next) => {
     if(matchUser) {
       delete matchUser.userPassword;
       matchUser.tokens = tokens;
+      matchUser.id = matchUser._id;
+      delete matchUser._id;
       if(passwordMatch) {
         res.send(matchUser);
       }

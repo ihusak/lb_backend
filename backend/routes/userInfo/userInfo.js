@@ -27,8 +27,11 @@ const upload = multer({
   fileFilter: fileFilter
 });
 
+router.get('/all', auth.authUser, userInfo.getAllUserInfo);
 router.post('/', auth.authUser, userInfo.createUserInfo);
 router.get('/:id', auth.authUser, userInfo.getUserInfo);
 router.put('/:id', auth.authUser, upload.single('avatar'), userInfo.updateUserInfo);
+router.post('/request/coach/:id', userInfo.requestCoachPermission);
+router.get('/confirm/coach/:token', userInfo.acceptCoachPermission);
 
 module.exports = router;

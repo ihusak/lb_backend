@@ -11,17 +11,13 @@ const userSchema = new Schema({
     id: Number
   },
   createdDate: { type: Date, default: Date.now },
-  role: Object,
-  confirmed: {type: Boolean, default: false}
-});
-
-userSchema.set('toJSON', {
-  virtuals: true,
-  versionKey: false,
-  transform: function (doc, ret) {
-      delete ret._id;
-      // delete ret.hash;
-  }
+  role: {
+    id: Number,
+    title: String,
+    status: Boolean
+  },
+  confirmed: {type: Boolean, default: false},
+  id: String
 });
 
 module.exports = mongoose.model('User', userSchema);

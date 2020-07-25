@@ -26,7 +26,11 @@ const userInfo = new Schema({
   level: {type: Number, default: 0},
   position: {type: Number, default: 0},
   progress: {type: Number, default: 0},
-  role: Object
+  role: {
+    id: Number,
+    title: String,
+    status: Boolean
+  }
 });
 
 userInfo.set('toJSON', {

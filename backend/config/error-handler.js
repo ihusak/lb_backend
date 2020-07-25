@@ -25,6 +25,10 @@ function errorHandler(err, req, res, next) {
       return res.status(err.code).json({ message: 'User not confirmed' });
     }
 
+    if(err.name === 'Not registred') {
+      return res.status(err.code).json({ message: 'User Not registred' });
+    }
+
     // default to 500 server error
     return res.sendStatus(500).json({ message: err.message });
 }

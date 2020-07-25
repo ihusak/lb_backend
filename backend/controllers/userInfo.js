@@ -9,6 +9,19 @@ exports.createUserInfo = (req, res) => {
   })
 }
 
+exports.getAllUserInfo = (req, res) => {
+  UserInfo.getAllUserInfo((err, usersInfo) => {
+    if(usersInfo) {
+      delete usersInfo._id;
+    };
+    if(err) {
+      return res.sendStatus(500)
+    };
+    return res.json(usersInfo);
+  })
+}
+
+
 exports.getUserInfo = (req, res) => {
   let id = req.params.id;
   UserInfo.getUserInfo(id, (err, doc) => {
@@ -29,6 +42,28 @@ exports.updateUserInfo = (req, res) => {
     if(err) {
       return res.sendStatus(500)
     };
-    return res.json(userInfo);
+    return res.json(doc);
+  })
+}
+
+exports.requestCoachPermission = (req, res) => {
+  const id = req.params.id,
+  phone = req.body.phone;
+  UserInfo.requestCoachPermission(id, phone, (err, user) => {
+    if(err) {
+      return res.sendStatus(500)
+    };
+    return res.send(null);
+  })
+}
+
+exports.acceptCoachPermission = (req, res) => {
+  const token = req.params.token;
+  console.log(token);
+  UserInfo.acceptCoachRequest(token, (err, user) => {
+    if(err) {
+      return res.sendStatus(500)
+    };
+    return res.send(user);
   })
 }
