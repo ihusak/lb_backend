@@ -1,6 +1,22 @@
 const UserInfo = require('../models/userInfo');
 const mongoose = require('mongoose');
 const ObjectID = mongoose.Types.ObjectId;
+const {userTasksLogger} = require('../config/middleware/logger');
+
+const TaskStatuses = {
+  PROCESSING: 'Processing',
+  PENDING: 'Pending',
+  DONE: "Done"
+}
+
+exports.acceptUserTask = (req, res) => {
+  const userId = req.params.userId;
+  const task = req.body.task;
+  UserInfo.acceptUserTask(userId, task, (err, userInfo) => {
+    if(err) return res.sendStatus(500);
+    return res.json(userInfo);
+  })
+}
 
 exports.createUserInfo = (req, res) => {
   UserInfo.createUserInfo(req.body, (err, userInfo) => {
@@ -11,6 +27,19 @@ exports.createUserInfo = (req, res) => {
 
 exports.getAllUserInfo = (req, res) => {
   UserInfo.getAllUserInfo((err, usersInfo) => {
+    if(usersInfo) {
+      delete usersInfo._id;
+    };
+    if(err) {
+      return res.sendStatus(500)
+    };
+    return res.json(usersInfo);
+  })
+}
+
+exports.getUserInfoByCoach = (req, res) => {
+  const coachId = req.params.coachId;
+  UserInfo.getUserInfoByCoach(coachId, (err, usersInfo) => {
     if(usersInfo) {
       delete usersInfo._id;
     };
@@ -46,6 +75,28 @@ exports.updateUserInfo = (req, res) => {
   })
 }
 
+exports.changeTaskStatus = (req, res) => {
+  let id = req.params.id;
+  let task = req.body.task;
+  UserInfo.changeTaskStatus(task, id, (err, userInfo) => {
+    if(err) {
+      return res.sendStatus(500)
+    };
+    switch(task.status) {
+      case TaskStatuses.PROCESSING: 
+      userLoggerTasks(`User assign task and start work`, task, id);
+      break;
+      case TaskStatuses.PENDING: 
+      userLoggerTasks(`User pass task and waiting for result`, task, id);
+      break;
+      case TaskStatuses.DONE: 
+      userLoggerTasks(`User done task and start work for another`, task, id);
+      break;
+    }
+    return res.json(userInfo);
+  })
+}
+
 exports.requestCoachPermission = (req, res) => {
   const id = req.params.id,
   phone = req.body.phone;
@@ -59,11 +110,24 @@ exports.requestCoachPermission = (req, res) => {
 
 exports.acceptCoachPermission = (req, res) => {
   const token = req.params.token;
-  console.log(token);
   UserInfo.acceptCoachRequest(token, (err, user) => {
     if(err) {
       return res.sendStatus(500)
     };
     return res.send(user);
   })
+}
+
+userLoggerTasks = (msg, task, userId) => {
+  userTasksLogger.info(msg,
+  {
+    userId,
+    taskId: task.id,
+    taskTitle: task.title,
+    taskDescription: task.description,
+    taskReward: task.reward,
+    taskGroup: task.group,
+    taskStatus: task.status
+  }
+)
 }

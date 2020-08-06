@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const rolesSchema = new Schema({
-  title: String,
-  id: String
+  name: String,
+  id: Number,
+  status: Boolean
 });
 
 

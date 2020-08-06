@@ -2,8 +2,17 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const taskSchema = new Schema({
-  title: String,
-  id: String
+  title: {type: String},
+  description: {type: String},
+  example: {type: String},
+  allow: {type: Boolean, default: false},
+  reward: {type: Number, default: 0},
+  nextTask: {id: String},
+  group: {
+    id: {type: Number},
+    name: {type: String},
+  },
+  reviewExample: {type: String, default: ''}
 });
 
 

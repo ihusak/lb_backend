@@ -27,10 +27,12 @@ app.use(express.json());
 db.connect(DB_URL, (err) => {
   if(err) return console.log(err);
   app.listen(PORT, function(){
-      console.log(`Server connected and listen posrt ${PORT}`);
+    console.log(`Server connected and listen posrt ${PORT}`);
       app.use('/users', require('./backend/routes/users/users'));
       app.use('/roles', require('./backend/routes/roles/roles'));
       app.use('/userInfo', require('./backend/routes/userInfo/userInfo'));
+      app.use('/task', require('./backend/routes/task/task'));
+      app.use('/groups', require('./backend/routes/groups/groups'));
       app.use('/uploadImage', require('./backend/routes/files/files'));
       app.use(errorHandler);
       // routes(app, userController);

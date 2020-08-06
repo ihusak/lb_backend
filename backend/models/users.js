@@ -30,7 +30,6 @@ exports.createUser = async (user, cb) => {
 
 exports.confirmUserRegistration = (token, cb) => {
   const {user} = jwt.verify(token, config.emailSercet);
-  console.log(user);
   if(user) {
     db.get().collection('users').updateOne({_id: new ObjectID(user)}, { $set: { 'confirmed' : true  } }, (err, doc) => {
       cb(err, doc);
@@ -60,12 +59,16 @@ exports.getUserById = (id, cb) => {
 };
 
 exports.loginUser = (user, cb) => {
-  const accessToken = generateAccessToken(user);
-  const refreshToken = jwt.sign(user, config.refreshToken);
+  let accessToken;
+  let refreshToken;
   db.get().collection('users').findOne({'email': user.email}, (err, matchUser) => {
+    if(matchUser) {
+      accessToken = generateAccessToken(user);
+      refreshToken = jwt.sign(user, config.refreshToken);
+      db.get().collection('tokens').insertOne({refreshToken, accessToken});
+    }
     cb(err, matchUser, {accessToken, refreshToken});
   });
-  db.get().collection('tokens').insertOne({refreshToken, accessToken});
 }
 
 exports.logoutUser = (token, cb) => {

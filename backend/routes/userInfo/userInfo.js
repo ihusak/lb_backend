@@ -30,7 +30,10 @@ const upload = multer({
 router.get('/all', auth.authUser, userInfo.getAllUserInfo);
 router.post('/', auth.authUser, userInfo.createUserInfo);
 router.get('/:id', auth.authUser, userInfo.getUserInfo);
+router.get('/coach/:coachId', auth.authUser, userInfo.getUserInfoByCoach);
 router.put('/:id', auth.authUser, upload.single('avatar'), userInfo.updateUserInfo);
+router.put('/task-status/:id', auth.authUser, userInfo.changeTaskStatus);
+router.put('/accept-task/:userId', auth.authUser, userInfo.acceptUserTask);
 router.post('/request/coach/:id', userInfo.requestCoachPermission);
 router.get('/confirm/coach/:token', userInfo.acceptCoachPermission);
 

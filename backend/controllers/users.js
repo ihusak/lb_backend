@@ -5,6 +5,7 @@ const User = require('../models/schemas/userSchema');
 const jwt = require('jsonwebtoken');
 const config = require('../../config.json');
 const nodemailer = require('nodemailer');
+const {userlogger, requestErrorLogger} = require('../config/middleware/logger');
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -18,7 +19,6 @@ const salt = bcrypt.genSaltSync(10);
 exports.all = (req, res) => {
   Users.all((err, docs) => {
     if(err) {
-      console.log(err);
       return res.sendStatus(500);
     }
     res.send(docs);
@@ -60,11 +60,9 @@ exports.confirmUser = (req, res, next) => {
 }
 
 exports.deleteUser = (req, res) => {
-  console.log('delete USER');
   let userId = {'_id': new ObjectID(req.params.id)};
   Users.deleteUser(userId, (err, doc) => {
     if(err) {
-      console.log(err);
       return res.sendStatus(500);
     }
     res.send('Note ' + req.params.id + ' deleted!');
@@ -75,7 +73,6 @@ exports.getUserById = (req, res) => {
   let userId = {'_id': new ObjectID(req.params.id)};
   Users.getUserById(userId, (err, doc) => {
     if(err) {
-      console.log(err);
       return res.sendStatus(500);
     }
     delete doc.userPassword;
@@ -91,15 +88,16 @@ exports.loginUser = (req, res, next) => {
     };
     if(!matchUser) {
       const err = {name: 'Not registred', title: 'User', code: 403};
+      // requestErrorLogger.log('error', `${err.name}, ${err.code}, credentials {email: ${user.email}, pass: ${req.body.userPassword}}`);
       return next(err);
     }
-    console.log('MATCH USER', matchUser);
     let passwordMatch = bcrypt.compareSync(req.body.userPassword, matchUser.userPassword) && matchUser.email === user.email;
     if(!matchUser.confirmed) {
       const err = {name: 'Not confirmed', title: 'User', code: 409};
       return next(err);
     };
     if(matchUser) {
+      // userlogger.log('info', `${matchUser.userName} (${matchUser._id}) logged in succesfuly`)
       delete matchUser.userPassword;
       matchUser.tokens = tokens;
       matchUser.id = matchUser._id;
@@ -126,7 +124,6 @@ exports.updateUser = (req, res) => {
   const user = {name: req.body.name, surname: req.body.surname};
   Users.updateUser(user, userId, (err, doc) => {
     if(err) {
-      console.log(err);
       return res.sendStatus(500);
     }
     res.send('Note ' + req.params.id + ' UPDATED!');
@@ -134,6 +131,7 @@ exports.updateUser = (req, res) => {
 };
 
 exports.userToken = (req, res) => {
+  console.log('TOKEN');
   const refreshToken = req.body.refreshToken;
   Users.userToken((err, tokens, jwt, config, generateToken) => {
     if(err) return res.sendStatus(500);

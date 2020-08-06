@@ -11,6 +11,15 @@ const transporter = nodemailer.createTransport({
   }
 })
 
+exports.acceptUserTask = (userId, task, cb) => {
+  console.log(userId, task);
+  // db.get().collection('userInfo').findOneAndUpdate(userId, {$set: {
+
+  // }}, {returnOriginal: false}, (err, doc) => {
+  //   cb(err, doc.value);
+  // })
+}
+
 exports.createUserInfo = (body, cb) => {
   const userInfo = new userInfoSchema({
     id: body._id,
@@ -38,12 +47,25 @@ exports.getAllUserInfo = (cb) => {
   })
 }
 
+exports.getUserInfoByCoach = (coachId, cb) => {
+  db.get().collection('userInfo').find({'coach.id': coachId}).toArray((err, usersInfo) => {
+    cb(err, usersInfo);
+  })
+}
+
 exports.updateUserInfo = (id, userInfo, file, cb) => {
   let userId = {'id': id};
   let userInfoBody = JSON.parse(userInfo);
   if(file) userInfoBody.userImg = file.path;
   let userInfoReq = { $set: userInfoBody };
   db.get().collection('userInfo').findOneAndUpdate(userId, userInfoReq, {returnOriginal: false}, (err, doc) => {
+    cb(err, doc.value);
+  })
+}
+
+exports.changeTaskStatus = (task, id, cb) => {
+  let userId = {'id': id};
+  db.get().collection('userInfo').findOneAndUpdate(userId, {$set: { 'currentTask' : task  }}, {returnOriginal: false}, (err, doc) => {
     cb(err, doc.value);
   })
 }

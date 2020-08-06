@@ -23,13 +23,16 @@ const userInfo = new Schema({
     id: {type: Number},
     name: {type: String},
   },
-  level: {type: Number, default: 0},
-  position: {type: Number, default: 0},
+  rating: {type: Number, default: 0},
   progress: {type: Number, default: 0},
   role: {
     id: Number,
     title: String,
     status: Boolean
+  },
+  currentTask: {
+    id: {type: String, default: ''},
+    status: {type: String}
   }
 });
 
