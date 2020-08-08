@@ -1,11 +1,12 @@
 const {createLogger , transports, format} = require('winston');
 const config = require('../../../config.json');
+const DB_URL = process.env.MONGODB_URI || config.url_local;
 require('winston-mongodb');
 
 const userlogger = createLogger({
   transports: [
     new transports.MongoDB({
-      db: config.url_local,
+      db: DB_URL,
       level: 'info',
       options: {useUnifiedTopology: true},
       format: format.combine(format.timestamp(), format.json()),
@@ -17,7 +18,7 @@ const userlogger = createLogger({
 const requestErrorLogger = createLogger({
   transports: [
     new transports.MongoDB({
-      db: config.url_local,
+      db: DB_URL,
       level: 'error',
       options: {useUnifiedTopology: true},
       format: format.combine(format.timestamp(), format.json()),
@@ -30,7 +31,7 @@ const requestErrorLogger = createLogger({
 const userTasksLogger = createLogger({
   transports: [
     new transports.MongoDB({
-      db: config.url_local,
+      db: DB_URL,
       level: 'info',
       options: {useUnifiedTopology: true},
       format: format.combine(format.timestamp(),format.json(),format.metadata()),
