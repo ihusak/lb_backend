@@ -12,6 +12,7 @@ const errorHandler = require('./backend/config/error-handler');
 const userController = require('./backend/controllers/users');
 
 if(!process.env.MONGODB_URI) {
+  console.log('local MONGODB_URI',process.env.MONGODB_URI, 'DB_URL', DB_URL);
   var corsOptions = {
   origin: 'http://localhost:8000',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
