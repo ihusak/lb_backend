@@ -9,6 +9,7 @@ const userlogger = createLogger({
       level: 'info',
       options: {useUnifiedTopology: true},
       format: format.combine(format.timestamp(), format.json()),
+      tryReconnect: true,
       collection: 'user-login-logs'
     })
   ]
@@ -20,6 +21,7 @@ const requestErrorLogger = createLogger({
       level: 'error',
       options: {useUnifiedTopology: true},
       format: format.combine(format.timestamp(), format.json()),
+      tryReconnect: true,
       collection: 'request-error-logs'
     })
   ]
@@ -32,6 +34,7 @@ const userTasksLogger = createLogger({
       level: 'info',
       options: {useUnifiedTopology: true},
       format: format.combine(format.timestamp(),format.json(),format.metadata()),
+      tryReconnect: true,
       collection: 'user-tasks-logs'
     })
   ]
