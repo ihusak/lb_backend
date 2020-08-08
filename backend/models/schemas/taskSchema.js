@@ -9,7 +9,7 @@ const taskSchema = new Schema({
   reward: {type: Number, default: 0},
   nextTask: {id: String},
   group: {
-    id: {type: Number},
+    id: {type: String},
     name: {type: String},
   },
   reviewExample: {type: String, default: ''}
