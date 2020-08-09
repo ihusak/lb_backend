@@ -17,6 +17,14 @@ if(!process.env.MONGODB_URI) {
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
 }
   app.use(cors(corsOptions))
+} else {
+  app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", '*');
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+    next();
+});
 }
 console.log('local MONGODB_URI',process.env.MONGODB_URI, 'DB_URL', DB_URL);
 app.use('/uploads', express.static(__dirname + '/uploads'));
