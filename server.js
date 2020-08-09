@@ -13,7 +13,7 @@ const userController = require('./backend/controllers/users');
 
 if(!process.env.MONGODB_URI) {
   var corsOptions = {
-  origin: 'http://localhost:8000',
+  origin: '*',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
 }
   app.use(cors(corsOptions))
