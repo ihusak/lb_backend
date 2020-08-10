@@ -71,10 +71,10 @@ exports.changeTaskStatus = (task, id, cb) => {
 }
 
 
-exports.requestCoachPermission = (id, phone, cb) => {
+exports.requestCoachPermission = (id, phone, host, cb) => {
   let userId = {'id': id};
   db.get().collection('userInfo').findOne(userId, (err, foundUser) => {
-    sendRequestCoachPermission(foundUser, phone);
+    sendRequestCoachPermission(foundUser, phone, host);
     cb(err, foundUser);
   })
 }
@@ -88,8 +88,7 @@ exports.acceptCoachRequest = (token, cb) => {
   }
 }
 
-sendRequestCoachPermission = (user, phone) => {
-  const originUrl = process.env.MONGODB_URI || config.local_dev;
+sendRequestCoachPermission = (user, phone, host) => {
   const userPhone = user.phone ? user.phone : phone;
   const emailToken = jwt.sign(
     {
@@ -100,7 +99,13 @@ sendRequestCoachPermission = (user, phone) => {
       expiresIn: '1d'
     }
   );
-  const url = `${originUrl}/userInfo/confirm/coach/${emailToken}`;
+  if(host.indexOf('local') >= 0) {
+    host = 'http://' + host;
+  } else {
+    host = 'https://' + host;
+  }
+  const url = `${host}/userInfo/confirm/coach/${emailToken}`;
+  console.log(url);
   const mailOptions = {
     from: user.email, // sender address
     to: 'ilyagusak@gmail.com', // list of receivers

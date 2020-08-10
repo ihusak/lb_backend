@@ -34,6 +34,7 @@ exports.createUser = (req, res, next) => {
     userType: req.body.userType,
     role: req.body.userRole
   });
+  const host = req.get('host');
   Users.createUser(user, (err, docs) => {
     if(err) {
       return res.sendStatus(500);
@@ -42,7 +43,7 @@ exports.createUser = (req, res, next) => {
       const err = {name: 'User already exist', title: 'User', code: 409};
       return next(err);
     };
-    sendConfirmUserByEmail(user);
+    sendConfirmUserByEmail(user, host);
     res.send(user);
   })
 };
@@ -145,9 +146,7 @@ exports.userToken = (req, res) => {
   })
 }
 
-sendConfirmUserByEmail = (createdUser) => {
-  const originUrl = process.env.MONGODB_URI || config.local_dev;
-  console.log('originUrl', originUrl);
+sendConfirmUserByEmail = (createdUser, host) => {
   const emailToken = jwt.sign(
     {
       user: createdUser._id
@@ -157,11 +156,17 @@ sendConfirmUserByEmail = (createdUser) => {
       expiresIn: '1d'
     }
   );
-  const url = `${originUrl}/confirm/${emailToken}`;
+  if(host.indexOf('local') >= 0) {
+    host = 'http://' + host;
+  } else {
+    host = 'https://' + host;
+  }
+  const url = `${host}/confirm/${emailToken}`;
+  console.log(url);
   const mailOptions = {
     from: 'afreestyler2016@gmail.com', // sender address
     to: createdUser.email, // list of receivers
-    subject: 'Confirm registration', // Subject line
+    subject: 'Confirm registration', // Subject line 
     html: `<p>Please click to confirm register <a href='${url}'>Link to confir registration</a></p>`// plain text body
   };
   transporter.sendMail(mailOptions, (err, info) => {
