@@ -146,6 +146,8 @@ exports.userToken = (req, res) => {
 }
 
 sendConfirmUserByEmail = (createdUser) => {
+  const originUrl = process.env.MONGODB_URI || config.local_dev;
+  console.log('originUrl', originUrl);
   const emailToken = jwt.sign(
     {
       user: createdUser._id
@@ -155,7 +157,7 @@ sendConfirmUserByEmail = (createdUser) => {
       expiresIn: '1d'
     }
   );
-  const url = `http://localhost:4200/confirm/${emailToken}`;
+  const url = `${originUrl}/confirm/${emailToken}`;
   const mailOptions = {
     from: 'afreestyler2016@gmail.com', // sender address
     to: createdUser.email, // list of receivers

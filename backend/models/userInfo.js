@@ -89,6 +89,7 @@ exports.acceptCoachRequest = (token, cb) => {
 }
 
 sendRequestCoachPermission = (user, phone) => {
+  const originUrl = process.env.MONGODB_URI || config.local_dev;
   const userPhone = user.phone ? user.phone : phone;
   const emailToken = jwt.sign(
     {
@@ -99,7 +100,7 @@ sendRequestCoachPermission = (user, phone) => {
       expiresIn: '1d'
     }
   );
-  const url = `http://localhost:4200/userInfo/confirm/coach/${emailToken}`;
+  const url = `${originUrl}/userInfo/confirm/coach/${emailToken}`;
   const mailOptions = {
     from: user.email, // sender address
     to: 'ilyagusak@gmail.com', // list of receivers
