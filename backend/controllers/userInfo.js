@@ -53,7 +53,8 @@ exports.getUserInfoByCoach = (req, res) => {
 
 exports.getUserInfo = (req, res) => {
   let id = req.params.id;
-  UserInfo.getUserInfo(id, (err, doc) => {
+  let roleId = req.params.roleId;
+  UserInfo.getUserInfo(id, roleId, (err, doc) => {
     if(doc) {
       delete doc._id;
     };

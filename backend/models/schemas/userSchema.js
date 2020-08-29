@@ -13,7 +13,7 @@ const userSchema = new Schema({
   createdDate: { type: Date, default: Date.now },
   role: {
     id: Number,
-    title: String,
+    name: String,
     status: Boolean
   },
   confirmed: {type: Boolean, default: false},

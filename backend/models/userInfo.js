@@ -9,7 +9,8 @@ const transporter = nodemailer.createTransport({
     user: 'afreestylers2016@gmail.com',
     pass: 'afreestylers2016'
   }
-})
+});
+const RolesEnum = require('../config/enum/roles');
 
 exports.acceptUserTask = (userId, task, cb) => {
   console.log(userId, task);
@@ -34,11 +35,27 @@ exports.createUserInfo = (body, cb) => {
   })
 };
 
-exports.getUserInfo = (id, cb) => {
+exports.getUserInfo = (id, roleId, cb) => {
   let userId = {'id': id};
-  db.get().collection('userInfo').findOne(userId, (err, doc) => {
-    cb(err, doc);
-  })
+  console.log(typeof roleId, RolesEnum.COACH);
+  switch(parseInt(roleId)) {
+    case RolesEnum.ADMIN: 
+    getUserInfoByRole(userId, 'userAdminInfo', cb);
+    break;
+    case RolesEnum.STUDENT: 
+    getUserInfoByRole(userId, 'userStudentInfo', cb);
+    break;
+    case RolesEnum.PARENT: 
+    getUserInfoByRole(userId, 'userParentInfo', cb);
+    break;
+    case RolesEnum.COACH: 
+    console.log('COACH FIND');
+    getUserInfoByRole(userId, 'userCoachInfo', cb);
+    break;
+  }
+  // db.get().collection('userInfo').findOne(userId, (err, doc) => {
+  //   cb(err, doc);
+  // })
 }
 
 exports.getAllUserInfo = (cb) => {
@@ -121,4 +138,12 @@ sendRequestCoachPermission = (user, phone, host) => {
     else
       console.log(info);
  });
+}
+
+getUserInfoByRole = (userId, tableName, cb) => {
+  console.log(tableName, userId);
+  db.get().collection(tableName).findOne(userId, (err, doc) => {
+    console.log(doc);
+    cb(err, doc);
+  })
 }
