@@ -7,7 +7,6 @@ const userParentInfo = new Schema({
   userName: {type: String, default: ''},
   email: {type: String, default: ''},
   aboutMe: {type: String, default: ''},
-  bestTrick: {type: String, default: ''},
   socialNetworks: {
     facebook: {type: String, default: ''},
     instagram: {type: String, default: ''},

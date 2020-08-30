@@ -28,61 +28,61 @@ exports.createUserInfo = (body, cb) => {
     userName: body.userName,
     role: body.role
   });
-  db.get().collection('userInfo').insertOne(userInfo, (err, doc) => {
+  const table = defineUserInfoTable(body.role.id);
+  db.get().collection(table).insertOne(userInfo, (err, doc) => {
     if(cb) {
       cb(err, doc)
-    };
+    }
   })
 };
 
 exports.getUserInfo = (id, roleId, cb) => {
   let userId = {'id': id};
-  console.log(typeof roleId, RolesEnum.COACH);
+  const table = defineUserInfoTable(roleId);
   switch(parseInt(roleId)) {
     case RolesEnum.ADMIN: 
-    getUserInfoByRole(userId, 'userAdminInfo', cb);
+    getUserInfoByRole(userId, table, cb);
     break;
     case RolesEnum.STUDENT: 
-    getUserInfoByRole(userId, 'userStudentInfo', cb);
+    getUserInfoByRole(userId, table, cb);
     break;
     case RolesEnum.PARENT: 
-    getUserInfoByRole(userId, 'userParentInfo', cb);
+    getUserInfoByRole(userId, table, cb);
     break;
     case RolesEnum.COACH: 
     console.log('COACH FIND');
-    getUserInfoByRole(userId, 'userCoachInfo', cb);
+    getUserInfoByRole(userId, table, cb);
     break;
   }
-  // db.get().collection('userInfo').findOne(userId, (err, doc) => {
-  //   cb(err, doc);
-  // })
 }
 
-exports.getAllUserInfo = (cb) => {
-  db.get().collection('userInfo').find({}).toArray((err, usersInfo) => {
+exports.getAllUserInfo = (roleId, cb) => {
+  const table = defineUserInfoTable(roleId);
+  db.get().collection(table).find({}).toArray((err, usersInfo) => {
     cb(err, usersInfo);
   })
 }
 
 exports.getUserInfoByCoach = (coachId, cb) => {
-  db.get().collection('userInfo').find({'coach.id': coachId}).toArray((err, usersInfo) => {
+  db.get().collection('userStudentInfo').find({'coach.id': coachId}).toArray((err, usersInfo) => {
     cb(err, usersInfo);
   })
 }
 
-exports.updateUserInfo = (id, userInfo, file, cb) => {
+exports.updateUserInfo = (id, userInfo, file, roleId, cb) => {
   let userId = {'id': id};
   let userInfoBody = JSON.parse(userInfo);
   if(file) userInfoBody.userImg = file.path;
   let userInfoReq = { $set: userInfoBody };
-  db.get().collection('userInfo').findOneAndUpdate(userId, userInfoReq, {returnOriginal: false}, (err, doc) => {
+  const table = defineUserInfoTable(roleId);
+  db.get().collection(table).findOneAndUpdate(userId, userInfoReq, {returnOriginal: false}, (err, doc) => {
     cb(err, doc.value);
   })
 }
 
 exports.changeTaskStatus = (task, id, cb) => {
   let userId = {'id': id};
-  db.get().collection('userInfo').findOneAndUpdate(userId, {$set: { 'currentTask' : task  }}, {returnOriginal: false}, (err, doc) => {
+  db.get().collection('userStudentInfo').findOneAndUpdate(userId, {$set: { 'currentTask' : task  }}, {returnOriginal: false}, (err, doc) => {
     cb(err, doc.value);
   })
 }
@@ -90,7 +90,7 @@ exports.changeTaskStatus = (task, id, cb) => {
 
 exports.requestCoachPermission = (id, phone, host, cb) => {
   let userId = {'id': id};
-  db.get().collection('userInfo').findOne(userId, (err, foundUser) => {
+  db.get().collection('userCoachInfo').findOne(userId, (err, foundUser) => {
     sendRequestCoachPermission(foundUser, phone, host);
     cb(err, foundUser);
   })
@@ -99,7 +99,7 @@ exports.requestCoachPermission = (id, phone, host, cb) => {
 exports.acceptCoachRequest = (token, cb) => {
   const {id} = jwt.verify(token, config.emailSercet);
   if(id) {
-    db.get().collection('userInfo').updateOne({'id': id},{ $set: { 'role.status' : true  } }, (err, foundUser) => {
+    db.get().collection('userCoachInfo').updateOne({'id': id},{ $set: { 'role.status' : true  } }, (err, foundUser) => {
       cb(err, foundUser);
     })
   }
@@ -146,4 +146,15 @@ getUserInfoByRole = (userId, tableName, cb) => {
     console.log(doc);
     cb(err, doc);
   })
+}
+
+defineUserInfoTable = (roleId) => {
+  let table = '';
+  switch (parseInt(roleId)) {
+    case RolesEnum.ADMIN: table = 'userAdminInfo'; break;
+    case RolesEnum.STUDENT: table = 'userStudentInfo'; break;
+    case RolesEnum.COACH: table = 'userCoachInfo'; break;
+    case RolesEnum.PARENT: table = 'userParentInfo'; break;
+  }
+  return table;
 }

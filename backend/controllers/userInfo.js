@@ -26,7 +26,8 @@ exports.createUserInfo = (req, res) => {
 }
 
 exports.getAllUserInfo = (req, res) => {
-  UserInfo.getAllUserInfo((err, usersInfo) => {
+  const roleId = req.params.roleId;
+  UserInfo.getAllUserInfo(roleId,(err, usersInfo) => {
     if(usersInfo) {
       delete usersInfo._id;
     };
@@ -66,9 +67,10 @@ exports.getUserInfo = (req, res) => {
 }
 
 exports.updateUserInfo = (req, res) => {
-  let id = req.params.id;
+  const id = req.params.id;
   const userInfo = req.body.userInfo;
-  UserInfo.updateUserInfo(id, userInfo, req.file, (err, doc) => {
+  const roleId = req.params.roleId;
+  UserInfo.updateUserInfo(id, userInfo, req.file, roleId, (err, doc) => {
     if(err) {
       return res.sendStatus(500)
     };
