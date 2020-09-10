@@ -37,7 +37,8 @@ const userStudentInfo = new Schema({
   coach: {
     id: String,
     name: String
-  }
+  },
+  doneTasks: {type: Array, default: []}
 });
 
 module.exports = mongoose.model('UserStudentInfo', userStudentInfo);

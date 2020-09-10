@@ -1,7 +1,10 @@
 const db = require('../config/db');
 const jwt = require('jsonwebtoken');
 const config = require('../../config.json');
-const userInfoSchema = require('./schemas/userInfoSchema');
+const studentInfoSchema = require('./schemas/usersInfo/user-student.schema');
+const adminInfoSchema = require('./schemas/usersInfo/user-admin.schema');
+const parentInfoSchema = require('./schemas/usersInfo/user-parent.schema');
+const coachInfoSchema = require('./schemas/usersInfo/user-coach.schema');
 const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -11,25 +14,35 @@ const transporter = nodemailer.createTransport({
   }
 });
 const RolesEnum = require('../config/enum/roles');
+const { ObjectID } = require('mongodb');
+const {userTasksLogger} = require('../config/middleware/logger');
 
-exports.acceptUserTask = (userId, task, cb) => {
+exports.acceptTask = (userId, task, cb) => {
   console.log(userId, task);
-  // db.get().collection('userInfo').findOneAndUpdate(userId, {$set: {
-
-  // }}, {returnOriginal: false}, (err, doc) => {
-  //   cb(err, doc.value);
-  // })
+  db.get().collection('userStudentInfo').findOneAndUpdate({'id': userId}, {$set: {
+    'currentTask.status': 'Done'
+  }, $push: {'doneTasks': task.taskId}}, {returnOriginal: false}, (err, studentInfo) => {
+    const studentInfoValue = studentInfo.value;
+    db.get().collection("tasks").find({'group.id': task.groupId}).toArray((err, foundTasks) => {
+      console.log(foundTasks);
+      const progress = (studentInfoValue.doneTasks.length / foundTasks.length) * 100;
+      const rating = studentInfoValue.rating + task.reward;
+      db.get().collection('userStudentInfo').findOneAndUpdate({'id': userId}, {$set: {
+        'progress': progress,
+        'rating': rating,
+        'currentTask.status': 'Done'
+      }}, {returnOriginal: false}, (err, updatedStudentInfo) => {
+        userLoggerTasks(`User done task`, studentInfoValue.currentTask, userId);
+        cb(err, updatedStudentInfo.value);
+      })
+    });
+  })
 }
 
 exports.createUserInfo = (body, cb) => {
-  const userInfo = new userInfoSchema({
-    id: body._id,
-    email: body.email,
-    userName: body.userName,
-    role: body.role
-  });
+  const userInfoSchema = defineUserInfoSchema(body.role.id);
   const table = defineUserInfoTable(body.role.id);
-  db.get().collection(table).insertOne(userInfo, (err, doc) => {
+  db.get().collection(table).insertOne(userInfoSchema, (err, doc) => {
     if(cb) {
       cb(err, doc)
     }
@@ -71,6 +84,7 @@ exports.getUserInfoByCoach = (coachId, cb) => {
 
 exports.updateUserInfo = (id, userInfo, file, roleId, cb) => {
   let userId = {'id': id};
+  console.log(userId);
   let userInfoBody = JSON.parse(userInfo);
   if(file) userInfoBody.userImg = file.path;
   let userInfoReq = { $set: userInfoBody };
@@ -101,6 +115,7 @@ exports.acceptCoachRequest = (token, cb) => {
   if(id) {
     db.get().collection('userCoachInfo').updateOne({'id': id},{ $set: { 'role.status' : true  } }, (err, foundUser) => {
       cb(err, foundUser);
+      db.get().collection('users').updateOne({_id: new ObjectID(id)}, {$set: {'role.status': true}}, (err, user) => {});
     })
   }
 }
@@ -158,3 +173,55 @@ defineUserInfoTable = (roleId) => {
   }
   return table;
 }
+
+defineUserInfoSchema = (roleId) => {
+  let schema = {};
+  switch (parseInt(roleId)) {
+    case RolesEnum.ADMIN: 
+    schema = new adminInfoSchema({
+      id: body._id,
+      email: body.email,
+      userName: body.userName,
+      role: body.role
+    });
+    break;
+    case RolesEnum.STUDENT: 
+    schema = new studentInfoSchema({
+      id: body._id,
+      email: body.email,
+      userName: body.userName,
+      role: body.role
+    });
+    break;
+    case RolesEnum.COACH: 
+    schema = new coachInfoSchema({
+      id: body._id,
+      email: body.email,
+      userName: body.userName,
+      role: body.role
+    });
+    break;
+    case RolesEnum.PARENT: 
+    schema = new parentInfoSchema({
+      id: body._id,
+      email: body.email,
+      userName: body.userName,
+      role: body.role
+    });
+    break;
+  }
+  return schema;
+}
+
+userLoggerTasks = (msg, task, userId) => {
+  userTasksLogger.info(msg,
+  {
+    userId,
+    taskId: task.id,
+    taskTitle: task.title,
+    taskDescription: task.description,
+    taskReward: task.reward,
+    taskGroup: task.group,
+    taskStatus: task.status
+  }
+)}

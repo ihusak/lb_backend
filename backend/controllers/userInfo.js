@@ -9,10 +9,10 @@ const TaskStatuses = {
   DONE: "Done"
 }
 
-exports.acceptUserTask = (req, res) => {
+exports.acceptStundetTask = (req, res) => {
   const userId = req.params.userId;
   const task = req.body.task;
-  UserInfo.acceptUserTask(userId, task, (err, userInfo) => {
+  UserInfo.acceptTask(userId, task, (err, userInfo) => {
     if(err) return res.sendStatus(500);
     return res.json(userInfo);
   })
@@ -79,9 +79,10 @@ exports.updateUserInfo = (req, res) => {
 }
 
 exports.changeTaskStatus = (req, res) => {
-  let id = req.params.id;
+  let id = req.params.userId;
   let task = req.body.task;
   UserInfo.changeTaskStatus(task, id, (err, userInfo) => {
+    console.log(task);
     if(err) {
       return res.sendStatus(500)
     };
