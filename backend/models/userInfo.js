@@ -18,13 +18,19 @@ const { ObjectID } = require('mongodb');
 const {userTasksLogger} = require('../config/middleware/logger');
 
 exports.acceptTask = (userId, task, cb) => {
-  console.log(userId, task);
   db.get().collection('userStudentInfo').findOneAndUpdate({'id': userId}, {$set: {
     'currentTask.status': 'Done'
   }, $push: {'doneTasks': task.taskId}}, {returnOriginal: false}, (err, studentInfo) => {
     const studentInfoValue = studentInfo.value;
     db.get().collection("tasks").find({'group.id': task.groupId}).toArray((err, foundTasks) => {
-      console.log(foundTasks);
+      if(studentInfoValue.currentTask.group.id !== studentInfoValue.group.id) {
+        if(studentInfoValue.rating >= 100) {
+          studentInfoValue.rating = 0;
+        }
+      }
+      studentInfoValue.doneTasks = studentInfoValue.doneTasks.filter((id) => {
+        return foundTasks.find(task => task._id.toString() === id);
+      });
       const progress = (studentInfoValue.doneTasks.length / foundTasks.length) * 100;
       const rating = studentInfoValue.rating + task.reward;
       db.get().collection('userStudentInfo').findOneAndUpdate({'id': userId}, {$set: {
@@ -62,8 +68,7 @@ exports.getUserInfo = (id, roleId, cb) => {
     case RolesEnum.PARENT: 
     getUserInfoByRole(userId, table, cb);
     break;
-    case RolesEnum.COACH: 
-    console.log('COACH FIND');
+    case RolesEnum.COACH:
     getUserInfoByRole(userId, table, cb);
     break;
   }
@@ -84,7 +89,6 @@ exports.getUserInfoByCoach = (coachId, cb) => {
 
 exports.updateUserInfo = (id, userInfo, file, roleId, cb) => {
   let userId = {'id': id};
-  console.log(userId);
   let userInfoBody = JSON.parse(userInfo);
   if(file) userInfoBody.userImg = file.path;
   let userInfoReq = { $set: userInfoBody };
@@ -156,9 +160,7 @@ sendRequestCoachPermission = (user, phone, host) => {
 }
 
 getUserInfoByRole = (userId, tableName, cb) => {
-  console.log(tableName, userId);
   db.get().collection(tableName).findOne(userId, (err, doc) => {
-    console.log(doc);
     cb(err, doc);
   })
 }
