@@ -20,8 +20,8 @@ const userStudentInfo = new Schema({
     phone: {type: String, default: ''}
   },
   group: {
-    id: {type: Number},
-    name: {type: String},
+    id: {type: Number, default: null},
+    name: {type: String, default: ''},
   },
   rating: {type: Number, default: 0},
   progress: {type: Number, default: 0},
@@ -32,11 +32,11 @@ const userStudentInfo = new Schema({
   },
   currentTask: {
     id: {type: String, default: ''},
-    status: {type: String}
+    status: {type: String, default: ''}
   },
   coach: {
-    id: String,
-    name: String
+    id: {type: String, default: ''},
+    name: {type: String, default: ''}
   },
   doneTasks: {type: Array, default: []}
 });
