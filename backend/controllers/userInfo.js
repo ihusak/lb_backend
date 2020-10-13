@@ -55,6 +55,7 @@ exports.getUserInfoByCoach = (req, res) => {
 exports.getUserInfo = (req, res) => {
   let id = req.params.id;
   let roleId = req.params.roleId;
+  console.log('COOKIE', req.cookies);
   UserInfo.getUserInfo(id, roleId, (err, doc) => {
     if(doc) {
       delete doc._id;
