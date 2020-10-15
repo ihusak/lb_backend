@@ -8,13 +8,14 @@ const PORT = process.env.PORT || 8000;
 const DB_URL = process.env.MONGODB_URI || config.url_local;
 const routes = require('./backend/routes');
 const errorHandler = require('./backend/config/error-handler');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 
 const userController = require('./backend/controllers/users');
 
 if(!process.env.MONGODB_URI) {
   var corsOptions = {
-  origin: '*',
+  origin: 'http://localhost:4200',
+  credentials: true,
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
 }
   app.use(cors(corsOptions))

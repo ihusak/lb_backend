@@ -98,6 +98,7 @@ exports.loginUser = (req, res, next) => {
       return next(err);
     };
     if(matchUser) {
+      res.cookie('token', tokens.accessToken);
       // userlogger.log('info', `${matchUser.userName} (${matchUser._id}) logged in succesfuly`)
       delete matchUser.userPassword;
       matchUser.tokens = tokens;
