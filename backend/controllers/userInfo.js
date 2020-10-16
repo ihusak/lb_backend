@@ -55,8 +55,8 @@ exports.getUserInfoByCoach = (req, res) => {
 exports.getUserInfo = (req, res) => {
   let id = req.params.id;
   let roleId = req.params.roleId;
-  console.log('COOKIE', req.cookies);
-  UserInfo.getUserInfo(id, roleId, (err, doc) => {
+  console.log('COOKIE1', req.cookies, req.user);
+  UserInfo.getUserInfo(req.user.id, req.user.roleId, (err, doc) => {
     if(doc) {
       delete doc._id;
     };
@@ -83,7 +83,6 @@ exports.changeTaskStatus = (req, res) => {
   let id = req.params.userId;
   let task = req.body.task;
   UserInfo.changeTaskStatus(task, id, (err, userInfo) => {
-    console.log(task);
     if(err) {
       return res.sendStatus(500)
     };

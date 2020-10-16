@@ -23,9 +23,7 @@ exports.createUser = async (user, cb) => {
       }
       db.get().collection('users').insertOne(user, (err, createdUser) => {
         cb(err, createdUser);
-        console.log(createdUser);
         const userId = createdUser.ops[0]._id;
-        console.log(userId, typeof userId);
         switch(user.role.id) {
           case RolesEnum.ADMIN: 
           const ADMIN = new UserInfoAdmin({
@@ -106,8 +104,8 @@ exports.loginUser = (user, cb) => {
   let refreshToken;
   db.get().collection('users').findOne({'email': user.email}, (err, matchUser) => {
     if(matchUser) {
-      accessToken = generateAccessToken(user);
-      refreshToken = jwt.sign(user, config.refreshToken);
+      accessToken = generateAccessToken({id: matchUser._id, roleId: matchUser.role.id});
+      refreshToken = jwt.sign({id: matchUser._id, roleId: matchUser.role.id}, config.refreshToken);
       db.get().collection('tokens').insertOne({refreshToken, accessToken});
     }
     cb(err, matchUser, {accessToken, refreshToken});

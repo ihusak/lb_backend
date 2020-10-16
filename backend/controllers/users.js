@@ -98,11 +98,10 @@ exports.loginUser = (req, res, next) => {
       return next(err);
     };
     if(matchUser) {
-      res.cookie('token', tokens.accessToken);
-      // userlogger.log('info', `${matchUser.userName} (${matchUser._id}) logged in succesfuly`)
       delete matchUser.userPassword;
       matchUser.tokens = tokens;
       matchUser.id = matchUser._id;
+      console.log('request user', req.user);
       delete matchUser._id;
       if(passwordMatch) {
         res.send(matchUser);
@@ -163,7 +162,6 @@ sendConfirmUserByEmail = (createdUser, host) => {
     host = 'https://' + host;
   }
   const url = `${host}/confirm/${emailToken}`;
-  console.log(url);
   const mailOptions = {
     from: 'afreestyler2016@gmail.com', // sender address
     to: createdUser.email, // list of receivers

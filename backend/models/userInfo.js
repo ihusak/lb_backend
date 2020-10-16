@@ -141,7 +141,6 @@ sendRequestCoachPermission = (user, phone, host) => {
     host = 'https://' + host;
   }
   const url = `${host}/userInfo/confirm/coach/${emailToken}`;
-  console.log(url);
   const mailOptions = {
     from: user.email, // sender address
     to: 'ilyagusak@gmail.com', // list of receivers
