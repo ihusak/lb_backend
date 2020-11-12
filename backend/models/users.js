@@ -106,14 +106,14 @@ exports.loginUser = (user, cb) => {
     if(matchUser) {
       accessToken = generateAccessToken({id: matchUser._id, roleId: matchUser.role.id});
       refreshToken = jwt.sign({id: matchUser._id, roleId: matchUser.role.id}, config.refreshToken);
-      db.get().collection('tokens').insertOne({refreshToken, accessToken});
+      db.get().collection('tokens').insertOne({refreshToken, accessToken, user_id: matchUser._id});
     }
     cb(err, matchUser, {accessToken, refreshToken});
   });
 }
 
-exports.logoutUser = (token, cb) => {
-  db.get().collection('tokens').deleteOne({refreshToken: token}, (err, doc) => {
+exports.logoutUser = (token, userId, cb) => {
+  db.get().collection('tokens').deleteOne({user_id: ObjectID(userId)}, (err, doc) => {
     cb(err, doc);
   });
 }
@@ -131,7 +131,7 @@ exports.userToken = (cb) => {
 }
 
 generateAccessToken = (user) => {
-  return jwt.sign(user, config.accessToken, {expiresIn: '8h'})
+  return jwt.sign(user, config.accessToken, {expiresIn: '30s'})
 }
 
 createUserInfoByRole = (collection, user) => {
