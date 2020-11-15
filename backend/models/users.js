@@ -131,7 +131,7 @@ exports.userToken = (cb) => {
 }
 
 generateAccessToken = (user) => {
-  return jwt.sign(user, config.accessToken, {expiresIn: '30s'})
+  return jwt.sign(user, config.accessToken, {expiresIn: '5h'})
 }
 
 createUserInfoByRole = (collection, user) => {

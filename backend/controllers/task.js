@@ -21,7 +21,6 @@ exports.createTask = (req, res) => {
 }
 
 exports.getAllTasks = (req, res) => {
-  console.log(req.cookies);
   Task.getAllTasks((err, tasks) => {
     if(err) return res.sendStatus(500);
     return res.json(tasks);

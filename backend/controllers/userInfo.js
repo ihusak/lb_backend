@@ -26,7 +26,8 @@ exports.createUserInfo = (req, res) => {
 }
 
 exports.getAllUserInfo = (req, res) => {
-  const roleId = req.params.roleId;
+  // const roleId = req.params.roleId;
+  const roleId = req.user.roleId;
   UserInfo.getAllUserInfo(roleId,(err, usersInfo) => {
     if(usersInfo) {
       delete usersInfo._id;
