@@ -84,6 +84,7 @@ exports.getUserById = (req, res) => {
 exports.loginUser = (req, res, next) => {
   const user = {email: req.body.email, userPassword: bcrypt.hashSync(req.body.userPassword, salt)};
   Users.loginUser(user, (err, matchUser, tokens) => {
+    let passwordMatch = bcrypt.compareSync(req.body.userPassword, matchUser.userPassword) && matchUser.email === user.email;
     if(err) {
       return res.sendStatus(500);
     };
@@ -92,11 +93,11 @@ exports.loginUser = (req, res, next) => {
       // requestErrorLogger.log('error', `${err.name}, ${err.code}, credentials {email: ${user.email}, pass: ${req.body.userPassword}}`);
       return next(err);
     }
-    let passwordMatch = bcrypt.compareSync(req.body.userPassword, matchUser.userPassword) && matchUser.email === user.email;
     if(!matchUser.confirmed) {
       const err = {name: 'Not confirmed', title: 'User', code: 409};
       return next(err);
     };
+    console.log(passwordMatch, matchUser);
     if(matchUser) {
       delete matchUser.userPassword;
       matchUser.tokens = tokens;
@@ -105,9 +106,10 @@ exports.loginUser = (req, res, next) => {
       delete matchUser._id;
       if(passwordMatch) {
         res.send(matchUser);
+      } else {
+        const err = {name: 'Login failed', title: 'User', code: 400};
+        return next(err);
       }
-    } else {
-      res.sendStatus(404);
     }
   })
 };
