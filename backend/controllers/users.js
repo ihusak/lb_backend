@@ -114,7 +114,8 @@ exports.loginUser = (req, res, next) => {
   })
 };
 exports.logoutUser = (req, res) => {
-  Users.logoutUser(req.body.token, (err, docs) => {
+  let userId = req.user.id;
+  Users.logoutUser(req.body.token, userId, (err, docs) => {
     if(err) {
       return res.sendStatus(500);
     }
