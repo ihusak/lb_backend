@@ -25,9 +25,9 @@ exports.createUserInfo = (req, res) => {
   })
 }
 
-exports.getAllUserInfo = (req, res) => {
-  // const roleId = req.params.roleId;
-  const roleId = req.user.roleId;
+exports.getAllUserInfoByRoleId = (req, res) => {
+  const roleId = req.params.roleId;
+  console.log('getAllUserInfoByRoleId', roleId);
   UserInfo.getAllUserInfo(roleId,(err, usersInfo) => {
     if(usersInfo) {
       delete usersInfo._id;
@@ -54,10 +54,24 @@ exports.getUserInfoByCoach = (req, res) => {
 
 
 exports.getUserInfo = (req, res) => {
+  let id = req.user.id;
+  let roleId = req.user.roleId;
+  console.log('COOKIE1', typeof id, roleId);
+  UserInfo.getUserInfo(id, roleId, (err, doc) => {
+    if(doc) {
+      delete doc._id;
+    };
+    if(err) {
+      return res.sendStatus(500)
+    };
+    return res.json(doc);
+  })
+}
+
+exports.getUserInfoWithParams = (req, res) => {
   let id = req.params.id;
   let roleId = req.params.roleId;
-  console.log('COOKIE1', req.cookies, req.user);
-  UserInfo.getUserInfo(req.user.id, req.user.roleId, (err, doc) => {
+  UserInfo.getUserInfo(id, roleId, (err, doc) => {
     if(doc) {
       delete doc._id;
     };
