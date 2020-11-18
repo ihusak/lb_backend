@@ -87,6 +87,12 @@ exports.getUserInfoByCoach = (coachId, cb) => {
   })
 }
 
+exports.getUsersInfoByGroup = (groupId, cb) => {
+  db.get().collection('userStudentInfo').find({'group.id': groupId}).toArray((err, usersInfo) => {
+    cb(err, usersInfo);
+  })
+}
+
 exports.updateUserInfo = (id, userInfo, file, roleId, cb) => {
   let userId = {'id': id};
   let userInfoBody = JSON.parse(userInfo);

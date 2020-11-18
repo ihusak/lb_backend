@@ -13,6 +13,13 @@ exports.getAllTasks = (cb) => {
     cb(err, tasks);
   });
 };
+
+exports.getTasksByGroup = (groupId, cb) => {
+  db.get().collection('tasks').find({'group.id': groupId}).toArray((err, tasks) => {
+    cb(err, tasks);
+  });
+};
+
 exports.getTaskById = (id, cb) => {
   const taskId = new ObjectID(id);
   db.get().collection('tasks').findOne(taskId, (err, task) => {

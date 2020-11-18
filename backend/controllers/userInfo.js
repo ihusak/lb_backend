@@ -82,6 +82,19 @@ exports.getUserInfoWithParams = (req, res) => {
   })
 }
 
+exports.getUsersInfoByGroup = (req, res) => {
+  let groupId = req.params.groupId;
+  UserInfo.getUsersInfoByGroup(groupId, (err, doc) => {
+    if(doc) {
+      delete doc._id;
+    };
+    if(err) {
+      return res.sendStatus(500)
+    };
+    return res.json(doc);
+  })
+}
+
 exports.updateUserInfo = (req, res) => {
   const id = req.params.id;
   const userInfo = req.body.userInfo;
