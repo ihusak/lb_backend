@@ -4,7 +4,7 @@ const auth = require('../../config/middleware/auth');
 const controller = require('../../controllers/task');
 
 router.get('/list', auth.authUser, controller.getAllTasks);
-router.get('/group/:groupId/list', auth.authUser, controller.getAllTasks);
+router.get('/group/:groupId/list', auth.authUser, controller.getTasksByGroup);
 router.get('/:id', auth.authUser, controller.getTaskById);
 router.post('/status/coach/:coachId/group/:groupId', auth.authUser, controller.getStatusTasks);
 router.post('/create', auth.authUser, controller.createTask);
