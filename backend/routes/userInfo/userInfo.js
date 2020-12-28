@@ -36,7 +36,7 @@ router.put('/task-status/:userId', auth.authUser, userInfo.changeTaskStatus);
 router.put('/accept-task/:userId', auth.authUser, userInfo.acceptStundetTask);
 router.post('/request/coach/:id', userInfo.requestCoachPermission);
 router.get('/confirm/coach/:token', userInfo.acceptCoachPermission);
-router.put('/:id/:roleId', auth.authUser, upload.single('avatar'), userInfo.updateUserInfo);
+router.put('/', auth.authUser, upload.single('avatar'), userInfo.updateUserInfo);
 router.get('/:roleId/:id', auth.authUser, userInfo.getUserInfoWithParams);
 
 module.exports = router;

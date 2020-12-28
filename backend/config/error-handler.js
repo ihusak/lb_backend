@@ -29,7 +29,7 @@ function errorHandler(err, req, res, next) {
       return res.status(err.code).json({ message: 'User Not registred' });
     }
 
-    if(err.name === 'Login failed') {
+    if(err.name === 'Wrong password') {
       return res.status(err.code).json({ message: err.name });
     }
 

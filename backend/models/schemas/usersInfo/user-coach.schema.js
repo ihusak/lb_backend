@@ -9,6 +9,12 @@ const userCoachInfo = new Schema({
   aboutMe: {type: String, default: ''},
   bestTrick: {type: String, default: ''},
   phone: {type: String, default: ''},
+  ownGroups: [
+    {
+      id: String,
+      name: String
+    }
+  ],
   role: {
     id: Number,
     name: String,

@@ -56,7 +56,6 @@ exports.getUserInfoByCoach = (req, res) => {
 exports.getUserInfo = (req, res) => {
   let id = req.user.id;
   let roleId = req.user.roleId;
-  console.log('COOKIE1', typeof id, roleId);
   UserInfo.getUserInfo(id, roleId, (err, doc) => {
     if(doc) {
       delete doc._id;
@@ -96,9 +95,9 @@ exports.getUsersInfoByGroup = (req, res) => {
 }
 
 exports.updateUserInfo = (req, res) => {
-  const id = req.params.id;
+  const id = req.user.id;
   const userInfo = req.body.userInfo;
-  const roleId = req.params.roleId;
+  const roleId = req.user.roleId;
   UserInfo.updateUserInfo(id, userInfo, req.file, roleId, (err, doc) => {
     if(err) {
       return res.sendStatus(500)

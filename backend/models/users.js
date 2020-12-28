@@ -107,6 +107,8 @@ exports.loginUser = (user, cb) => {
       accessToken = generateAccessToken({id: matchUser._id, roleId: matchUser.role.id});
       refreshToken = jwt.sign({id: matchUser._id, roleId: matchUser.role.id}, config.refreshToken);
       db.get().collection('tokens').insertOne({refreshToken, accessToken, user_id: matchUser._id});
+    } else {
+      console.log('NOT MATCH USER');
     }
     cb(err, matchUser, {accessToken, refreshToken});
   });
