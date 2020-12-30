@@ -165,8 +165,8 @@ sendConfirmUserByEmail = (createdUser, host) => {
   const mailOptions = {
     from: 'afreestyler2016@gmail.com', // sender address
     to: createdUser.email, // list of receivers
-    subject: 'Confirm registration', // Subject line 
-    html: `<p>Please click to confirm register <a href='${url}'>Link to confir registration</a></p>`// plain text body
+    subject: 'Подтверждение регестрации', // Subject line 
+    html: `<p>Что бы активировать профиль ${createdUser.userName} нажмите <a href='${url}'>Подтвердить регистрацию</a></p>`// plain text body
   };
   transporter.sendMail(mailOptions, (err, info) => {
     if(err)

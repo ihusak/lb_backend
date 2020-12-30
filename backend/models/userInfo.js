@@ -142,18 +142,18 @@ sendRequestCoachPermission = (user, phone, host) => {
     }
   );
   if(host.indexOf('local') >= 0) {
-    host = 'http://' + host;
+    host = 'http://localhost:4200/';
   } else {
-    host = 'https://' + host;
+    host = 'production';
   }
   const url = `${host}/userInfo/confirm/coach/${emailToken}`;
   const mailOptions = {
-    from: user.email, // sender address
-    to: 'ilyagusak@gmail.com', // list of receivers
-    subject: 'Request Coach Permission #LB', // Subject line
-    html: `<h1>${user.userName} want's to be a coach</h1>
-    <p>Please contact him to confirm coach permission: <b>${userPhone}</b></p>
-    <p>if everything fine click <a href='${url}'>Confirm coach request</a></p>
+    from: user.email,
+    to: 'ilyagusak@gmail.com',
+    subject: 'Запрос на роль тренера #LB',
+    html: `<h1>${user.userName} хочет быть тренером</h1>
+    <p>Свяжись с ним что бы подтвердить его роль: <b>${userPhone}</b></p>
+    <p>Если все этапы пройдены <a href='${url}'>Подтверди его роль</a></p>
     `// plain text body
   };
   transporter.sendMail(mailOptions, (err, info) => {

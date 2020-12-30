@@ -6,11 +6,9 @@ const config = require('./config.json')
 const cors = require('cors');
 const PORT = process.env.PORT || 8000;
 const DB_URL = process.env.MONGODB_URI || config.url_local;
-const routes = require('./backend/routes');
 const errorHandler = require('./backend/config/error-handler');
 const cookieParser = require('cookie-parser');
-
-const userController = require('./backend/controllers/users');
+const path = require('path');
 
 if(!process.env.MONGODB_URI) {
   var corsOptions = {
@@ -30,7 +28,9 @@ if(!process.env.MONGODB_URI) {
 });
 }
 console.log('local MONGODB_URI',process.env.MONGODB_URI, 'DB_URL', DB_URL);
+console.log(__dirname );
 app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use('/translate', express.static(path.join(__dirname + '/backend/translate')));
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -48,6 +48,5 @@ db.connect(DB_URL, (err) => {
       app.use('/groups', require('./backend/routes/groups/groups'));
       app.use('/uploadImage', require('./backend/routes/files/files'));
       app.use(errorHandler);
-      // routes(app, userController);
   });
 });
