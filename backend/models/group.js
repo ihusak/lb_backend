@@ -1,4 +1,5 @@
 const db = require('../config/db');
+const Group = require('../models/schemas/groupsSchema');
 
 exports.all = (cb) => {
   db.get().collection('groups').find({}).toArray((err, groups) => {
@@ -11,3 +12,15 @@ exports.all = (cb) => {
     cb(err, groups);
   })
 };
+
+exports.createGroup = (req, cb) => {
+  console.log(req.body, req.user);
+  const group = new Group({
+    name: req.body.groupName,
+    forAll: req.body.forAll,
+    coachId: req.body.coachId
+  });
+  db.get().collection('groups').insertOne(group, (err, doc) => {
+    cb(err, doc.value);
+  })
+}

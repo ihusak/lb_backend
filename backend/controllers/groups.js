@@ -6,3 +6,10 @@ exports.getGroups = (req, res) => {
     return res.json(groups);
   })
 }
+
+exports.createGroup = (req, res) => {
+  Group.createGroup(req, (err, group) => {
+    if(err) return res.sendStatus(500);
+    return res.json(group);
+  })
+}

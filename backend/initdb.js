@@ -23,7 +23,9 @@ initGroups = () => {
   const arrayGroups = ['BEGINNER', 'MIDDLE', 'MASTER'];
   arrayGroups.map((group, index) => {
     const initGroups = new Groups({
-      name: group
+      name: group,
+      forAll: true,
+      coachId: ''
     });
     initGroups.save();
     return group;
