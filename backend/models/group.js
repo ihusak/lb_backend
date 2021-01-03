@@ -21,6 +21,6 @@ exports.createGroup = (req, cb) => {
     coachId: req.body.coachId
   });
   db.get().collection('groups').insertOne(group, (err, doc) => {
-    cb(err, doc.value);
+    cb(err, doc.ops[0]);
   })
 }

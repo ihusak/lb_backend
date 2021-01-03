@@ -9,6 +9,7 @@ exports.getGroups = (req, res) => {
 
 exports.createGroup = (req, res) => {
   Group.createGroup(req, (err, group) => {
+    console.log(group);
     if(err) return res.sendStatus(500);
     return res.json(group);
   })
