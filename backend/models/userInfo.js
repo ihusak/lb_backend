@@ -98,6 +98,7 @@ exports.updateUserInfo = (id, userInfo, file, roleId, cb) => {
   let userInfoBody = JSON.parse(userInfo);
   if(file) userInfoBody.userImg = file.path;
   let userInfoReq = { $set: userInfoBody };
+  console.log(userInfoBody);
   const table = defineUserInfoTable(roleId);
   db.get().collection(table).findOneAndUpdate(userId, userInfoReq, {returnOriginal: false}, (err, doc) => {
     cb(err, doc.value);
