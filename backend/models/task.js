@@ -16,6 +16,7 @@ exports.getAllTasks = (cb) => {
 
 exports.getTasksByGroup = (groupId, cb) => {
   db.get().collection('tasks').find({'group.id': groupId}).toArray((err, tasks) => {
+    console.log('tasks', tasks);
     cb(err, tasks);
   });
 };

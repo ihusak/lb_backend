@@ -58,20 +58,25 @@ exports.createUserInfo = (body, cb) => {
 exports.getUserInfo = (id, roleId, cb) => {
   let userId = {'id': id};
   const table = defineUserInfoTable(roleId);
-  switch(parseInt(roleId)) {
-    case RolesEnum.ADMIN: 
-    getUserInfoByRole(userId, table, cb);
-    break;
-    case RolesEnum.STUDENT: 
-    getUserInfoByRole(userId, table, cb);
-    break;
-    case RolesEnum.PARENT: 
-    getUserInfoByRole(userId, table, cb);
-    break;
-    case RolesEnum.COACH:
-    getUserInfoByRole(userId, table, cb);
-    break;
-  }
+  db.get().collection(table).findOne(userId, (err, doc) => {
+    cb(err, doc);
+  })
+  // getUserInfoByRole(userId, table, cb);
+  console.log('USERINFO',userId, table);
+  // switch(parseInt(roleId)) {
+  //   case RolesEnum.ADMIN: 
+  //   getUserInfoByRole(userId, table, cb);
+  //   break;
+  //   case RolesEnum.STUDENT: 
+  //   getUserInfoByRole(userId, table, cb);
+  //   break;
+  //   case RolesEnum.PARENT: 
+  //   getUserInfoByRole(userId, table, cb);
+  //   break;
+  //   case RolesEnum.COACH:
+  //   getUserInfoByRole(userId, table, cb);
+  //   break;
+  // }
 }
 
 exports.getAllUserInfo = (roleId, cb) => {
@@ -165,11 +170,11 @@ sendRequestCoachPermission = (user, phone, host) => {
  });
 }
 
-getUserInfoByRole = (userId, tableName, cb) => {
-  db.get().collection(tableName).findOne(userId, (err, doc) => {
-    cb(err, doc);
-  })
-}
+// getUserInfoByRole = (userId, tableName, cb) => {
+//   db.get().collection(tableName).findOne(userId, (err, doc) => {
+//     cb(err, doc);
+//   })
+// }
 
 defineUserInfoTable = (roleId) => {
   let table = '';

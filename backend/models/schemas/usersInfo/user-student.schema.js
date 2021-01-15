@@ -24,7 +24,7 @@ const userStudentInfo = new Schema({
     name: {type: String, default: ''},
   },
   rating: {type: Number, default: 0},
-  progress: {type: Number, default: 0},
+  progress: {type: Number, default: 0}, // ???? remove
   role: {
     id: Number,
     name: String,
