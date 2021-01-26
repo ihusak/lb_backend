@@ -18,7 +18,8 @@ exports.createGroup = (req, cb) => {
   const group = new Group({
     name: req.body.groupName,
     forAll: req.body.forAll,
-    coachId: req.body.coachId
+    coachId: req.body.coachId,
+    price: req.body.price
   });
   db.get().collection('groups').insertOne(group, (err, doc) => {
     cb(err, doc.ops[0]);
