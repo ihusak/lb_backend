@@ -6,13 +6,22 @@ const jwt = require('jsonwebtoken');
 const config = require('../../config.json');
 const nodemailer = require('nodemailer');
 const {userlogger, requestErrorLogger} = require('../config/middleware/logger');
+const PORT = process.env.PORT || 8000;
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: PORT,
+  secure: true,
   auth: {
+    type: 'OAuth2',
     user: 'afreestylers2016@gmail.com',
-    pass: 'afreestylers2016'
+    // pass: 'afreestylers2016'
+    clientId: '305454854425-finc9u6im5elcfjbh49bqam5j29vnk8r.apps.googleusercontent.com',
+    clientSecret: 'SbxKuATW-CuBEaHSSL3sb-B-',
+    refreshToken: '1//04XO_rG9BWqAqCgYIARAAGAQSNwF-L9IrGlFYCqZdRej2I4DPesT1gZij8jwN-xLEEKR9Cn0l1ug5Oo2OLzrtticbNeS7iou1qto',
+    accessToken: 'ya29.a0AfH6SMAQSMCS1SZxu2jSvlLTFDu35RQI6qWqbqhXbgSlC8fwASUWV6Dj7-tz-s6V_LTaoPbnVmigFL-xqaPGkoIlhhQ46Wdwn8V_9CuO1elfxxdYNTV0QyitkoTnxlSjVdTSSsoul16QRD4K2_NVVulN-1VJmZ4mRdK7ba-4EQU',
+    expires: 3599
   }
-})
+});
 
 const salt = bcrypt.genSaltSync(10);
 
