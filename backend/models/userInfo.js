@@ -159,7 +159,7 @@ sendRequestCoachPermission = (user, phone, host) => {
   if(host.indexOf('local') >= 0) {
     host = 'http://localhost:4200/';
   } else {
-    host = 'production';
+    host = 'http://lb.afreestylers.com/';
   }
   const url = `${host}/userInfo/confirm/coach/${emailToken}`;
   const mailOptions = {

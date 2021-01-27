@@ -168,7 +168,7 @@ sendConfirmUserByEmail = (createdUser, host) => {
   if(host.indexOf('local') >= 0) {
     host = 'http://' + host;
   } else {
-    host = 'https://' + host;
+    host = 'http://lb.afreestylers.com/';
   }
   const url = `${host}/confirm/${emailToken}`;
   const mailOptions = {
