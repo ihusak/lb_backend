@@ -27,8 +27,8 @@ if(!process.env.MONGODB_URI) {
     next();
 });
 }
-console.log('local MONGODB_URI',process.env.MONGODB_URI, 'DB_URL', DB_URL);
-console.log(__dirname );
+console.log('DB_URI', DB_URL);
+console.log('PROD env', process.env);
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use('/translate', express.static(path.join(__dirname + '/backend/translate')));
 app.use(express.static('public'));
