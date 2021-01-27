@@ -29,6 +29,10 @@ function errorHandler(err, req, res, next) {
       return res.status(err.code).json({ message: 'User Not registred' });
     }
 
+    if(err.name === 'Wrong password') {
+      return res.status(err.code).json({ message: err.name });
+    }
+
     // default to 500 server error
     return res.sendStatus(500).json({ message: err.message });
 }

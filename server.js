@@ -6,14 +6,14 @@ const config = require('./config.json')
 const cors = require('cors');
 const PORT = process.env.PORT || 8000;
 const DB_URL = process.env.MONGODB_URI || config.url_local;
-const routes = require('./backend/routes');
 const errorHandler = require('./backend/config/error-handler');
-
-const userController = require('./backend/controllers/users');
+const cookieParser = require('cookie-parser');
+const path = require('path');
 
 if(!process.env.MONGODB_URI) {
   var corsOptions = {
-  origin: '*',
+  origin: 'http://localhost:4200',
+  credentials: true,
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
 }
   app.use(cors(corsOptions))
@@ -21,17 +21,20 @@ if(!process.env.MONGODB_URI) {
   app.use(function(req, res, next) {
     console.log('cross origin prod');
     res.header("Access-Control-Allow-Origin", '*');
-    res.header("Access-Control-Allow-Credentials", true);
+    res.header("Access-Control-Allow-Credentials", 'true');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json, Authorization');
     next();
 });
 }
 console.log('local MONGODB_URI',process.env.MONGODB_URI, 'DB_URL', DB_URL);
+console.log(__dirname );
 app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use('/translate', express.static(path.join(__dirname + '/backend/translate')));
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser())
      
 // MONGOOSE
 db.connect(DB_URL, (err) => {
@@ -45,6 +48,5 @@ db.connect(DB_URL, (err) => {
       app.use('/groups', require('./backend/routes/groups/groups'));
       app.use('/uploadImage', require('./backend/routes/files/files'));
       app.use(errorHandler);
-      // routes(app, userController);
   });
 });

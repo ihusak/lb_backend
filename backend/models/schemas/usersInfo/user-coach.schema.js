@@ -14,6 +14,10 @@ const userCoachInfo = new Schema({
     name: String,
     status: Boolean
   },
+  socialNetworks: {
+    facebook: {type: String, default: ''},
+    instagram: {type: String, default: ''},
+  }
 });
 
 module.exports = mongoose.model('UserCoachInfo', userCoachInfo);

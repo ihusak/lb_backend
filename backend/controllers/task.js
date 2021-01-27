@@ -27,6 +27,14 @@ exports.getAllTasks = (req, res) => {
   })
 }
 
+exports.getTasksByGroup = (req, res) => {
+  const groupId = req.params.groupId;
+  Task.getTasksByGroup(groupId, (err, tasks) => {
+    if(err) return res.sendStatus(500);
+    return res.json(tasks);
+  })
+}
+
 exports.getTaskById = (req, res) => {
   const taskId = req.params.id;
   Task.getTaskById(taskId, (err, task) => {

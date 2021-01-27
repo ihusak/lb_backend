@@ -1,7 +1,10 @@
 const db = require('../config/db');
 const jwt = require('jsonwebtoken');
 const config = require('../../config.json');
-const userInfoSchema = require('./schemas/userInfoSchema');
+const studentInfoSchema = require('./schemas/usersInfo/user-student.schema');
+const adminInfoSchema = require('./schemas/usersInfo/user-admin.schema');
+const parentInfoSchema = require('./schemas/usersInfo/user-parent.schema');
+const coachInfoSchema = require('./schemas/usersInfo/user-coach.schema');
 const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -11,25 +14,41 @@ const transporter = nodemailer.createTransport({
   }
 });
 const RolesEnum = require('../config/enum/roles');
+const { ObjectID } = require('mongodb');
+const {userTasksLogger} = require('../config/middleware/logger');
 
-exports.acceptUserTask = (userId, task, cb) => {
-  console.log(userId, task);
-  // db.get().collection('userInfo').findOneAndUpdate(userId, {$set: {
-
-  // }}, {returnOriginal: false}, (err, doc) => {
-  //   cb(err, doc.value);
-  // })
+exports.acceptTask = (userId, task, cb) => {
+  db.get().collection('userStudentInfo').findOneAndUpdate({'id': userId}, {$set: {
+    'currentTask.status': 'Done'
+  }, $push: {'doneTasks': task.taskId}}, {returnOriginal: false}, (err, studentInfo) => {
+    const studentInfoValue = studentInfo.value;
+    db.get().collection("tasks").find({'group.id': task.groupId}).toArray((err, foundTasks) => {
+      if(studentInfoValue.currentTask.group.id !== studentInfoValue.group.id) {
+        if(studentInfoValue.rating >= 100) {
+          studentInfoValue.rating = 0;
+        }
+      }
+      studentInfoValue.doneTasks = studentInfoValue.doneTasks.filter((id) => {
+        return foundTasks.find(task => task._id.toString() === id);
+      });
+      const progress = (studentInfoValue.doneTasks.length / foundTasks.length) * 100;
+      const rating = studentInfoValue.rating + task.reward;
+      db.get().collection('userStudentInfo').findOneAndUpdate({'id': userId}, {$set: {
+        'progress': progress,
+        'rating': rating,
+        'currentTask.status': 'Done'
+      }}, {returnOriginal: false}, (err, updatedStudentInfo) => {
+        userLoggerTasks(`User done task`, studentInfoValue.currentTask, userId);
+        cb(err, updatedStudentInfo.value);
+      })
+    });
+  })
 }
 
 exports.createUserInfo = (body, cb) => {
-  const userInfo = new userInfoSchema({
-    id: body._id,
-    email: body.email,
-    userName: body.userName,
-    role: body.role
-  });
+  const userInfoSchema = defineUserInfoSchema(body.role.id);
   const table = defineUserInfoTable(body.role.id);
-  db.get().collection(table).insertOne(userInfo, (err, doc) => {
+  db.get().collection(table).insertOne(userInfoSchema, (err, doc) => {
     if(cb) {
       cb(err, doc)
     }
@@ -39,21 +58,25 @@ exports.createUserInfo = (body, cb) => {
 exports.getUserInfo = (id, roleId, cb) => {
   let userId = {'id': id};
   const table = defineUserInfoTable(roleId);
-  switch(parseInt(roleId)) {
-    case RolesEnum.ADMIN: 
-    getUserInfoByRole(userId, table, cb);
-    break;
-    case RolesEnum.STUDENT: 
-    getUserInfoByRole(userId, table, cb);
-    break;
-    case RolesEnum.PARENT: 
-    getUserInfoByRole(userId, table, cb);
-    break;
-    case RolesEnum.COACH: 
-    console.log('COACH FIND');
-    getUserInfoByRole(userId, table, cb);
-    break;
-  }
+  db.get().collection(table).findOne(userId, (err, doc) => {
+    cb(err, doc);
+  })
+  // getUserInfoByRole(userId, table, cb);
+  console.log('USERINFO',userId, table);
+  // switch(parseInt(roleId)) {
+  //   case RolesEnum.ADMIN: 
+  //   getUserInfoByRole(userId, table, cb);
+  //   break;
+  //   case RolesEnum.STUDENT: 
+  //   getUserInfoByRole(userId, table, cb);
+  //   break;
+  //   case RolesEnum.PARENT: 
+  //   getUserInfoByRole(userId, table, cb);
+  //   break;
+  //   case RolesEnum.COACH:
+  //   getUserInfoByRole(userId, table, cb);
+  //   break;
+  // }
 }
 
 exports.getAllUserInfo = (roleId, cb) => {
@@ -69,11 +92,18 @@ exports.getUserInfoByCoach = (coachId, cb) => {
   })
 }
 
+exports.getUsersInfoByGroup = (groupId, cb) => {
+  db.get().collection('userStudentInfo').find({'group.id': groupId}).toArray((err, usersInfo) => {
+    cb(err, usersInfo);
+  })
+}
+
 exports.updateUserInfo = (id, userInfo, file, roleId, cb) => {
   let userId = {'id': id};
   let userInfoBody = JSON.parse(userInfo);
   if(file) userInfoBody.userImg = file.path;
   let userInfoReq = { $set: userInfoBody };
+  console.log(userInfoBody);
   const table = defineUserInfoTable(roleId);
   db.get().collection(table).findOneAndUpdate(userId, userInfoReq, {returnOriginal: false}, (err, doc) => {
     cb(err, doc.value);
@@ -101,6 +131,7 @@ exports.acceptCoachRequest = (token, cb) => {
   if(id) {
     db.get().collection('userCoachInfo').updateOne({'id': id},{ $set: { 'role.status' : true  } }, (err, foundUser) => {
       cb(err, foundUser);
+      db.get().collection('users').updateOne({_id: new ObjectID(id)}, {$set: {'role.status': true}}, (err, user) => {});
     })
   }
 }
@@ -117,19 +148,18 @@ sendRequestCoachPermission = (user, phone, host) => {
     }
   );
   if(host.indexOf('local') >= 0) {
-    host = 'http://' + host;
+    host = 'http://localhost:4200/';
   } else {
-    host = 'https://' + host;
+    host = 'production';
   }
   const url = `${host}/userInfo/confirm/coach/${emailToken}`;
-  console.log(url);
   const mailOptions = {
-    from: user.email, // sender address
-    to: 'ilyagusak@gmail.com', // list of receivers
-    subject: 'Request Coach Permission #LB', // Subject line
-    html: `<h1>${user.userName} want's to be a coach</h1>
-    <p>Please contact him to confirm coach permission: <b>${userPhone}</b></p>
-    <p>if everything fine click <a href='${url}'>Confirm coach request</a></p>
+    from: user.email,
+    to: 'ilyagusak@gmail.com',
+    subject: 'Запрос на роль тренера #LB',
+    html: `<h1>${user.userName} хочет быть тренером</h1>
+    <p>Свяжись с ним что бы подтвердить его роль: <b>${userPhone}</b></p>
+    <p>Если все этапы пройдены <a href='${url}'>Подтверди его роль</a></p>
     `// plain text body
   };
   transporter.sendMail(mailOptions, (err, info) => {
@@ -140,13 +170,11 @@ sendRequestCoachPermission = (user, phone, host) => {
  });
 }
 
-getUserInfoByRole = (userId, tableName, cb) => {
-  console.log(tableName, userId);
-  db.get().collection(tableName).findOne(userId, (err, doc) => {
-    console.log(doc);
-    cb(err, doc);
-  })
-}
+// getUserInfoByRole = (userId, tableName, cb) => {
+//   db.get().collection(tableName).findOne(userId, (err, doc) => {
+//     cb(err, doc);
+//   })
+// }
 
 defineUserInfoTable = (roleId) => {
   let table = '';
@@ -158,3 +186,55 @@ defineUserInfoTable = (roleId) => {
   }
   return table;
 }
+
+defineUserInfoSchema = (roleId) => {
+  let schema = {};
+  switch (parseInt(roleId)) {
+    case RolesEnum.ADMIN: 
+    schema = new adminInfoSchema({
+      id: body._id,
+      email: body.email,
+      userName: body.userName,
+      role: body.role
+    });
+    break;
+    case RolesEnum.STUDENT: 
+    schema = new studentInfoSchema({
+      id: body._id,
+      email: body.email,
+      userName: body.userName,
+      role: body.role
+    });
+    break;
+    case RolesEnum.COACH: 
+    schema = new coachInfoSchema({
+      id: body._id,
+      email: body.email,
+      userName: body.userName,
+      role: body.role
+    });
+    break;
+    case RolesEnum.PARENT: 
+    schema = new parentInfoSchema({
+      id: body._id,
+      email: body.email,
+      userName: body.userName,
+      role: body.role
+    });
+    break;
+  }
+  return schema;
+}
+
+userLoggerTasks = (msg, task, userId) => {
+  userTasksLogger.info(msg,
+  {
+    userId,
+    taskId: task.id,
+    taskTitle: task.title,
+    taskDescription: task.description,
+    taskReward: task.reward,
+    taskGroup: task.group,
+    taskStatus: task.status
+  }
+)}

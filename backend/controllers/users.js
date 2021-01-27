@@ -61,7 +61,7 @@ exports.confirmUser = (req, res, next) => {
 }
 
 exports.deleteUser = (req, res) => {
-  let userId = {'_id': new ObjectID(req.params.id)};
+  let userId = {'_id': new ObjectID(req.user.id)};
   Users.deleteUser(userId, (err, doc) => {
     if(err) {
       return res.sendStatus(500);
@@ -84,35 +84,36 @@ exports.getUserById = (req, res) => {
 exports.loginUser = (req, res, next) => {
   const user = {email: req.body.email, userPassword: bcrypt.hashSync(req.body.userPassword, salt)};
   Users.loginUser(user, (err, matchUser, tokens) => {
+    console.log('matchUser', matchUser, err);
     if(err) {
       return res.sendStatus(500);
     };
     if(!matchUser) {
-      const err = {name: 'Not registred', title: 'User', code: 403};
-      // requestErrorLogger.log('error', `${err.name}, ${err.code}, credentials {email: ${user.email}, pass: ${req.body.userPassword}}`);
+      const err = {name: 'Not registred', title: 'User', code: 404};
       return next(err);
     }
-    let passwordMatch = bcrypt.compareSync(req.body.userPassword, matchUser.userPassword) && matchUser.email === user.email;
     if(!matchUser.confirmed) {
       const err = {name: 'Not confirmed', title: 'User', code: 409};
       return next(err);
     };
+    let passwordMatch = bcrypt.compareSync(req.body.userPassword, matchUser.userPassword) && matchUser.email === user.email;
     if(matchUser) {
-      // userlogger.log('info', `${matchUser.userName} (${matchUser._id}) logged in succesfuly`)
       delete matchUser.userPassword;
       matchUser.tokens = tokens;
       matchUser.id = matchUser._id;
       delete matchUser._id;
       if(passwordMatch) {
         res.send(matchUser);
+      } else {
+        const err = {name: 'Wrong password', title: 'User', code: 400};
+        return next(err);
       }
-    } else {
-      res.sendStatus(404);
     }
   })
 };
 exports.logoutUser = (req, res) => {
-  Users.logoutUser(req.body.token, (err, docs) => {
+  let userId = req.user.id;
+  Users.logoutUser(req.body.token, userId, (err, docs) => {
     if(err) {
       return res.sendStatus(500);
     }
@@ -121,7 +122,7 @@ exports.logoutUser = (req, res) => {
 }
 
 exports.updateUser = (req, res) => {
-  let userId = {'_id': new ObjectID(req.params.id)};
+  let userId = {'_id': new ObjectID(req.user.id)};
   const user = {name: req.body.name, surname: req.body.surname};
   Users.updateUser(user, userId, (err, doc) => {
     if(err) {
@@ -132,7 +133,6 @@ exports.updateUser = (req, res) => {
 };
 
 exports.userToken = (req, res) => {
-  console.log('TOKEN');
   const refreshToken = req.body.refreshToken;
   Users.userToken((err, tokens, jwt, config, generateToken) => {
     if(err) return res.sendStatus(500);
@@ -162,12 +162,11 @@ sendConfirmUserByEmail = (createdUser, host) => {
     host = 'https://' + host;
   }
   const url = `${host}/confirm/${emailToken}`;
-  console.log(url);
   const mailOptions = {
     from: 'afreestyler2016@gmail.com', // sender address
     to: createdUser.email, // list of receivers
-    subject: 'Confirm registration', // Subject line 
-    html: `<p>Please click to confirm register <a href='${url}'>Link to confir registration</a></p>`// plain text body
+    subject: 'Подтверждение регестрации', // Subject line 
+    html: `<p>Что бы активировать профиль ${createdUser.userName} нажмите <a href='${url}'>Подтвердить регистрацию</a></p>`// plain text body
   };
   transporter.sendMail(mailOptions, (err, info) => {
     if(err)

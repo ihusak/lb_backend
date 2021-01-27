@@ -9,10 +9,10 @@ const TaskStatuses = {
   DONE: "Done"
 }
 
-exports.acceptUserTask = (req, res) => {
+exports.acceptStundetTask = (req, res) => {
   const userId = req.params.userId;
   const task = req.body.task;
-  UserInfo.acceptUserTask(userId, task, (err, userInfo) => {
+  UserInfo.acceptTask(userId, task, (err, userInfo) => {
     if(err) return res.sendStatus(500);
     return res.json(userInfo);
   })
@@ -25,8 +25,9 @@ exports.createUserInfo = (req, res) => {
   })
 }
 
-exports.getAllUserInfo = (req, res) => {
+exports.getAllUserInfoByRoleId = (req, res) => {
   const roleId = req.params.roleId;
+  console.log('getAllUserInfoByRoleId', roleId);
   UserInfo.getAllUserInfo(roleId,(err, usersInfo) => {
     if(usersInfo) {
       delete usersInfo._id;
@@ -53,6 +54,20 @@ exports.getUserInfoByCoach = (req, res) => {
 
 
 exports.getUserInfo = (req, res) => {
+  let id = req.user.id;
+  let roleId = req.user.roleId;
+  UserInfo.getUserInfo(id, roleId, (err, doc) => {
+    if(doc) {
+      delete doc._id;
+    };
+    if(err) {
+      return res.sendStatus(500)
+    };
+    return res.json(doc);
+  })
+}
+
+exports.getUserInfoWithParams = (req, res) => {
   let id = req.params.id;
   let roleId = req.params.roleId;
   UserInfo.getUserInfo(id, roleId, (err, doc) => {
@@ -66,10 +81,24 @@ exports.getUserInfo = (req, res) => {
   })
 }
 
+exports.getUsersInfoByGroup = (req, res) => {
+  let groupId = req.params.groupId;
+  UserInfo.getUsersInfoByGroup(groupId, (err, doc) => {
+    if(doc) {
+      delete doc._id;
+    };
+    if(err) {
+      return res.sendStatus(500)
+    };
+    return res.json(doc);
+  })
+}
+
 exports.updateUserInfo = (req, res) => {
-  const id = req.params.id;
+  const id = req.user.id;
   const userInfo = req.body.userInfo;
-  const roleId = req.params.roleId;
+  const roleId = req.user.roleId;
+  console.log(id, roleId);
   UserInfo.updateUserInfo(id, userInfo, req.file, roleId, (err, doc) => {
     if(err) {
       return res.sendStatus(500)
@@ -79,7 +108,7 @@ exports.updateUserInfo = (req, res) => {
 }
 
 exports.changeTaskStatus = (req, res) => {
-  let id = req.params.id;
+  let id = req.params.userId;
   let task = req.body.task;
   UserInfo.changeTaskStatus(task, id, (err, userInfo) => {
     if(err) {
