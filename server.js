@@ -18,14 +18,21 @@ if(!process.env.MONGODB_URI) {
 }
   app.use(cors(corsOptions))
 } else {
-  app.use(function(req, res, next) {
-    console.log('cross origin prod');
-    res.header("Access-Control-Allow-Origin", '*');
-    res.header("Access-Control-Allow-Credentials", 'true');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json, Authorization');
-    next();
-});
+  var corsProdOptions = {
+    origin: 'https://librarytricks.herokuapp.com',
+    credentials: true,
+    optionsSuccessStatus: 200,
+    methods: 'GET,PUT,POST,DELETE,OPTIONS'
+  };
+  app.use(cors(corsProdOptions));
+//   app.use(function(req, res, next) {
+//     console.log('cross origin prod');
+//     res.header("Access-Control-Allow-Origin", 'https://librarytricks.herokuapp.com');
+//     res.header("Access-Control-Allow-Credentials", 'true');
+//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+//     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json, Authorization');
+//     next();
+// });
 }
 console.log('DB_URI', DB_URL);
 console.log('PROD env', process.env);
