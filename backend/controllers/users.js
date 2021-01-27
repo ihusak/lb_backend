@@ -172,7 +172,7 @@ sendConfirmUserByEmail = (createdUser, host) => {
   }
   const url = `${host}/confirm/${emailToken}`;
   const mailOptions = {
-    from: 'afreestyler2016@gmail.com', // sender address
+    from: 'afreestylers2016@gmail.com', // sender address
     to: createdUser.email, // list of receivers
     subject: 'Подтверждение регестрации', // Subject line 
     html: `<p>Что бы активировать профиль ${createdUser.userName} нажмите <a href='${url}'>Подтвердить регистрацию</a></p>`// plain text body
