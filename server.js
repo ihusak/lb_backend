@@ -19,7 +19,7 @@ if(!process.env.MONGODB_URI) {
   app.use(cors(corsOptions))
 } else {
   var corsProdOptions = {
-    origin: `https://librarytricks.herokuapp.com:${PORT}`,
+    origin: `http://lb.afreestylers.com:${PORT}`,
     credentials: true,
     optionsSuccessStatus: 200,
     methods: 'GET,PUT,POST,DELETE,OPTIONS'
