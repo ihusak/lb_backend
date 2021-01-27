@@ -6,8 +6,12 @@ const adminInfoSchema = require('./schemas/usersInfo/user-admin.schema');
 const parentInfoSchema = require('./schemas/usersInfo/user-parent.schema');
 const coachInfoSchema = require('./schemas/usersInfo/user-coach.schema');
 const nodemailer = require('nodemailer');
+const PORT = process.env.PORT || 8000;
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: PORT,
+  ignoreTLS: false,
+  secure: false,
   auth: {
     user: 'afreestylers2016@gmail.com',
     pass: 'afreestylers2016'
