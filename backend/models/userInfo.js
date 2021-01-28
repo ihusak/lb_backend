@@ -69,6 +69,7 @@ exports.getUserInfo = (id, roleId, cb) => {
   const table = defineUserInfoTable(roleId);
   console.log('USERINFO', userId, table);
   db.get().collection(table).findOne(userId, (err, doc) => {
+    console.log(doc);
     cb(err, doc);
   })
   // getUserInfoByRole(userId, table, cb);
