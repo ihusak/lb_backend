@@ -67,6 +67,7 @@ exports.createUserInfo = (body, cb) => {
 exports.getUserInfo = (id, roleId, cb) => {
   let userId = {'id': id};
   const table = defineUserInfoTable(roleId);
+  console.log('USERINFO', userId, table);
   db.get().collection(table).findOne(userId, (err, doc) => {
     cb(err, doc);
   })
