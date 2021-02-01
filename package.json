@@ -4,7 +4,8 @@
 	"main": "server.js",
 	"scripts": {
 		"start": "node server",
-		"dev": "nodemon server"
+    "dev": "nodemon server",
+    "proxy": "node proxy"
 	},
 	"dependencies": {
 		"bcrypt": "^4.0.1",

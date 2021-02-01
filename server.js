@@ -4,8 +4,8 @@ const app = express();
 const db = require('./backend/config/db');
 const config = require('./config.json')
 const cors = require('cors');
-const PORT = process.env.PORT || 8000;
-const DB_URL = process.env.MONGODB_URI || config.url_local;
+const PORT = process.env.PORT || 3000;
+const DB_URL = process.env.MONGODB_URI || config.url_web;
 const errorHandler = require('./backend/config/error-handler');
 const cookieParser = require('cookie-parser');
 const path = require('path');
@@ -35,7 +35,6 @@ if(!process.env.MONGODB_URI) {
 });
 }
 console.log('DB_URI', DB_URL);
-console.log('PROD env', process.env);
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use('/translate', express.static(path.join(__dirname + '/backend/translate')));
 app.use(express.static('public'));
