@@ -1,5 +1,5 @@
 const Roles = require('../backend/models/schemas/rolesSchema');
-const Groups = require('../backend/models/schemas/groupsSchema');
+const Groups = require('./models/schemas/coursesSchema');
 
 exports.init = () => {
   initRoles();
@@ -19,15 +19,15 @@ initRoles = () => {
   })
 }
 
-initGroups = () => {
-  const arrayGroups = ['BEGINNER', 'MIDDLE', 'MASTER'];
-  arrayGroups.map((group, index) => {
-    const initGroups = new Groups({
+initCourses = () => {
+  const arrayCourses = ['BEGINNER', 'MIDDLE', 'MASTER'];
+  arrayCourses.map((course, index) => {
+    const initCourses = new Groups({
       name: group,
       forAll: true,
       coachId: ''
     });
-    initGroups.save();
-    return group;
+    initCourses.save();
+    return course;
   })
 }

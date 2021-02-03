@@ -51,7 +51,7 @@ db.connect(DB_URL, (err) => {
       app.use('/roles', require('./backend/routes/roles/roles'));
       app.use('/userInfo', require('./backend/routes/userInfo/userInfo'));
       app.use('/task', require('./backend/routes/task/task'));
-      app.use('/groups', require('./backend/routes/groups/groups'));
+      app.use('/courses', require('./backend/routes/courses/courses'));
       app.use('/uploadImage', require('./backend/routes/files/files'));
       app.use(errorHandler);
   });
