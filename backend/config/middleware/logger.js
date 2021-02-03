@@ -1,6 +1,6 @@
 const {createLogger , transports, format} = require('winston');
 const config = require('../../../config.json');
-const DB_URL = process.env.MONGODB_URI || config.url_local;
+const DB_URL = process.env.MONGODB_URI || config.url_web;
 require('winston-mongodb');
 
 const userlogger = createLogger({
