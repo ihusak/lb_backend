@@ -17,9 +17,6 @@ const transporter = nodemailer.createTransport({
     // pass: 'afreestylers2016'
     clientId: '305454854425-finc9u6im5elcfjbh49bqam5j29vnk8r.apps.googleusercontent.com',
     clientSecret: 'SbxKuATW-CuBEaHSSL3sb-B-',
-    refreshToken: '1//04rUf-49yns0HCgYIARAAGAQSNwF-L9IruWC_cqYy0HZ5gRAFkUFIjSxzweqEqax66F1GweAOTuH3art_cXbS1oE8r0y2SdF-0D8',
-    accessToken: 'ya29.A0AfH6SMDOKn-eoxppcQNqPNj6UsFClsk1DEpoQX-KIwWR4nOfsxhbP45ElWgpuuubsPjPMjwv6_18e5a-MVFGepvg6wu3yFILVM6nAmyBohd35M0HCei21Dsk5YLhLg9uEQVYpDz9kAULC-z2PIyqayjXlLeu',
-    expires: 3599
   }
 });
 
@@ -170,12 +167,17 @@ sendConfirmUserByEmail = (createdUser, host) => {
   } else {
     host = 'http://lb.afreestylers.com/';
   }
-  const url = `${host}/confirm/${emailToken}`;
+  const url = `${host}/api/confirm/${emailToken}`;
   const mailOptions = {
     from: 'afreestylers2016@gmail.com', // sender address
     to: createdUser.email, // list of receivers
     subject: 'Подтверждение регестрации', // Subject line 
-    html: `<p>Что бы активировать профиль ${createdUser.userName} нажмите <a href='${url}'>Подтвердить регистрацию</a></p>`// plain text body
+    html: `<p>Что бы активировать профиль ${createdUser.userName} нажмите <a href='${url}'>Подтвердить регистрацию</a></p>`,
+    auth: {
+      refreshToken: '1//04FPHJcCLwxN5CgYIARAAGAQSNwF-L9IrX8XnnG8KjMQvJTDJwcsADuWg2qWgP4fMEIxtexgK_YDibF1_lUDvHyJoYUdq7d-W7BU',
+      accessToken: 'ya29.A0AfH6SMBPOEyeb6vRnzRENrZZtmOtebVlJiB2nlG0QGVDc4MUGatXZZnljXFXwd0l61VMllOK45WMdbc9755t1_z5ewBzfW9ejE_SBbapnl-XCP0Ge6NGJARz3ZRLzJJ9boRGLGul2cq_1sjUePiyGBaIdpZb',
+      expires: 1484314697598
+    }
   };
   transporter.sendMail(mailOptions, (err, info) => {
     if(err)

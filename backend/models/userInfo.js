@@ -17,9 +17,6 @@ const transporter = nodemailer.createTransport({
     // pass: 'afreestylers2016'
     clientId: '305454854425-finc9u6im5elcfjbh49bqam5j29vnk8r.apps.googleusercontent.com',
     clientSecret: 'SbxKuATW-CuBEaHSSL3sb-B-',
-    refreshToken: '1//04XO_rG9BWqAqCgYIARAAGAQSNwF-L9IrGlFYCqZdRej2I4DPesT1gZij8jwN-xLEEKR9Cn0l1ug5Oo2OLzrtticbNeS7iou1qto',
-    accessToken: 'ya29.a0AfH6SMAQSMCS1SZxu2jSvlLTFDu35RQI6qWqbqhXbgSlC8fwASUWV6Dj7-tz-s6V_LTaoPbnVmigFL-xqaPGkoIlhhQ46Wdwn8V_9CuO1elfxxdYNTV0QyitkoTnxlSjVdTSSsoul16QRD4K2_NVVulN-1VJmZ4mRdK7ba-4EQU',
-    expires: 3599
   }
 });
 const RolesEnum = require('../config/enum/roles');
@@ -163,7 +160,7 @@ sendRequestCoachPermission = (user, phone, host) => {
   } else {
     host = 'http://lb.afreestylers.com/';
   }
-  const url = `${host}/userInfo/confirm/coach/${emailToken}`;
+  const url = `${host}/api/userInfo/confirm/coach/${emailToken}`;
   const mailOptions = {
     from: user.email,
     to: 'ilyagusak@gmail.com',
@@ -171,7 +168,12 @@ sendRequestCoachPermission = (user, phone, host) => {
     html: `<h1>${user.userName} хочет быть тренером</h1>
     <p>Свяжись с ним что бы подтвердить его роль: <b>${userPhone}</b></p>
     <p>Если все этапы пройдены <a href='${url}'>Подтверди его роль</a></p>
-    `// plain text body
+    `,
+    auth: {
+      refreshToken: '1//04FPHJcCLwxN5CgYIARAAGAQSNwF-L9IrX8XnnG8KjMQvJTDJwcsADuWg2qWgP4fMEIxtexgK_YDibF1_lUDvHyJoYUdq7d-W7BU',
+      accessToken: 'ya29.A0AfH6SMBPOEyeb6vRnzRENrZZtmOtebVlJiB2nlG0QGVDc4MUGatXZZnljXFXwd0l61VMllOK45WMdbc9755t1_z5ewBzfW9ejE_SBbapnl-XCP0Ge6NGJARz3ZRLzJJ9boRGLGul2cq_1sjUePiyGBaIdpZb',
+      expires: 1484314697598
+    }
   };
   transporter.sendMail(mailOptions, (err, info) => {
     if(err)
