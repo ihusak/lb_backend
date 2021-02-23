@@ -29,7 +29,7 @@ const upload = multer({
 
 router.post('/', auth.authUser, userInfo.createUserInfo);
 router.get('/', auth.authUser, userInfo.getUserInfo);
-router.get('/group/:groupId', auth.authUser, userInfo.getUsersInfoByGroup);
+router.get('/course/:courseId', auth.authUser, userInfo.getUsersInfoByCourse);
 router.get('/all/:roleId', auth.authUser, userInfo.getAllUserInfoByRoleId);
 router.get('/coach/:coachId', auth.authUser, userInfo.getUserInfoByCoach);
 router.put('/task-status/:userId', auth.authUser, userInfo.changeTaskStatus);

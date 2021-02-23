@@ -14,8 +14,8 @@ exports.getAllTasks = (cb) => {
   });
 };
 
-exports.getTasksByGroup = (groupId, cb) => {
-  db.get().collection('tasks').find({'group.id': groupId}).toArray((err, tasks) => {
+exports.getTasksByCourse = (courseId, cb) => {
+  db.get().collection('tasks').find({'course.id': courseId}).toArray((err, tasks) => {
     console.log('tasks', tasks);
     cb(err, tasks);
   });
@@ -28,10 +28,10 @@ exports.getTaskById = (id, cb) => {
   });
 };
 
-exports.statusTasks = (coachId, groupId, status, cb) => {
+exports.statusTasks = (coachId, courseId, status, cb) => {
   db.get().collection('user-tasks-logs').find({}).toArray((err, tasksHistory) => {
     const processingTasksResult = tasksHistory.filter((task) => {
-      if(task.meta.coach.id === coachId && task.meta.taskGroup.id === groupId && task.meta.taskStatus === status) {
+      if(task.meta.coach.id === coachId && task.meta.taskCourse.id === courseId && task.meta.taskStatus === status) {
         return true;
       }
       return false;

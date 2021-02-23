@@ -81,9 +81,9 @@ exports.getUserInfoWithParams = (req, res) => {
   })
 }
 
-exports.getUsersInfoByGroup = (req, res) => {
-  let groupId = req.params.groupId;
-  UserInfo.getUsersInfoByGroup(groupId, (err, doc) => {
+exports.getUsersInfoByCourse = (req, res) => {
+  let courseId = req.params.courseId;
+  UserInfo.getUsersInfoByCourse(courseId, (err, doc) => {
     if(doc) {
       delete doc._id;
     };
@@ -159,7 +159,7 @@ userLoggerTasks = (msg, task, userId) => {
     taskTitle: task.title,
     taskDescription: task.description,
     taskReward: task.reward,
-    taskGroup: task.group,
+    taskCourse: task.course,
     taskStatus: task.status
   }
 )

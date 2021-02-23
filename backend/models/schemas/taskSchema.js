@@ -8,7 +8,7 @@ const taskSchema = new Schema({
   allow: {type: Boolean, default: false},
   reward: {type: Number, default: 0},
   nextTask: {id: String},
-  group: {
+  course: {
     id: {type: String},
     name: {type: String},
   },

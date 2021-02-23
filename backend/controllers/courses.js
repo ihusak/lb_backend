@@ -1,9 +1,9 @@
 const Course = require('../models/course');
 
 exports.getCourses = (req, res) => {
-  Course.all((err, groups) => {
+  Course.all((err, courses) => {
     if(err) return res.sendStatus(500);
-    return res.json(groups);
+    return res.json(courses);
   })
 }
 

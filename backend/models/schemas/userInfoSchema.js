@@ -19,7 +19,7 @@ const userInfo = new Schema({
     email: {type: String, default: ''},
     phone: {type: String, default: ''}
   },
-  group: {
+  course: {
     id: {type: Number},
     name: {type: String},
   },

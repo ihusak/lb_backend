@@ -15,13 +15,13 @@ exports.all = (cb) => {
 
 exports.createCourse = (req, cb) => {
   console.log(req.body, req.user);
-  const group = new Course({
+  const COURSE = new Course({
     name: req.body.courseName,
     forAll: req.body.forAll,
     coachId: req.body.coachId,
     price: req.body.price
   });
-  db.get().collection('courses').insertOne(group, (err, doc) => {
+  db.get().collection('courses').insertOne(COURSE, (err, doc) => {
     cb(err, doc.ops[0]);
   })
 }

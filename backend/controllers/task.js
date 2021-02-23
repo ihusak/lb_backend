@@ -8,9 +8,9 @@ exports.createTask = (req, res) => {
     example: req.body.example,
     reward: req.body.reward,
     nextTask: {id: req.body.nextTask.id},
-    group: {
-      id: req.body.group.id,
-      name: req.body.group.name,
+    course: {
+      id: req.body.course.id,
+      name: req.body.course.name,
     },
     allow: req.body.allow
   });
@@ -27,9 +27,9 @@ exports.getAllTasks = (req, res) => {
   })
 }
 
-exports.getTasksByGroup = (req, res) => {
-  const groupId = req.params.groupId;
-  Task.getTasksByGroup(groupId, (err, tasks) => {
+exports.getTasksByCourse = (req, res) => {
+  const courseId = req.params.courseId;
+  Task.getTasksByCourse(courseId, (err, tasks) => {
     if(err) return res.sendStatus(500);
     return res.json(tasks);
   })
@@ -45,9 +45,9 @@ exports.getTaskById = (req, res) => {
 
 exports.getStatusTasks = (req, res) => {
   let coachId = req.params.coachId;
-  let groupId = parseInt(req.params.groupId);
+  let courseId = parseInt(req.params.courseId);
   let status = req.body.status;
-  Task.statusTasks(coachId, groupId, status, (err, result) => {
+  Task.statusTasks(coachId, courseId, status, (err, result) => {
     if(err) return res.sendStatus(500);
     return res.json(result);
   })
@@ -60,9 +60,9 @@ exports.updateTask = (req, res) => {
     example: req.body.example,
     reward: req.body.reward,
     nextTask: {id: req.body.nextTask.id},
-    group: {
-      id: req.body.group.id,
-      name: req.body.group.name,
+    course: {
+      id: req.body.course.id,
+      name: req.body.course.name,
     }
   };
   const taskId = req.params.id;

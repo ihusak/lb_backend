@@ -28,8 +28,8 @@ exports.acceptTask = (userId, task, cb) => {
     'currentTask.status': 'Done'
   }, $push: {'doneTasks': task.taskId}}, {returnOriginal: false}, (err, studentInfo) => {
     const studentInfoValue = studentInfo.value;
-    db.get().collection("tasks").find({'group.id': task.groupId}).toArray((err, foundTasks) => {
-      if(studentInfoValue.currentTask.group.id !== studentInfoValue.group.id) {
+    db.get().collection("tasks").find({'course.id': task.courseId}).toArray((err, foundTasks) => {
+      if(studentInfoValue.currentTask.course.id !== studentInfoValue.course.id) {
         if(studentInfoValue.rating >= 100) {
           studentInfoValue.rating = 0;
         }
@@ -100,8 +100,8 @@ exports.getUserInfoByCoach = (coachId, cb) => {
   })
 }
 
-exports.getUsersInfoByGroup = (groupId, cb) => {
-  db.get().collection('userStudentInfo').find({'group.id': groupId}).toArray((err, usersInfo) => {
+exports.getUsersInfoByCourse = (courseId, cb) => {
+  db.get().collection('userStudentInfo').find({'course.id': courseId}).toArray((err, usersInfo) => {
     cb(err, usersInfo);
   })
 }
@@ -247,7 +247,7 @@ userLoggerTasks = (msg, task, userId) => {
     taskTitle: task.title,
     taskDescription: task.description,
     taskReward: task.reward,
-    taskGroup: task.group,
+    taskCourse: task.course,
     taskStatus: task.status
   }
 )}
