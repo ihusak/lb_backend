@@ -13,7 +13,6 @@ const transporter = nodemailer.createTransport({
   secure: true,
   auth: {
     type: 'OAuth2',
-    user: 'afreestylers2016@gmail.com',
     // pass: 'afreestylers2016'
     clientId: '305454854425-finc9u6im5elcfjbh49bqam5j29vnk8r.apps.googleusercontent.com',
     clientSecret: 'SbxKuATW-CuBEaHSSL3sb-B-',
@@ -174,6 +173,7 @@ sendConfirmUserByEmail = (createdUser, host) => {
     subject: 'Подтверждение регестрации', // Subject line 
     html: `<p>Что бы активировать профиль ${createdUser.userName} нажмите <a href='${url}'>Подтвердить регистрацию</a></p>`,
     auth: {
+      user: 'afreestylers2016@gmail.com',
       refreshToken: '1//04FPHJcCLwxN5CgYIARAAGAQSNwF-L9IrX8XnnG8KjMQvJTDJwcsADuWg2qWgP4fMEIxtexgK_YDibF1_lUDvHyJoYUdq7d-W7BU',
       accessToken: 'ya29.A0AfH6SMBPOEyeb6vRnzRENrZZtmOtebVlJiB2nlG0QGVDc4MUGatXZZnljXFXwd0l61VMllOK45WMdbc9755t1_z5ewBzfW9ejE_SBbapnl-XCP0Ge6NGJARz3ZRLzJJ9boRGLGul2cq_1sjUePiyGBaIdpZb',
       expires: 1484314697598

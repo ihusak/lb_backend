@@ -22,6 +22,7 @@ const userStudentInfo = new Schema({
   course: {
     id: {type: Number, default: null},
     name: {type: String, default: ''},
+    paid: {type: Boolean, default: false}
   },
   rating: {type: Number, default: 0},
   progress: {type: Number, default: 0}, // ???? remove

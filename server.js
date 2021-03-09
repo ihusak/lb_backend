@@ -35,12 +35,12 @@ if(!process.env.MONGODB_URI) {
 });
 }
 console.log('DB_URI', DB_URL);
-app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use('/uploads/avatars', express.static(path.resolve(__dirname + '/uploads/avatars')));
 app.use('/translate', express.static(path.join(__dirname + '/backend/translate')));
-app.use(express.static('public'));
+app.use('/static', express.static(path.resolve(__dirname + '/public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
      
 // MONGOOSE
 db.connect(DB_URL, (err) => {
@@ -53,6 +53,7 @@ db.connect(DB_URL, (err) => {
       app.use('/task', require('./backend/routes/task/task'));
       app.use('/courses', require('./backend/routes/courses/courses'));
       app.use('/uploadImage', require('./backend/routes/files/files'));
+      app.use('/payments', require('./backend/routes/payments/payments'));
       app.use(errorHandler);
   });
 });

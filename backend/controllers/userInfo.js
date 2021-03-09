@@ -98,10 +98,11 @@ exports.updateUserInfo = (req, res) => {
   const id = req.user.id;
   const userInfo = req.body.userInfo;
   const roleId = req.user.roleId;
-  console.log(id, roleId);
+  console.log('userInfo', userInfo);
   UserInfo.updateUserInfo(id, userInfo, req.file, roleId, (err, doc) => {
+    console.log(err, 'update error');
     if(err) {
-      return res.sendStatus(500)
+      return res.sendStatus(500);
     };
     return res.json(doc);
   })

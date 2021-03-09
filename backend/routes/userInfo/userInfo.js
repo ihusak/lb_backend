@@ -4,7 +4,8 @@ const auth = require('../../config/middleware/auth');
 const userInfo = require('../../controllers/userInfo');
 const multer = require('multer');
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (req, res, cb) => {
+    console.log('!!res', res);
     cb(null, './uploads/avatars')
   },
   filename: (req, file, cb) => {
@@ -13,7 +14,8 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  if(file.mimetype === 'image/jpg' || file.mimetype === 'image/png') {
+  console.log('fileFilter', file);
+  if(file.mimetype === 'image/jpg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') {
     cb(null, true);
   } else {
     cb(null, false);
@@ -27,6 +29,15 @@ const upload = multer({
   fileFilter: fileFilter
 });
 
+const uploadSingle = upload.single('avatar');
+
+const handleUploadImg = (req, res, next) => {
+  uploadSingle(req, res, (err) => {
+    if (err) return res.status(500).send({ success: false, message: err.message, code: err.code })
+    next();
+  })
+};
+
 router.post('/', auth.authUser, userInfo.createUserInfo);
 router.get('/', auth.authUser, userInfo.getUserInfo);
 router.get('/course/:courseId', auth.authUser, userInfo.getUsersInfoByCourse);
@@ -36,7 +47,7 @@ router.put('/task-status/:userId', auth.authUser, userInfo.changeTaskStatus);
 router.put('/accept-task/:userId', auth.authUser, userInfo.acceptStundetTask);
 router.post('/request/coach/:id', userInfo.requestCoachPermission);
 router.get('/confirm/coach/:token', userInfo.acceptCoachPermission);
-router.put('/', auth.authUser, upload.single('avatar'), userInfo.updateUserInfo);
+router.put('/', [auth.authUser, handleUploadImg], userInfo.updateUserInfo);
 router.get('/:roleId/:id', auth.authUser, userInfo.getUserInfoWithParams);
 
 module.exports = router;

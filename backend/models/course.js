@@ -14,14 +14,35 @@ exports.all = (cb) => {
 };
 
 exports.createCourse = (req, cb) => {
-  console.log(req.body, req.user);
   const COURSE = new Course({
-    name: req.body.courseName,
-    forAll: req.body.forAll,
     coachId: req.body.coachId,
-    price: req.body.price
+    description: {
+      text: req.body.description.text,
+      video: req.body.description.video
+    },
+    forAll: req.body.forAll,
+    name: req.body.name,
+    price: req.body.price,
+  
   });
   db.get().collection('courses').insertOne(COURSE, (err, doc) => {
     cb(err, doc.ops[0]);
   })
 }
+
+// exports.updateCourse = (req, cb) => {
+//   const courseId = req.body.courseId;
+//   const COURSE = new Course({
+//     coachId: req.body.coachId,
+//     description: {
+//       text: req.body.description.text,
+//       video: req.body.description.video
+//     },
+//     forAll: req.body.forAll,
+//     name: req.body.name,
+//     price: req.body.price,
+//   });
+//   db.get().collection('courses').insertOne(COURSE, (err, doc) => {
+//     cb(err, doc.ops[0]);
+//   })
+// }
