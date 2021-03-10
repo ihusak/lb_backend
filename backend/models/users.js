@@ -105,8 +105,8 @@ exports.loginUser = (user, cb) => {
   db.get().collection('users').findOne({'email': user.email}, (err, matchUser) => {
     if(matchUser) {
       accessToken = generateAccessToken({id: matchUser._id, roleId: matchUser.role.id});
-      refreshToken = jwt.sign({id: matchUser._id, roleId: matchUser.role.id}, config.refreshToken);
-      db.get().collection('tokens').insertOne({refreshToken, accessToken, user_id: matchUser._id});
+      refreshToken = jwt.sign({id: matchUser._id, roleId: matchUser.role.id}, config.refreshToken, {expiresIn: '3d'});
+      db.get().collection('tokens').insertOne({refreshToken, accessToken, userId: matchUser._id});
     } else {
       console.log('NOT MATCH USER');
     }
@@ -115,7 +115,7 @@ exports.loginUser = (user, cb) => {
 }
 
 exports.logoutUser = (token, userId, cb) => {
-  db.get().collection('tokens').deleteOne({user_id: ObjectID(userId)}, (err, doc) => {
+  db.get().collection('tokens').deleteOne({userId: ObjectID(userId)}, (err, doc) => {
     cb(err, doc);
   });
 }
@@ -126,14 +126,21 @@ exports.updateUser = (updatedUser, id, cb) => {
   })
 };
 
-exports.userToken = (cb) => {
+exports.userRefreshToken = (user, cb) => {
+  let accessToken;
+  console.log(user, user.id);
+  accessToken = generateAccessToken({id: user.id, roleId: user.roleId});
   db.get().collection('tokens').find({}).toArray((err, tokens) => {
-    cb(err, tokens, jwt, config, generateAccessToken);
-  })
+    const mathToken = tokens.find( t => t.userId === user.id);
+    if(mathToken) {
+      db.get().collection('tokens').updateOne({userId: new ObjectID(user.id)}, {$set: {'accessToken': accessToken}})
+    }
+    cb(err, accessToken);
+  });
 }
 
 generateAccessToken = (user) => {
-  return jwt.sign(user, config.accessToken, {expiresIn: '5h'})
+  return jwt.sign(user, config.accessToken, {expiresIn: '8h'})
 }
 
 createUserInfoByRole = (collection, user) => {

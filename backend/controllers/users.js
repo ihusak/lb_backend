@@ -137,17 +137,11 @@ exports.updateUser = (req, res) => {
   })
 };
 
-exports.userToken = (req, res) => {
-  const refreshToken = req.body.refreshToken;
-  Users.userToken((err, tokens, jwt, config, generateToken) => {
+exports.userRefreshToken = (req, res) => {
+  const user = req.user;
+  Users.userRefreshToken(user, (err, accessToken) => {
     if(err) return res.sendStatus(500);
-    if(refreshToken == null) return res.sendStatus(401);
-    if(!tokens.some(t => t.refreshToken == refreshToken)) return res.sendStatus(403);
-    jwt.verify(refreshToken, config.refreshToken, (err, user) => {
-      if(err) return res.sendStatus(403);
-      const accessToken = generateToken({name: user.name});
-      return res.json({accessToken});
-    })
+    return res.json({accessToken});
   })
 }
 
