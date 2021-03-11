@@ -133,7 +133,7 @@ exports.changeTaskStatus = (req, res) => {
 exports.requestCoachPermission = (req, res) => {
   const id = req.params.id,
   phone = req.body.phone,
-  host = req.get('host');;
+  host = req.get('origin');
   UserInfo.requestCoachPermission(id, phone, host, (err, user) => {
     if(err) {
       return res.sendStatus(500)

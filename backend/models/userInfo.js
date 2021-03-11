@@ -5,23 +5,10 @@ const studentInfoSchema = require('./schemas/usersInfo/user-student.schema');
 const adminInfoSchema = require('./schemas/usersInfo/user-admin.schema');
 const parentInfoSchema = require('./schemas/usersInfo/user-parent.schema');
 const coachInfoSchema = require('./schemas/usersInfo/user-coach.schema');
-const nodemailer = require('nodemailer');
-const PORT = process.env.PORT || 8000;
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
-  auth: {
-    type: 'OAuth2',
-    user: 'afreestylers2016@gmail.com',
-    // pass: 'afreestylers2016'
-    clientId: '305454854425-finc9u6im5elcfjbh49bqam5j29vnk8r.apps.googleusercontent.com',
-    clientSecret: 'SbxKuATW-CuBEaHSSL3sb-B-',
-  }
-});
+const { transporter } = require('../config/email');
 const RolesEnum = require('../config/enum/roles');
 const { ObjectID } = require('mongodb');
-const {userTasksLogger} = require('../config/middleware/logger');
+const { userTasksLogger } = require('../config/middleware/logger');
 
 exports.acceptTask = (userId, task, cb) => {
   db.get().collection('userStudentInfo').findOneAndUpdate({'id': userId}, {$set: {
@@ -156,11 +143,11 @@ sendRequestCoachPermission = (user, phone, host) => {
     }
   );
   if(host.indexOf('local') >= 0) {
-    host = 'http://localhost:4200/';
+    host = host;
   } else {
-    host = 'http://lb.afreestylers.com/';
+    host = 'https://lb.afreestylers.com';
   }
-  const url = `${host}/api/userInfo/confirm/coach/${emailToken}`;
+  const url = `${host}/userInfo/confirm/coach/${emailToken}`;
   const mailOptions = {
     from: user.email,
     to: 'ilyagusak@gmail.com',
@@ -168,12 +155,7 @@ sendRequestCoachPermission = (user, phone, host) => {
     html: `<h1>${user.userName} хочет быть тренером</h1>
     <p>Свяжись с ним что бы подтвердить его роль: <b>${userPhone}</b></p>
     <p>Если все этапы пройдены <a href='${url}'>Подтверди его роль</a></p>
-    `,
-    auth: {
-      refreshToken: '1//04FPHJcCLwxN5CgYIARAAGAQSNwF-L9IrX8XnnG8KjMQvJTDJwcsADuWg2qWgP4fMEIxtexgK_YDibF1_lUDvHyJoYUdq7d-W7BU',
-      accessToken: 'ya29.A0AfH6SMBPOEyeb6vRnzRENrZZtmOtebVlJiB2nlG0QGVDc4MUGatXZZnljXFXwd0l61VMllOK45WMdbc9755t1_z5ewBzfW9ejE_SBbapnl-XCP0Ge6NGJARz3ZRLzJJ9boRGLGul2cq_1sjUePiyGBaIdpZb',
-      expires: 1484314697598
-    }
+    `
   };
   transporter.sendMail(mailOptions, (err, info) => {
     if(err)

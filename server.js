@@ -26,23 +26,25 @@ if(!process.env.MONGODB_URI) {
   //   methods: 'GET,PUT,POST,DELETE,OPTIONS'
   // };
   // app.use(cors(corsProdOptions));
-  app.use(function(req, res, next) {
-    console.log('cross origin prod');
-    res.header("Access-Control-Allow-Origin", 'https://lb.afreestylers.com');
-    res.header("Access-Control-Allow-Credentials", 'true');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json, Authorization');
-    next();
-});
+//   app.use(function(req, res, next) {
+//     console.log('cross origin prod');
+//     res.header("Access-Control-Allow-Origin", 'https://lb.afreestylers.com');
+//     res.header("Access-Control-Allow-Credentials", 'true');
+//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+//     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json, Authorization');
+//     next();
+// });
 }
 console.log('DB_URI', DB_URL);
+
 app.use('/uploads/avatars', express.static(path.resolve(__dirname + '/uploads/avatars')));
 app.use('/translate', express.static(path.join(__dirname + '/backend/translate')));
 app.use('/static', express.static(path.resolve(__dirname + '/public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-cron.deleteExpiredToken.start()
+
+cron.deleteExpiredToken.start();
      
 // MONGOOSE
 db.connect(DB_URL, (err) => {

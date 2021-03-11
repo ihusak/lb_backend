@@ -4,20 +4,9 @@ const bcrypt = require('bcrypt');
 const User = require('../models/schemas/userSchema');
 const jwt = require('jsonwebtoken');
 const config = require('../../config.json');
-const nodemailer = require('nodemailer');
 const {userlogger, requestErrorLogger} = require('../config/middleware/logger');
-const PORT = process.env.PORT || 8000;
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
-  auth: {
-    type: 'OAuth2',
-    // pass: 'afreestylers2016'
-    clientId: '305454854425-finc9u6im5elcfjbh49bqam5j29vnk8r.apps.googleusercontent.com',
-    clientSecret: 'SbxKuATW-CuBEaHSSL3sb-B-',
-  }
-});
+const {transporter} = require('../config/email');
+
 
 const salt = bcrypt.genSaltSync(10);
 
@@ -39,7 +28,7 @@ exports.createUser = (req, res, next) => {
     userType: req.body.userType,
     role: req.body.userRole
   });
-  const host = req.get('host');
+  const host = req.get('origin');
   Users.createUser(user, (err, docs) => {
     if(err) {
       return res.sendStatus(500);
@@ -48,6 +37,7 @@ exports.createUser = (req, res, next) => {
       const err = {name: 'User already exist', title: 'User', code: 409};
       return next(err);
     };
+    console.log('HOST', host);
     sendConfirmUserByEmail(user, host);
     res.send(user);
   })
@@ -156,22 +146,16 @@ sendConfirmUserByEmail = (createdUser, host) => {
     }
   );
   if(host.indexOf('local') >= 0) {
-    host = 'http://' + host;
+    host = host;
   } else {
-    host = 'http://lb.afreestylers.com/';
+    host = 'https://lb.afreestylers.com';
   }
-  const url = `${host}/api/confirm/${emailToken}`;
+  const url = `${host}/confirm/${emailToken}`;
   const mailOptions = {
     from: 'afreestylers2016@gmail.com', // sender address
     to: createdUser.email, // list of receivers
     subject: 'Подтверждение регестрации', // Subject line 
     html: `<p>Что бы активировать профиль ${createdUser.userName} нажмите <a href='${url}'>Подтвердить регистрацию</a></p>`,
-    auth: {
-      user: 'afreestylers2016@gmail.com',
-      refreshToken: '1//04FPHJcCLwxN5CgYIARAAGAQSNwF-L9IrX8XnnG8KjMQvJTDJwcsADuWg2qWgP4fMEIxtexgK_YDibF1_lUDvHyJoYUdq7d-W7BU',
-      accessToken: 'ya29.A0AfH6SMBPOEyeb6vRnzRENrZZtmOtebVlJiB2nlG0QGVDc4MUGatXZZnljXFXwd0l61VMllOK45WMdbc9755t1_z5ewBzfW9ejE_SBbapnl-XCP0Ge6NGJARz3ZRLzJJ9boRGLGul2cq_1sjUePiyGBaIdpZb',
-      expires: 1484314697598
-    }
   };
   transporter.sendMail(mailOptions, (err, info) => {
     if(err)

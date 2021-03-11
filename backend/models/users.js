@@ -71,8 +71,10 @@ exports.createUser = async (user, cb) => {
 
 exports.confirmUserRegistration = (token, cb) => {
   const {user} = jwt.verify(token, config.emailSercet);
+  console.log('user', user);
   if(user) {
     db.get().collection('users').updateOne({_id: new ObjectID(user)}, { $set: { 'confirmed' : true  } }, (err, doc) => {
+      console.log(err);
       cb(err, doc);
     })
   } else {
