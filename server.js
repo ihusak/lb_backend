@@ -9,6 +9,7 @@ const DB_URL = config.url_local;
 const errorHandler = require('./backend/config/error-handler');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const cron = require('./backend/config/cron');
 
 if(!process.env.MONGODB_URI) {
   var corsOptions = {
@@ -41,6 +42,7 @@ app.use('/static', express.static(path.resolve(__dirname + '/public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
+cron.deleteExpiredToken.start()
      
 // MONGOOSE
 db.connect(DB_URL, (err) => {

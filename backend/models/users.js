@@ -130,17 +130,18 @@ exports.userRefreshToken = (user, cb) => {
   let accessToken;
   console.log(user, user.id);
   accessToken = generateAccessToken({id: user.id, roleId: user.roleId});
+  refreshToken = jwt.sign({id: user.id, roleId: user.roleId}, config.refreshToken, {expiresIn: '3d'});
   db.get().collection('tokens').find({}).toArray((err, tokens) => {
     const mathToken = tokens.find( t => t.userId === user.id);
     if(mathToken) {
-      db.get().collection('tokens').updateOne({userId: new ObjectID(user.id)}, {$set: {'accessToken': accessToken}})
+      db.get().collection('tokens').updateOne({userId: new ObjectID(user.id)}, {$set: {'accessToken': accessToken, 'refreshToken': refreshToken}})
     }
     cb(err, accessToken);
   });
 }
 
 generateAccessToken = (user) => {
-  return jwt.sign(user, config.accessToken, {expiresIn: '8h'})
+  return jwt.sign(user, config.accessToken, {expiresIn: '3h'})
 }
 
 createUserInfoByRole = (collection, user) => {
