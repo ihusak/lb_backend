@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken');
 const config = require('../../config.json');
 const { ObjectID } = require('mongodb');
 
-exports.deleteExpiredToken = cron.schedule('* * 23 * * *', () => {
-  console.log('running a task every day');
+exports.deleteExpiredToken = cron.schedule('0 8 * * *', () => {
+  console.log('running a task every day at 8am');
   const currentTime = Date.now().valueOf();
   db.get().collection('tokens').find({}).toArray((err, tokens) => {
     const expiredTokens = tokens.filter(token => {
