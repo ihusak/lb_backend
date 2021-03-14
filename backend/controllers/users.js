@@ -10,7 +10,7 @@ const {transporter} = require('../config/email');
 
 const salt = bcrypt.genSaltSync(10);
 
-exports.all = (req, res) => {
+exports.all = (req, res, next) => {
   Users.all((err, docs) => {
     if(err) {
       return res.sendStatus(500);
@@ -34,10 +34,13 @@ exports.createUser = (req, res, next) => {
       return res.sendStatus(500);
     } 
     if(!docs) {
-      const err = {name: 'User already exist', title: 'User', code: 409};
+      const err = {
+        errorMessage: 'User already exist',
+        errKey: 'USER_ALREADY_EXIST',
+        code: 409
+      };
       return next(err);
-    };
-    console.log('HOST', host);
+    }
     sendConfirmUserByEmail(user, host);
     res.send(user);
   })
@@ -48,7 +51,11 @@ exports.confirmUser = (req, res, next) => {
   Users.confirmUserRegistration(token, (err, doc) => {
   if(err) return res.sendStatus(500); 
     if(!doc) {
-      const err = {name: 'Not confirmed', title: 'User', code: 409};
+      const err = {
+        errorMessage: 'Could not confirm user',
+        errKey: 'NOT_FIND_USER_TO_CONFIRM',
+        code: 404
+      };
       return next(err);
     }  
     res.send(doc);
@@ -84,11 +91,19 @@ exports.loginUser = (req, res, next) => {
       return res.sendStatus(500);
     };
     if(!matchUser) {
-      const err = {name: 'Not registred', title: 'User', code: 404};
+      const err = {
+        errorMessage: 'Not registered user',
+        errKey: 'USER_NOT_REGISTERED',
+        code: 400
+      };
       return next(err);
     }
     if(!matchUser.confirmed) {
-      const err = {name: 'Not confirmed', title: 'User', code: 409};
+      const err = {
+        errorMessage: 'Not confirmed user',
+        errKey: 'USER_NOT_CONFIRMED',
+        code: 426
+      };
       return next(err);
     };
     let passwordMatch = bcrypt.compareSync(req.body.userPassword, matchUser.userPassword) && matchUser.email === user.email;
@@ -100,7 +115,11 @@ exports.loginUser = (req, res, next) => {
       if(passwordMatch) {
         res.send(matchUser);
       } else {
-        const err = {name: 'Wrong password', title: 'User', code: 400};
+        const err = {
+          errorMessage: 'Wrong user password',
+          errKey: 'WRONG_PASSWORD',
+          code: 400
+        };
         return next(err);
       }
     }

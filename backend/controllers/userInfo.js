@@ -9,11 +9,19 @@ const TaskStatuses = {
   DONE: "Done"
 }
 
-exports.acceptStundetTask = (req, res) => {
+exports.acceptStudentTask = (req, res, next) => {
   const userId = req.params.userId;
   const task = req.body.task;
   UserInfo.acceptTask(userId, task, (err, userInfo) => {
     if(err) return res.sendStatus(500);
+    if(!userInfo) {
+      const err = {
+        errorMessage: 'Not find user',
+        errKey: 'CANT_ACCEPT_TASK_NO_USER',
+        code: 400
+      };
+      return next(err);
+    }
     return res.json(userInfo);
   })
 }
@@ -25,58 +33,88 @@ exports.createUserInfo = (req, res) => {
   })
 }
 
-exports.getAllUserInfoByRoleId = (req, res) => {
+exports.getAllUserInfoByRoleId = (req, res, next) => {
   const roleId = req.params.roleId;
   console.log('getAllUserInfoByRoleId', roleId);
   UserInfo.getAllUserInfo(roleId,(err, usersInfo) => {
     if(usersInfo) {
       delete usersInfo._id;
-    };
+    }
     if(err) {
       return res.sendStatus(500)
-    };
+    }
+    if(!usersInfo.length) {
+      const err = {
+        errorMessage: 'Not find users info',
+        errKey: 'NO_USERS_INFO',
+        code: 400
+      };
+      return next(err);
+    }
     return res.json(usersInfo);
   })
 }
 
-exports.getUserInfoByCoach = (req, res) => {
+exports.getUserInfoByCoach = (req, res, next) => {
   const coachId = req.params.coachId;
   UserInfo.getUserInfoByCoach(coachId, (err, usersInfo) => {
     if(usersInfo) {
       delete usersInfo._id;
-    };
+    }
     if(err) {
       return res.sendStatus(500)
-    };
+    }
+    if(!usersInfo.length) {
+      const err = {
+        errorMessage: 'Not find users info',
+        errKey: 'NO_USERS_INFO',
+        code: 400
+      };
+      return next(err);
+    }
     return res.json(usersInfo);
   })
 }
 
 
-exports.getUserInfo = (req, res) => {
+exports.getUserInfo = (req, res, next) => {
   let id = req.user.id;
   let roleId = req.user.roleId;
   UserInfo.getUserInfo(id, roleId, (err, doc) => {
     if(doc) {
       delete doc._id;
-    };
+    } else {
+      const err = {
+        errorMessage: 'Not find user info',
+        errKey: 'NO_USERINFO',
+        code: 400
+      };
+      return next(err);
+    }
     if(err) {
       return res.sendStatus(500)
-    };
+    }
     return res.json(doc);
   })
 }
 
-exports.getUserInfoWithParams = (req, res) => {
+exports.getUserInfoWithParams = (req, res, next) => {
   let id = req.params.id;
   let roleId = req.params.roleId;
   UserInfo.getUserInfo(id, roleId, (err, doc) => {
     if(doc) {
       delete doc._id;
-    };
+    } else {
+      const err = {
+        errorMessage: 'Not find users info',
+        errKey: 'NO_USERINFO',
+        code: 400
+      };
+      return next(err);
+    }
     if(err) {
       return res.sendStatus(500)
-    };
+    }
     return res.json(doc);
   })
 }
@@ -94,16 +132,22 @@ exports.getUsersInfoByCourse = (req, res) => {
   })
 }
 
-exports.updateUserInfo = (req, res) => {
+exports.updateUserInfo = (req, res, next) => {
   const id = req.user.id;
   const userInfo = req.body.userInfo;
   const roleId = req.user.roleId;
-  console.log('userInfo', userInfo);
   UserInfo.updateUserInfo(id, userInfo, req.file, roleId, (err, doc) => {
-    console.log(err, 'update error');
     if(err) {
       return res.sendStatus(500);
-    };
+    }
+    if(!doc) {
+      const err = {
+        errorMessage: 'Didn\'t update userInfo',
+        errKey: 'DIDNT_UPDATE_USERINFO',
+        code: 400
+      };
+      return next(err);
+    }
     return res.json(doc);
   })
 }
@@ -142,12 +186,20 @@ exports.requestCoachPermission = (req, res) => {
   })
 }
 
-exports.acceptCoachPermission = (req, res) => {
+exports.acceptCoachPermission = (req, res, next) => {
   const token = req.params.token;
   UserInfo.acceptCoachRequest(token, (err, user) => {
     if(err) {
       return res.sendStatus(500)
-    };
+    }
+    if(!user) {
+      const err = {
+        errorMessage: 'Not find user',
+        errKey: 'NO_USER',
+        code: 400
+      };
+      return next(err);
+    }
     return res.send(user);
   })
 }
