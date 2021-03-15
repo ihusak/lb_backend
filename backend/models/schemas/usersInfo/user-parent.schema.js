@@ -12,7 +12,7 @@ const userParentInfo = new Schema({
     instagram: {type: String, default: ''},
   },
   phone: {type: String, default: ''},
-  myChild: {
+  myKid: {
     id: String,
     name: String
   },
