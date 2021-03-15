@@ -71,7 +71,11 @@ exports.getUserInfoByCoach = (coachId, cb) => {
 
 exports.getUsersInfoByCourse = (courseId, cb) => {
   db.get().collection('userStudentInfo').find({'course.id': courseId}).toArray((err, usersInfo) => {
-    cb(err, usersInfo);
+    const mappedStudents = usersInfo.map(stud => {
+      delete stud._id;
+      return stud
+    });
+    cb(err, mappedStudents);
   })
 }
 

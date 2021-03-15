@@ -112,14 +112,11 @@ exports.getUserInfoWithParams = (req, res, next) => {
 
 exports.getUsersInfoByCourse = (req, res) => {
   let courseId = req.params.courseId;
-  UserInfo.getUsersInfoByCourse(courseId, (err, doc) => {
-    if(doc) {
-      delete doc._id;
-    };
+  UserInfo.getUsersInfoByCourse(courseId, (err, students) => {
     if(err) {
       return res.sendStatus(500)
     };
-    return res.json(doc);
+    return res.json(students);
   })
 }
 

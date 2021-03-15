@@ -8,6 +8,7 @@ const UserInfoStudent = require('../models/schemas/usersInfo/user-student.schema
 const UserInfoParent = require('../models/schemas/usersInfo/user-parent.schema');
 const UserInfoCoach = require('../models/schemas/usersInfo/user-coach.schema');
 const RolesEnum = require('../config/enum/roles');
+const { refreshToken } = require('../config/middleware/refresh');
 
 exports.all = (cb) => {
   db.get().collection('users').find({}).toArray((err, docs) => {
@@ -125,20 +126,20 @@ exports.updateUser = (updatedUser, id, cb) => {
 };
 
 exports.userRefreshToken = (user, cb) => {
-  let accessToken;
+  let accessToken, refreshToken;
   accessToken = generateAccessToken({id: user.id, roleId: user.roleId});
-  refreshToken = jwt.sign({id: user.id, roleId: user.roleId}, config.refreshToken, {expiresIn: '3d'});
+  refreshToken = jwt.sign({id: user.id, roleId: user.roleId}, config.refreshToken, {expiresIn: '2d'});
   db.get().collection('tokens').find({}).toArray((err, tokens) => {
     const mathToken = tokens.find( t => t.userId === user.id);
     if(mathToken) {
       db.get().collection('tokens').updateOne({userId: new ObjectID(user.id)}, {$set: {'accessToken': accessToken, 'refreshToken': refreshToken}})
     }
-    cb(err, accessToken);
+    cb(err, accessToken, refreshToken);
   });
 }
 
 generateAccessToken = (user) => {
-  return jwt.sign(user, config.accessToken, {expiresIn: '3h'})
+  return jwt.sign(user, config.accessToken, {expiresIn: '4h'})
 }
 
 createUserInfoByRole = (collection, user) => {

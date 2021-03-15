@@ -22,8 +22,7 @@ exports.createCourse = (req, cb) => {
     },
     forAll: req.body.forAll,
     name: req.body.name,
-    price: req.body.price,
-  
+    price: req.body.price
   });
   db.get().collection('courses').insertOne(COURSE, (err, doc) => {
     cb(err, doc.ops[0]);

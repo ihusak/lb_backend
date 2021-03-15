@@ -147,9 +147,9 @@ exports.updateUser = (req, res) => {
 
 exports.userRefreshToken = (req, res) => {
   const user = req.user;
-  Users.userRefreshToken(user, (err, accessToken) => {
+  Users.userRefreshToken(user, (err, accessToken, refreshToken) => {
     if(err) return res.sendStatus(500);
-    return res.json({accessToken});
+    return res.json({accessToken, refreshToken});
   })
 }
 

@@ -16,7 +16,13 @@ exports.getAllTasks = (cb) => {
 
 exports.getTasksByCourse = (courseId, cb) => {
   db.get().collection('tasks').find({'course.id': courseId}).toArray((err, tasks) => {
-    cb(err, tasks);
+    const mappedTasks = tasks.map(task => {
+      task.id = task._id;
+      delete task._id;
+      return task
+    });
+    console.log(mappedTasks);
+    cb(err, mappedTasks);
   });
 };
 
