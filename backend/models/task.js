@@ -16,7 +16,6 @@ exports.getAllTasks = (cb) => {
 
 exports.getTasksByCourse = (courseId, cb) => {
   db.get().collection('tasks').find({'course.id': courseId}).toArray((err, tasks) => {
-    console.log('tasks', tasks);
     cb(err, tasks);
   });
 };

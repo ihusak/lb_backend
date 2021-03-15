@@ -35,7 +35,6 @@ exports.createUserInfo = (req, res) => {
 
 exports.getAllUserInfoByRoleId = (req, res, next) => {
   const roleId = req.params.roleId;
-  console.log('getAllUserInfoByRoleId', roleId);
   UserInfo.getAllUserInfo(roleId,(err, usersInfo) => {
     if(usersInfo) {
       delete usersInfo._id;
@@ -63,14 +62,6 @@ exports.getUserInfoByCoach = (req, res, next) => {
     }
     if(err) {
       return res.sendStatus(500)
-    }
-    if(!usersInfo.length) {
-      const err = {
-        errorMessage: 'Not find users info',
-        errKey: 'NO_USERS_INFO',
-        code: 400
-      };
-      return next(err);
     }
     return res.json(usersInfo);
   })

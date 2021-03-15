@@ -9,7 +9,6 @@ exports.getCourses = (req, res) => {
 
 exports.createCourse = (req, res) => {
   Course.createCourse(req, (err, course) => {
-    console.log(course);
     if(err) return res.sendStatus(500);
     return res.json(course);
   })

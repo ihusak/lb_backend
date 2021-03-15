@@ -86,7 +86,6 @@ exports.getUserById = (req, res) => {
 exports.loginUser = (req, res, next) => {
   const user = {email: req.body.email, userPassword: bcrypt.hashSync(req.body.userPassword, salt)};
   Users.loginUser(user, (err, matchUser, tokens) => {
-    console.log('matchUser', matchUser, err);
     if(err) {
       return res.sendStatus(500);
     };

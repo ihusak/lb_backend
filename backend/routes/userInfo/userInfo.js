@@ -5,7 +5,6 @@ const userInfo = require('../../controllers/userInfo');
 const multer = require('multer');
 const storage = multer.diskStorage({
   destination: (req, res, cb) => {
-    console.log('!!res', res);
     cb(null, './uploads/avatars')
   },
   filename: (req, file, cb) => {
@@ -14,7 +13,6 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  console.log('fileFilter', file);
   if(file.mimetype === 'image/jpg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') {
     cb(null, true);
   } else {

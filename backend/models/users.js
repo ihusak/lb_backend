@@ -71,10 +71,8 @@ exports.createUser = async (user, cb) => {
 
 exports.confirmUserRegistration = (token, cb) => {
   const {user} = jwt.verify(token, config.emailSercet);
-  console.log('user', user);
   if(user) {
     db.get().collection('users').updateOne({_id: new ObjectID(user)}, { $set: { 'confirmed' : true  } }, (err, doc) => {
-      console.log(err);
       cb(err, doc);
     })
   } else {
@@ -109,8 +107,6 @@ exports.loginUser = (user, cb) => {
       accessToken = generateAccessToken({id: matchUser._id, roleId: matchUser.role.id});
       refreshToken = jwt.sign({id: matchUser._id, roleId: matchUser.role.id}, config.refreshToken, {expiresIn: '3d'});
       db.get().collection('tokens').insertOne({refreshToken, accessToken, userId: matchUser._id});
-    } else {
-      console.log('NOT MATCH USER');
     }
     cb(err, matchUser, {accessToken, refreshToken});
   });
@@ -130,7 +126,6 @@ exports.updateUser = (updatedUser, id, cb) => {
 
 exports.userRefreshToken = (user, cb) => {
   let accessToken;
-  console.log(user, user.id);
   accessToken = generateAccessToken({id: user.id, roleId: user.roleId});
   refreshToken = jwt.sign({id: user.id, roleId: user.roleId}, config.refreshToken, {expiresIn: '3d'});
   db.get().collection('tokens').find({}).toArray((err, tokens) => {

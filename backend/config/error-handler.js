@@ -14,6 +14,9 @@ function errorHandler(err, req, res, next) {
     case 404:
       // not found
       return res.status(err.code).json(err);
+    case 409:
+    // Conflict
+      return res.status(err.code).json(err);
     case 426:
       // need update
       return res.status(err.code).json(err);

@@ -17,7 +17,6 @@ exports.getPayments = (cb) => {
 
 exports.getPaymentsByUserId = (userId, cb) => {
   db.get().collection('payments').find({'user.id': userId}).toArray((err, payments) => {
-    console.log(payments);
     const paymentsMapped = payments.map(payment => {
       payment.id = payment._id;
       delete payment._id;

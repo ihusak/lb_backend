@@ -51,27 +51,9 @@ exports.createUserInfo = (body, cb) => {
 exports.getUserInfo = (id, roleId, cb) => {
   let userId = {'id': id};
   const table = defineUserInfoTable(roleId);
-  console.log('USERINFO', userId, table);
   db.get().collection(table).findOne(userId, (err, doc) => {
-    console.log(doc);
     cb(err, doc);
   })
-  // getUserInfoByRole(userId, table, cb);
-  console.log('USERINFO',userId, table);
-  // switch(parseInt(roleId)) {
-  //   case RolesEnum.ADMIN: 
-  //   getUserInfoByRole(userId, table, cb);
-  //   break;
-  //   case RolesEnum.STUDENT: 
-  //   getUserInfoByRole(userId, table, cb);
-  //   break;
-  //   case RolesEnum.PARENT: 
-  //   getUserInfoByRole(userId, table, cb);
-  //   break;
-  //   case RolesEnum.COACH:
-  //   getUserInfoByRole(userId, table, cb);
-  //   break;
-  // }
 }
 
 exports.getAllUserInfo = (roleId, cb) => {
@@ -98,7 +80,6 @@ exports.updateUserInfo = (id, userInfo, file, roleId, cb) => {
   let userInfoBody = JSON.parse(userInfo);
   if(file) userInfoBody.userImg = file.path;
   let userInfoReq = { $set: userInfoBody };
-  console.log(userInfoBody);
   const table = defineUserInfoTable(roleId);
   db.get().collection(table).findOneAndUpdate(userId, userInfoReq, {returnOriginal: false}, (err, doc) => {
     cb(err, doc.value);
