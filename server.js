@@ -58,6 +58,7 @@ db.connect(DB_URL, (err) => {
       app.use('/courses', require('./backend/routes/courses/courses'));
       app.use('/uploadImage', require('./backend/routes/files/files'));
       app.use('/payments', require('./backend/routes/payments/payments'));
+      app.use('/homeworks', require('./backend/routes/homeworks/homeworks'));
       app.use(errorHandler);
   });
 });
