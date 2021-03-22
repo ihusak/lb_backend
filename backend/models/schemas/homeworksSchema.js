@@ -3,12 +3,16 @@ const Schema = mongoose.Schema;
 
 const homeworkSchema = new Schema({
   id: String,
-  student: {
-    id: String,
-    name: String
-  },
-  name: String,
+  students: [
+    {
+      id: String,
+      name: String
+    }
+  ],
+  title: String,
   description: String,
+  example: String,
+  reward: Number,
   createdDate: Date
 });
 
