@@ -15,3 +15,10 @@ exports.createHomework = (req, res) => {
     return res.json(savedHomework);
   })
 }
+
+exports.getAllHomeworks = (req, res) => {
+  Homework.getAllHomeworks((err, homeworks) => {
+    if(err) return res.sendStatus(500);
+    return res.json(homeworks);
+  })
+}
