@@ -22,3 +22,12 @@ exports.getAllHomeworks = (req, res) => {
     return res.json(homeworks);
   })
 }
+
+exports.like = (req, res) => {
+  const userId = req.body.userId;
+  const homeworkId = req.body.homeworkId;
+  Homework.likeHomework(userId, homeworkId, (err, hm) => {
+    if(err) return res.sendStatus(500);
+    return res.json(hm);
+  })
+}

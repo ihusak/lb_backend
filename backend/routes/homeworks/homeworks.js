@@ -5,5 +5,6 @@ const controller = require('../../controllers/homeworks');
 
 router.get('/', auth.authUser, controller.getAllHomeworks);
 router.post('/create', auth.authUser, controller.createHomework);
+router.put('/like', auth.authUser, controller.like);
 
 module.exports = router;

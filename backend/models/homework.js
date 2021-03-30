@@ -14,3 +14,16 @@ exports.getAllHomeworks = (cb) => {
     cb(err, homeworks);
   })
 }
+
+exports.likeHomework = (userId, homeworkId, cb) => {
+  db.get().collection(DATA_TABLE).findOne({'_id': new ObjectID(homeworkId)}, (err, homework) => {
+    if(homework.likes.find(lk => lk === userId)) {
+      homework.likes.splice(homework.likes.indexOf(userId), 1);
+      db.get().collection(DATA_TABLE).findOneAndUpdate({'_id': new ObjectID(homeworkId)}, {$set: {'likes': homework.likes}})
+    } else {
+      homework.likes.push(userId);
+      db.get().collection(DATA_TABLE).findOneAndUpdate({'_id': new ObjectID(homeworkId)}, {$set: {'likes': homework.likes}})
+    }
+    cb(err, homework);
+  })
+}

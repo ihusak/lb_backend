@@ -14,7 +14,9 @@ const homeworkSchema = new Schema({
   example: String,
   reward: Number,
   createdDate: Date,
-  likes: {type: Number, default: 0}
+  likes: [
+    {userId: String}
+  ]
 });
 
 module.exports = mongoose.model('Homework', homeworkSchema);
