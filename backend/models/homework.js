@@ -9,6 +9,19 @@ exports.createHomework = (homework, cb) => {
   });
 };
 
+exports.deleteHomework = (homeworkId, cb) => {
+  console.log('homeworkId',homeworkId);
+  db.get().collection(DATA_TABLE).deleteOne({'_id': new ObjectID(homeworkId)}, (err, hm) => {
+    cb(err, hm);
+  });
+}
+
+exports.getHomeworkById = (homeworkId, cb) => {
+  db.get().collection(DATA_TABLE).findOne({'_id': new ObjectID(homeworkId)}, (err, hm) => {
+    cb(err, hm);
+  });
+}
+
 exports.getAllHomeworks = (cb) => {
   db.get().collection(DATA_TABLE).find({}).toArray((err, homeworks) => {
     cb(err, homeworks);
