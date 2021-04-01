@@ -47,3 +47,11 @@ exports.like = (req, res) => {
     return res.json(hm);
   });
 }
+
+exports.updateHomework = (req, res) => {
+  const homeworkId = req.params.homeworkId;
+  Homework.update(homeworkId, req.body, (err, hm) => {
+    if(err) return res.sendStatus(500);
+    return res.json({result: 'ok', status: 'updated'});
+  });
+}

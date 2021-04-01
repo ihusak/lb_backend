@@ -7,6 +7,7 @@ router.get('/', auth.authUser, controller.getAllHomeworks);
 router.get('/:homeworkId', auth.authUser, controller.getHomeworkById);
 router.post('/create', auth.authUser, controller.createHomework);
 router.put('/like', auth.authUser, controller.like);
+router.put('/update/:homeworkId', auth.authUser, controller.updateHomework);
 router.delete('/delete', auth.authUser, controller.deleteHomework);
 
 module.exports = router;

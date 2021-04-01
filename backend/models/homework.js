@@ -40,3 +40,9 @@ exports.likeHomework = (userId, homeworkId, cb) => {
     cb(err, homework);
   })
 }
+
+exports.update = (homeworkId, hm, cb) => {
+  db.get().collection(DATA_TABLE).findOneAndUpdate({'_id': new ObjectID(homeworkId)}, {$set: hm}, {returnOriginal: false}, (err, hm) => {
+    cb(err, hm);
+  })
+}
