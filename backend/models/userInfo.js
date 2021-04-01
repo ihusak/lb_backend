@@ -5,7 +5,7 @@ const studentInfoSchema = require('./schemas/usersInfo/user-student.schema');
 const adminInfoSchema = require('./schemas/usersInfo/user-admin.schema');
 const parentInfoSchema = require('./schemas/usersInfo/user-parent.schema');
 const coachInfoSchema = require('./schemas/usersInfo/user-coach.schema');
-const { transporter } = require('../config/email');
+const { createTransporter } = require('../config/email');
 const RolesEnum = require('../config/enum/roles');
 const { ObjectID } = require('mongodb');
 const { userTasksLogger } = require('../config/middleware/logger');
@@ -116,7 +116,8 @@ exports.acceptCoachRequest = (token, cb) => {
   }
 }
 
-sendRequestCoachPermission = (user, phone, host) => {
+sendRequestCoachPermission = async (user, phone, host) => {
+  const transporter = await createTransporter();
   const userPhone = user.phone ? user.phone : phone;
   const emailToken = jwt.sign(
     {

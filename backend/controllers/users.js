@@ -5,7 +5,7 @@ const User = require('../models/schemas/userSchema');
 const jwt = require('jsonwebtoken');
 const config = require('../../config.json');
 const {userlogger, requestErrorLogger} = require('../config/middleware/logger');
-const {transporter} = require('../config/email');
+const {createTransporter} = require('../config/email');
 
 
 const salt = bcrypt.genSaltSync(10);
@@ -153,7 +153,8 @@ exports.userRefreshToken = (req, res) => {
   })
 }
 
-sendConfirmUserByEmail = (createdUser, host) => {
+sendConfirmUserByEmail = async (createdUser, host) => {
+  const transporter = await createTransporter();
   const emailToken = jwt.sign(
     {
       user: createdUser._id
