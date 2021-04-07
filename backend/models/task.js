@@ -10,7 +10,12 @@ exports.createTask = (task, cb) => {
 
 exports.getAllTasks = (cb) => {
   db.get().collection('tasks').find({}).toArray((err, tasks) => {
-    cb(err, tasks);
+    const mappedTasks = tasks.map(task => {
+      task.id = task._id;
+      delete task._id;
+      return task
+    });
+    cb(err, mappedTasks);
   });
 };
 

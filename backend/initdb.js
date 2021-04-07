@@ -3,7 +3,7 @@ const Courses = require('./models/schemas/coursesSchema');
 
 exports.init = () => {
   initRoles();
-  initCourses();
+  // initCourses();
 }
 
 initRoles = () => {
