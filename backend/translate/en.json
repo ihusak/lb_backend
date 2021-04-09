@@ -1,0 +1,279 @@
+{
+  "KEY": "en",
+  "COMMON": {
+    "ABOUT_US": "About us",
+    "ACCEPT": "Accept",
+    "ATTENTION": "Attention",
+    "BACK": "Back",
+    "BRIEF": "Brief",
+    "BUY": "Buy",
+    "COACH": "Coach",
+    "COURSE": "Course",
+    "CONSENT": "Consent to privacy policy and personal data processing",
+    "CLOSE": "Close",
+    "CREATE": "Create",
+    "CURRENT_TASK": "Current task",
+    "CURRENT_STATUS": "Current status",
+    "DESCRIPTION": "Description",
+    "DETAILS": "Details",
+    "DELETE": "Delete",
+    "EMAIL": "Email",
+    "EMPTY": "Empty",
+    "EMPTY_LIST": "Empty list",
+    "HOMEWORKS": "Homeworks",
+    "MAIN": "Main",
+    "MAX_SYMBOLS": "Max 250 symbols ({{amount}})",
+    "NAME": "Name",
+    "OFFER": "Offer",
+    "RATING": "Rating",
+    "REJECT": "Reject",
+    "REQUEST": "Request",
+    "ROLES": {
+      "STUDENT": "Student",
+      "COACH": "Coach",
+      "PARENT": "Parent",
+      "ADMIN": "Admin"
+    },
+    "PASSWORD": "Password",
+    "PAYMENT": "Payment",
+    "PHONE": "Phone",
+    "PROGRESS": "Progress",
+    "POSITION": "Position",
+    "PROCESSING_OF_PERSONAL_DATA": "Processing of personal data",
+    "REWARDS": "Rewards",
+    "SAVE": "Save",
+    "SIGN_IN": "Sign in",
+    "SIGN_UP": "Sign up",
+    "STUDENTS": "Students",
+    "TASKS": "Tasks",
+    "TASK_NAME": "Task name",
+    "TASK_DESCRIPTION": "Task description",
+    "USER_TYPE": "User type",
+    "UPDATE": "Update",
+    "UPDATES": "Updates",
+    "USEFULL_VIDEO": "Usefull video",
+    "SELECT_COURSE": "Select course",
+    "SERVICE_USAGE": "Service usage",
+    "SOCIAL_NETWORKS": {
+      "INSTAGRAM": "Instagram",
+      "FACEBOOK": "Facebook"
+    }
+  },
+  "TEMPLATE": {
+    "MAIN_INFO": {
+      "TITLE": "Librarytricks online school",
+      "SCHOOL_DESCRIPTION": "SCHOOL OF TRAINING FOOTBALL SKILLS",
+      "FOOTBALL_FREESTYLE": {
+        "TITLE": "Football freestyle",
+        "ABOUT": "Freestyle in Ukraine is popular among children, teenagers and youth. There are so many people willing to undergo training in football tricks that we decided to open a football freestyle school. By signing up for classes, you will be able to jump into this sport, and who knows, you might be a rising star.",
+        "STUDY": "Football freestyle training is available to everyone, you just need a little patience and persistent striving for the goal. First you need to prepare for classes:",
+        "UNIQ": "There will be unique courses on: football freestyle, panna, football technique, tactical principles, positional literacy and much more.",
+        "REQUIRE": {
+          "TITLE": "Get comfortable shoes and clothes that do not restrict movement:",
+          "LIST": {
+            "ONE": "'Do not give up' even if it does not work right away.",
+            "TWO": "Purchase a special ball for additional training outside of school (original or replica, size 5);",
+            "THREE": "Regularly attend classes, do homework and take courses;"
+          }
+        }
+      },
+      "FOOTBALL": {
+        "TITLE": "Football",
+        "ABOUT": "Football is the most popular sport in the world. While in Ukraine, when teaching football, the emphasis is placed on the development of physical qualities, European clubs have long been focusing on teaching technical skills and tactical principles.",
+        "REASON": "Therefore, we decided to open a football school with completely different values, in which academic football and street free style (football freestyle) harmoniously interact, where the quality of education is at the forefront."
+      },
+      "OFFLINE": {
+        "TITLE": "Offline training",
+        "ABOUT": "Offline training is already taking place in Dnipro, and in order to give the opportunity to get a high-level football education for children from all over Ukraine, we launched an online project.",
+        "REMEMBER": "Remember that filigree technique, and in general a high level of playing football, is the product of a large number of hours of independent work, and not just team training. Ronaldinho was hitting the ball in a hotel room after the World Cup matches. Ronaldo stayed after training and practiced his punches for an hour. Cruyff mentioned that while playing for the Ajax kids' team 4-5 hours a week, he spent 15-20 hours outside, and that was where his technique was formed."
+      },
+      "ORDER_TRAINING": "Hurry up to sign up for classes and surprise everyone with your skills!"
+    },
+    "LOGIN": {
+      "ENTER_SYSTEM": "Enter to system",
+      "DONT_HAVE_ACCOUNT": "Don't have account, Sign up"
+    },
+    "DASHBOARD": {
+      "COURSE_RATING": "Course rating",
+      "DONE_TASKS": "Done tasks <b>{{done}}</b> from <b>{{count}}</b>",
+      "SELECT_STUDENT": "Select student",
+      "PARENT_SHOULD_SELECT_KID": "To see your child's progress, you need to pin it in your profile settings (<a routerLink='./profile'> Go to profile settings </a>)",
+      "COACH_REQUEST": {
+        "REQUEST_FOR_COACH": "Request for a coach",
+        "TITLE": "Hello {{coachName}}",
+        "QUESTION": "Do you want to become a coach or are you already taking up coaching activities?",
+        "SEND_REQUEST": "Then send a request for confirmation of the 'COACH' status",
+        "ADMIN_FEEDBACK": "Our Administrator will contact you to confirm your status"
+      }
+    },
+    "TASK_LIST": {
+      "TITLE": "Tasks",
+      "TASK_REWARD": "Task reward",
+      "TASK_STATUSES": {
+        "DONE": "Done",
+        "PROGRESS": "In progress",
+        "CHECKING": "Checking"
+      },
+      "COACH": {
+        "WARNING_MESSAGE": "To create tasks, you must receive confirmation of coaching",
+        "COACH_BUTTONS": {
+          "CREATE_COURSE": "Create course",
+          "CREATE_TASK": "Create task",
+          "IN_PROGRESS": "In progress",
+          "CHECK": "Check"
+        },
+        "TASKS_IN_PROGRESS": "Tasks in progress",
+        "CREATE_COURSE": {
+          "TITLE": "Create course",
+          "FOR_ALL_COACHES": "For all coaches",
+          "INFO": "Here you can create any course for students",
+          "ATTENTION_MESSAGE": "The created course will be available only to your students",
+          "NAME": "Course name",
+          "DESCRIPTION": "Description course",
+          "SHORT_VIDEO": "Short video about course",
+          "PRICE": "Course price ({{price}})",
+          "CREATE_COURSE": "Create course"
+        },
+        "CREATE_TASK": {
+          "TITLE": "Create task",
+          "UPDATE_TITLE": "Update task",
+          "NAME": "Task name",
+          "DETAILS_DESCRIPTION": "Details description of task",
+          "VIDEO_EXAMPLE": "Video example of task ({{examples}})",
+          "VIDEO_URL": "Video URL",
+          "MAX_REWARD": "Max {{number}} skillz",
+          "ALLOW_TASK_LINK": "Link to the task after which the task '{{taskName}}' will be available",
+          "PREVIOUS_TASK": "Task to access the created task",
+          "CREATE_TASK": "Create task",
+          "UPDATE_TASK": "Update task"
+        }, 
+        "REVIEW_TASKS": {
+          "TITLE": "Tasks have been sent for review",
+          "STUDENT_VIDEO": "Student video",
+          "LINK": "Link",
+          "RATE_TASK": "Rate task",
+          "RATE": {
+            "BAD": "Bad",
+            "NOT_BAD": "Not bad",
+            "GOOD": "Good",
+            "WOW": "Wow",
+            "PERFECT": "Perfect",
+            "MAX_REWARD": "Max reward: {{amount}} skillz",
+            "STUDENT_RECEIVE": "The student will receive: {{amount}} skillz"
+          },
+          "REJECT_TASK_MODAL": {
+            "TITLE": "Rejecting task",
+            "INFO_REJECTING": "If you think that the student did not complete the task correctly",
+            "DESCRIBE_REJECTION": "Describe his mistakes to him and send him to train again",
+            "REJECTING_RESULT": "The status of the task will again change to 'IN PROCESS'",
+            "REJECT_GROUND": "Reject ground",
+            "SEND_TO_TRAINING": "Send to training"
+          }
+        }
+      },
+      "STUDENT": {
+        "WARNING_MESSAGE": "Choose a coach in your profile to start the course",
+        "NO_COACH_NO_COURSE": "Choose a coach and course to start completing tasks",
+        "COURSE_NOT_PAID": "Course not paid",
+        "REJECT_REASON": "Reason for rejecting the task",
+        "START_TASK": "Start task",
+        "ON_REVIEW": "On review",
+        "PASS_TASK": "Pass task", 
+        "PASS_TASK_MODAL": {
+          "TITLE": "Pass task '{{name}}'",
+          "INFO_VIDEO": "In order to pass the assignment, you need to shoot a video and post it on your social network (<b>{{network}}</b>).",
+          "NETWORK_SETTING": "Your profile must be open, or the coach (<b>{{coach}}</b>) must have access to your account",
+          "LINK_TO_YOUR_VIDEO": "Link to your video",
+          "VIDEO_URL": "Video URL"
+        }
+      }
+    },
+    "PROFILE": {
+      "UPLOAD_PHOTO": "Upload photo",
+      "PROFILE": "Profile",
+      "FULL_NAME": "Full name",
+      "START_TRAINING": "Start training",
+      "ABOUT_ME": "About me",
+      "ADDITIONAL_INFO": "Additional info",
+      "BEST_TRICK": "Best trick",
+      "PARENTS_INFO": "Parents info",
+      "SELECT_YOUR_COACH": "Select your coach",
+      "MY_KID": "My kid",
+      "SELECT_YOUR_KID": "Select your kid",
+      "EMPTY_COURSE_LIST": "Empty course list"
+    },
+    "HOMEWORKS": {
+      "CREATE_HOMEWORK": "Create homework",
+      "STUDENTS_WHO_RECEIVE_HOMEWORK": "Students who receive homework", 
+      "UPDATE_HOMEWORK": "Update homework"
+    }, 
+    "ABOUT_US": {
+      "LB": {
+        "TITLE": "What is Librarytricks",
+        "TEXT": "This project was created to speed up and motivate children. In it we will both learn and share information related to football freestyle and football. For progress, students will be able to purchase branded stuff from the online store for the currency <b>(skillz)</b> that they will receive for completing tasks."
+      },
+      "FF": {
+        "TITLE": "Football, freestyle, technique",
+        "TEXT": "We train professionals in their field. For over 5 years we have been conducting offline training, but now it's time to take us to a new level. Therefore, we have launched an online training service for all our students and everyone who is interested in the topic of football freestyle and football."
+      },
+      "GOALS": {
+        "TITLE": "Our goals",
+        "TEXT": "Since we see that there are a lot of people who want to learn, we all gathered here to share our experience and teach new things as quickly as possible and consolidate what we have already learned. We are also interested in educating our students as great athletes and respectable people."
+      },
+      "APPROACH": {
+        "TITLE": "Individual approach",
+        "TEXT": "Each student is a unique person who needs a unique approach. We try to consider all the strengths and weaknesses and develop them as efficiently as possible. We are more than confident that the one who likes it trains well and we will support our students as much as possible in this."
+      },
+      "COMPETITIONS": {
+        "TITLE": "Competitions",
+        "TEXT": "We are focused on the result, and the result will only be in an attempt to become better. We prepare students for competitions of a different nature. Since the parents of the students are interested in the development of their children, we also give access to the service so that parents can watch the success and progress of their child."
+      }
+    },
+    "HOW_TO_USE": {
+      "TITLE": "How to use Librarytricks",
+      "COMMON": {
+        "AFTER_SIGN_UP": "After registration, a letter will be sent to the mail you specified to confirm your account. After confirmation, you will be able to enter the service.",
+        "FILL_PROFILE": "The main thing is to fill in the profile (edit) and detailed information."
+      },
+      "STUDENT": {
+        "MAIN": "On the main page you can find information about the position in the course, the number of skillz received, the status of the current task, information about the trainer.",
+        "TASK": {
+          "TO_START": "To start completing tasks from the course, you need to select a trainer and a course in your profile.",
+          "SEQUENCE": "The courses are carried out gradually. The next task will be available after completion and confirmation by the trainer about the completion of this task.",
+          "LIST": {
+            "ONE": "You start to complete the task",
+            "TWO": "Making a video",
+            "THREE": "You send it to the coach for review",
+            "FOUR": "You get an estimate",
+            "FIVE": "Doing the next task",
+            "SIX": "If the coach rejects the assignment, You need practice and re-shoot the video and send the new video for retake"
+          }
+        },
+        "HOMEWORKS": "Homework assignments will be published for students of the online school or at the request of the student."
+      },
+      "COACH": {
+        "MAIN": "On the main page, you can find information about the position of any student in the course.",
+        "TASKS": {
+          "ALLOW_COACH": "All coach options will be available after the administration confirms the coaching qualifications.",
+          "COURSE_INFO": "If you have not created courses yet, you must create a course, after which you will be able to create assignments for the selected course.",
+          "CRUD_TASK": {
+            "TITLE": "You can create tasks, edit and delete them.",
+            "IN_PROGRESS": "<b> 'In progress' </b> - these are tasks that students are currently performing.",
+            "PENDING": "<b> 'Pending Review' </b> - tasks have been sent to you for review.",
+            "REJECT": "You can reject the task and send the student back to complete task."
+          }
+        },
+        "HOMEWORKS": "You can create tasks for all students or for a specific group of students."
+      },
+      "PARENT": {
+        "MAIN": "On the main page you can find information about the position of your child in the course, awards, trainer with whom he trains.",
+        "PROFILE": "Be sure to select your child's in your profile, after which data about your child's progress will be available.",
+        "HOMEWORKS": "You can review your child's homework."
+      }
+    }, 
+    "PAYMENT": {
+      "SLECT_COURSE": "Select the course you want to pay",
+      "PAID_COURSES": "Paid Courses"
+    }
+  }
+}
