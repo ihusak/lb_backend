@@ -5,7 +5,7 @@ exports.all = (cb) => {
     roles.map(role => {
       delete role.__v;
       return role;
-    })
+    });
     cb(err, roles);
   })
 };

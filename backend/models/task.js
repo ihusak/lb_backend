@@ -26,7 +26,6 @@ exports.getTasksByCourse = (courseId, cb) => {
       delete task._id;
       return task
     });
-    console.log(mappedTasks);
     cb(err, mappedTasks);
   });
 };

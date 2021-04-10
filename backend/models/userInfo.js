@@ -8,7 +8,10 @@ const coachInfoSchema = require('./schemas/usersInfo/user-coach.schema');
 const { createTransporter } = require('../config/email');
 const RolesEnum = require('../config/enum/roles');
 const { ObjectID } = require('mongodb');
-const { userTasksLogger } = require('../config/middleware/logger');
+const { 
+  userTasksLogger,
+  mailTransporterLogger
+} = require('../config/middleware/logger');
 
 exports.acceptTask = (userId, task, cb) => {
   db.get().collection('userStudentInfo').findOneAndUpdate({'id': userId}, {$set: {
@@ -144,10 +147,13 @@ sendRequestCoachPermission = async (user, phone, host) => {
     `
   };
   transporter.sendMail(mailOptions, (err, info) => {
-    if(err)
-      console.log(err)
-    else
+    if(err) {
+      mailTransporterLogger.info('Mail sending error', err);
+      console.log(err);
+    } else {
+      mailTransporterLogger.info('Mail sending info', info);
       console.log(info);
+    }
  });
 }
 

@@ -1,7 +1,11 @@
 const UserInfo = require('../models/userInfo');
 const mongoose = require('mongoose');
 const ObjectID = mongoose.Types.ObjectId;
-const {userTasksLogger} = require('../config/middleware/logger');
+const {
+  userTasksLogger, 
+  requestErrorLogger,
+  userInfoUpdateLogger
+} = require('../config/middleware/logger');
 
 const TaskStatuses = {
   PROCESSING: 'Processing',
@@ -20,8 +24,10 @@ exports.acceptStudentTask = (req, res, next) => {
         errKey: 'CANT_ACCEPT_TASK_NO_USER',
         code: 400
       };
+      requestErrorLogger.error(`Error ${err.code}`, err);
       return next(err);
     }
+    userTasksLogger.info(`Coach accept task`, {task, userId, coach: req.user});
     return res.json(userInfo);
   })
 }
@@ -48,6 +54,7 @@ exports.getAllUserInfoByRoleId = (req, res, next) => {
         errKey: 'NO_USERS_INFO',
         code: 400
       };
+      requestErrorLogger.error(`Error ${err.code}`, err);
       return next(err);
     }
     return res.json(usersInfo);
@@ -80,6 +87,7 @@ exports.getUserInfo = (req, res, next) => {
         errKey: 'NO_USERINFO',
         code: 400
       };
+      requestErrorLogger.error(`Error ${err.code}`, err);
       return next(err);
     }
     if(err) {
@@ -101,6 +109,7 @@ exports.getUserInfoWithParams = (req, res, next) => {
         errKey: 'NO_USERINFO',
         code: 400
       };
+      requestErrorLogger.error(`Error ${err.code}`, err);
       return next(err);
     }
     if(err) {
@@ -134,8 +143,10 @@ exports.updateUserInfo = (req, res, next) => {
         errKey: 'DIDNT_UPDATE_USERINFO',
         code: 400
       };
+      requestErrorLogger.error(`Error ${err.code}`, err);
       return next(err);
     }
+    userInfoUpdateLogger.info('UserInfo updated', {sentData: JSON.parse(userInfo), updatedData: doc})
     return res.json(doc);
   })
 }
@@ -186,6 +197,7 @@ exports.acceptCoachPermission = (req, res, next) => {
         errKey: 'NO_USER',
         code: 400
       };
+      requestErrorLogger.error(`Error ${err.code}`, err);
       return next(err);
     }
     return res.send(user);

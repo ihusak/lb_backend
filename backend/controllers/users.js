@@ -4,7 +4,12 @@ const bcrypt = require('bcrypt');
 const User = require('../models/schemas/userSchema');
 const jwt = require('jsonwebtoken');
 const config = require('../../config.json');
-const {userlogger, requestErrorLogger} = require('../config/middleware/logger');
+const {
+  userLoginlogger, 
+  requestErrorLogger, 
+  userLogoutlogger, 
+  mailTransporterLogger
+} = require('../config/middleware/logger');
 const {createTransporter} = require('../config/email');
 
 
@@ -39,6 +44,7 @@ exports.createUser = (req, res, next) => {
         errKey: 'USER_ALREADY_EXIST',
         code: 409
       };
+      requestErrorLogger.error(`Error ${err.code}`, err);
       return next(err);
     }
     sendConfirmUserByEmail(user, host);
@@ -56,6 +62,7 @@ exports.confirmUser = (req, res, next) => {
         errKey: 'NOT_FIND_USER_TO_CONFIRM',
         code: 404
       };
+      requestErrorLogger.error(`Error ${err.code}`, err);
       return next(err);
     }  
     res.send(doc);
@@ -95,6 +102,7 @@ exports.loginUser = (req, res, next) => {
         errKey: 'USER_NOT_REGISTERED',
         code: 400
       };
+      requestErrorLogger.error(`Error ${err.code}`, err);
       return next(err);
     }
     if(!matchUser.confirmed) {
@@ -103,6 +111,7 @@ exports.loginUser = (req, res, next) => {
         errKey: 'USER_NOT_CONFIRMED',
         code: 426
       };
+      requestErrorLogger.error(`Error ${err.code}`, err);
       return next(err);
     };
     let passwordMatch = bcrypt.compareSync(req.body.userPassword, matchUser.userPassword) && matchUser.email === user.email;
@@ -112,6 +121,7 @@ exports.loginUser = (req, res, next) => {
       matchUser.id = matchUser._id;
       delete matchUser._id;
       if(passwordMatch) {
+        userLoginlogger.info(`User logged in ${matchUser.userName}`, {id: matchUser.id, email: matchUser.email});
         res.send(matchUser);
       } else {
         const err = {
@@ -119,6 +129,7 @@ exports.loginUser = (req, res, next) => {
           errKey: 'WRONG_PASSWORD',
           code: 400
         };
+        requestErrorLogger.error(`Error ${err.code}`, {err, matchUser});
         return next(err);
       }
     }
@@ -130,6 +141,7 @@ exports.logoutUser = (req, res) => {
     if(err) {
       return res.sendStatus(500);
     }
+    userLogoutlogger.info(`User logged out`, req.user);
     res.send({message:'logout!'});
   })
 }
@@ -177,9 +189,12 @@ sendConfirmUserByEmail = async (createdUser, host) => {
     html: `<p>Что бы активировать профиль ${createdUser.userName} нажмите <a href='${url}'>Подтвердить регистрацию</a></p>`,
   };
   transporter.sendMail(mailOptions, (err, info) => {
-    if(err)
-      console.log(err)
-    else
+    if(err) {
+      mailTransporterLogger.info('Mail sending error', err);
+      console.log(err);
+    } else {
+      mailTransporterLogger.info('Mail sending info', info);
       console.log(info);
+    }
  });
 }

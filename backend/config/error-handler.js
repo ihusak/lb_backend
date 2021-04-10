@@ -20,6 +20,9 @@ function errorHandler(err, req, res, next) {
     case 426:
       // need update
       return res.status(err.code).json(err);
+    case 500:
+    // need update
+    return res.status(err.code).json(err);
   }
 
     if(err.name === 'User already exist') {

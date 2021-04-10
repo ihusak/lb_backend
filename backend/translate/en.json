@@ -10,6 +10,7 @@
     "COACH": "Coach",
     "COURSE": "Course",
     "CONSENT": "Consent to privacy policy and personal data processing",
+    "CONTACT_FOR_ANY_QUESTION": "If you have any questions, please contact me",
     "CLOSE": "Close",
     "CREATE": "Create",
     "CURRENT_TASK": "Current task",
@@ -57,6 +58,30 @@
     "SOCIAL_NETWORKS": {
       "INSTAGRAM": "Instagram",
       "FACEBOOK": "Facebook"
+    },
+    "SUCCESS": "Success",
+    "SNACK_BAR": {
+      "LOGIN": "You're successfully enter to system",
+      "REGISTER": "To confirm registration please view you're email, we sent letter to {{email}}",
+      "USER_NOT_REGISTERED": "User not registred, please Sign In",
+      "USER_NOT_CONFIRMED": "User not confirmed, please check your Email",
+      "WRONG_PASSWORD": "Wrong password",
+      "USER_ALREADY_EXIST": "User already exist",
+      "TASK_CREATED": "Task successfully created",
+      "HOMEWORK_CREATED": "Homework created",
+      "TASK_UPDATED": "Task successfully updated",
+      "COURSE_SUCCESSFULLY_PAID": "Course successfully paid",
+      "USERINFO_UPDATED": "User information successfully updated",
+      "WRONG_FILE_FORMAT": "Wrong file format, should be (PNG, JPG, JPEG, GIF)",
+      "ACCEPT_STUDENT_TASK": "You're accept student task: {{student}}",
+      "STUDENT_MOVED_IN_PROGRESS": "You sent student to train again {{student}}",
+      "COURSE_CREATED": "Course successfully created",
+      "TASK_SENT_TO_REVIEW": "Task sent to review, wait for result",
+      "START_PROCESSING_TASK": "You got task in progress, Good luck!",
+      "DELETE_SUCCESSFULLY": "Delete successfully",
+      "USER_SESSION_EXPIRED_RECOVERED": "User session expired and recovered",
+      "USER_SESSION_EXPIRED_LOGOUT": "User session expired, user logged out from system, please relogin",
+      "REQUEST_SENT": "Request sucessfully sent, wait for confirmation"
     }
   },
   "TEMPLATE": {
@@ -274,6 +299,12 @@
     "PAYMENT": {
       "SLECT_COURSE": "Select the course you want to pay",
       "PAID_COURSES": "Paid Courses"
+    },
+    "ERROR": {
+      "SERVER": {
+        "TITLE": "Server Error",
+        "INFO": "Sorry, we have some trouble, please wait or cantact us"
+      }
     }
   }
 }

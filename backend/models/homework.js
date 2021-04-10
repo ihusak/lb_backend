@@ -10,7 +10,6 @@ exports.createHomework = (homework, cb) => {
 };
 
 exports.deleteHomework = (homeworkId, cb) => {
-  console.log('homeworkId',homeworkId);
   db.get().collection(DATA_TABLE).deleteOne({'_id': new ObjectID(homeworkId)}, (err, hm) => {
     cb(err, hm);
   });

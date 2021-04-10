@@ -10,6 +10,7 @@
     "COACH": "Тренер",
     "COURSE": "Курс",
     "CONSENT": "Згода на політику конфіденційності та обробку персональних даних",
+    "CONTACT_FOR_ANY_QUESTION": "Якщо є якісь питання, зв'яжіться зі мною",
     "CLOSE": "Закрити",
     "CREATE": "Створити",
     "CURRENT_TASK": "Поточне завдання",
@@ -57,6 +58,30 @@
     "SOCIAL_NETWORKS": {
       "INSTAGRAM": "Instagram",
       "FACEBOOK": "Facebook"
+    },
+    "SUCCESS": "Успіх",
+    "SNACK_BAR": {
+      "LOGIN": "Ви успішно увійшли в систему",
+      "REGISTER": "На вашу пошту{{email}} відправлено лист з підтвердження о реєстації",
+      "USER_NOT_REGISTERED": "Користувач не зареєстрований",
+      "USER_NOT_CONFIRMED": "Користувач не активований, на вашу пошту було відправлено лист з підтвердженням",
+      "WRONG_PASSWORD": "Не вірний пароль",
+      "USER_ALREADY_EXIST": "Такий користувач вже існує",
+      "TASK_CREATED": "Завдання успішно створено",
+      "HOMEWORK_CREATED": "Домашне завдання успішно створене",
+      "TASK_UPDATED": "Завдання успішно оновлено",
+      "COURSE_SUCCESSFULLY_PAID": "Курс успішно оплачено",
+      "USERINFO_UPDATED": "Профайл успішно оновлено",
+      "WRONG_FILE_FORMAT": "Не вірний формат файлу (PNG, JPG, JPEG, GIF)",
+      "ACCEPT_STUDENT_TASK": "Ви прийняли завдання: {{student}}",
+      "STUDENT_MOVED_IN_PROGRESS": "Ви відправили студента назад на тренування{{student}}",
+      "COURSE_CREATED": "Курс успішно створено",
+      "TASK_SENT_TO_REVIEW": "Завдання відправлено на перевірку, очікуйте на результат",
+      "START_PROCESSING_TASK": "Вы взяли задание в работу, удачи!",
+      "DELETE_SUCCESSFULLY": "Успішно видалено",
+      "USER_SESSION_EXPIRED_RECOVERED": "Сесія відновлена",
+      "USER_SESSION_EXPIRED_LOGOUT": "Сесія завершена і користувача вилогінено, залогінтесь будь-ласка знову",
+      "REQUEST_SENT": "Запит успішно відправлено, очікуйте на підтвердження"
     }
   },
   "TEMPLATE": {
@@ -274,6 +299,12 @@
     "PAYMENT": {
       "SLECT_COURSE": "Виберіть курс, який ви хочете придбати",
       "PAID_COURSES": "Оплачені курси"
+    },
+    "ERROR": {
+      "SERVER": {
+        "TITLE": "Server Error",
+        "INFO": "Вибачте, проблеми на сервері, зв'яжіться з нами якщо це терміново"
+      }
     }
   }
 }
