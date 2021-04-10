@@ -36,6 +36,8 @@
       "ADMIN": "Адміністратор"
     },
     "PASSWORD": "Пароль",
+    "PASSWORD_NOT_MATCH": "Паролі не збагаються, перевірте",
+    "CONFIRM_PASSWORD": "Підтвердження паролю",
     "PAYMENT": "Оплата",
     "PHONE": "Телефон",
     "PROGRESS": "Прогрес",

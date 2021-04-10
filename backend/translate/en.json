@@ -36,6 +36,8 @@
       "ADMIN": "Admin"
     },
     "PASSWORD": "Password",
+    "PASSWORD_NOT_MATCH": "Password not match",
+    "CONFIRM_PASSWORD": "Confirm password",
     "PAYMENT": "Payment",
     "PHONE": "Phone",
     "PROGRESS": "Progress",
