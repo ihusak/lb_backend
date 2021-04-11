@@ -136,7 +136,13 @@ exports.userRefreshToken = (user, cb) => {
     }
     cb(err, accessToken, refreshToken);
   });
-}
+};
+
+exports.recoverPassword = (recoveryData, cb) => {
+  db.get().collection('users').findOneAndUpdate({email: recoveryData.email}, {$set: {userPassword: recoveryData.newPassword}}, (err, doc) => {
+    cb(err, doc.value);
+  })
+};
 
 generateAccessToken = (user) => {
   return jwt.sign(user, config.accessToken, {expiresIn: '4h'})

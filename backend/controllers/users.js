@@ -163,7 +163,30 @@ exports.userRefreshToken = (req, res) => {
     if(err) return res.sendStatus(500);
     return res.json({accessToken, refreshToken});
   })
-}
+};
+
+exports.recoveryPassword = (req, res, next) => {
+  const newPassword = bcrypt.hashSync(req.body.newPassword, salt);
+  const passwordRecoveryData = {
+    email: req.body.email,
+    newPassword
+  };
+  const host = req.get('origin');
+  Users.recoverPassword(passwordRecoveryData, (err, result) => {
+    if(err) return res.sendStatus(500);
+    if(!result) {
+      const err = {
+        errorMessage: 'Used not found',
+        errKey: 'USER_NOT_FOUND',
+        code: 400
+      };
+      requestErrorLogger.error(`Error reset password ${err.code}`, {err, email: req.body.email});
+      return next(err);
+    };
+    sentRecoveredPassword({email: req.body.email, newPassword: req.body.newPassword}, host);
+    return res.json({result: 'ok', status: 'accept'});
+  })
+};
 
 sendConfirmUserByEmail = async (createdUser, host) => {
   const transporter = await createTransporter();
@@ -197,4 +220,28 @@ sendConfirmUserByEmail = async (createdUser, host) => {
       console.log(info);
     }
  });
-}
+};
+
+sentRecoveredPassword = async (recoveryData, host) => {
+  const transporter = await createTransporter();
+  if(host.indexOf('local') >= 0) {
+    host = host;
+  } else {
+    host = 'https://lb.afreestylers.com';
+  }
+  const mailOptions = {
+    from: 'afreestylers2016@gmail.com', // sender address
+    to: recoveryData.email, // list of receivers
+    subject: 'Обновление пароля', // Subject line 
+    html: `<p>Ваш пароль только что был обновлен. Новый пароль (${recoveryData.newPassword})</p>`,
+  };
+  transporter.sendMail(mailOptions, (err, info) => {
+    if(err) {
+      mailTransporterLogger.info('Mail sending error', err);
+      console.log(err);
+    } else {
+      mailTransporterLogger.info('Mail sending info', info);
+      console.log(info);
+    }
+ });
+};

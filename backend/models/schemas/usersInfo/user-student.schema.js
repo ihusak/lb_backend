@@ -14,6 +14,7 @@ const userStudentInfo = new Schema({
   },
   phone: {type: String, default: ''},
   startTraining: {type: Date, default: ''},
+  birthDay: {type: Date, default: ''},
   parent: {
     name: {type: String, default: ''},
     email: {type: String, default: ''},

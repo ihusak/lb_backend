@@ -5,6 +5,7 @@
     "ACCEPT": "Accept",
     "ATTENTION": "Attention",
     "BACK": "Back",
+    "BIRTHDAY": "Date of birthday",
     "BRIEF": "Brief",
     "BUY": "Buy",
     "COACH": "Coach",
@@ -83,7 +84,9 @@
       "DELETE_SUCCESSFULLY": "Delete successfully",
       "USER_SESSION_EXPIRED_RECOVERED": "User session expired and recovered",
       "USER_SESSION_EXPIRED_LOGOUT": "User session expired, user logged out from system, please relogin",
-      "REQUEST_SENT": "Request sucessfully sent, wait for confirmation"
+      "REQUEST_SENT": "Request sucessfully sent, wait for confirmation",
+      "USER_NOT_FOUND": "User with that email {{email}} not found, or you did mistake in email",
+      "PASSWORD_RECOVERED": "Password successfully recovered and sent to {{email}} "
     }
   },
   "TEMPLATE": {
@@ -307,6 +310,13 @@
         "TITLE": "Server Error",
         "INFO": "Sorry, we have some trouble, please wait or cantact us"
       }
+    },
+    "FORGOT_PASSWORD": {
+      "TITLE": "Forgot password??",
+      "RESET_PASSWORD_TITLE": "Password recovery",
+      "NEW_PASSWORD": "New password",
+      "REPEAT_NEW_PASSWORD": "Repeat new password",
+      "RESET_PASSWORD": "Recover"
     }
   }
 }
