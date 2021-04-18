@@ -43,6 +43,7 @@ db.connect(DB_URL, (err) => {
       app.use('/uploadImage', require('./backend/routes/files/files'));
       app.use('/payments', require('./backend/routes/payments/payments'));
       app.use('/homeworks', require('./backend/routes/homeworks/homeworks'));
+      app.use('/recovery', require('./backend/routes/recovery-pass/recovery'));
       app.use(errorHandler);
   });
 });
