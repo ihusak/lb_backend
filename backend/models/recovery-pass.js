@@ -2,11 +2,16 @@ const db = require('../config/db');
 const jwt = require('jsonwebtoken');
 const config = require('../../config.json');
 const RecoveryPass = require('./schemas/recoveryPassSchema');
+const bcrypt = require('bcrypt');
+const salt = bcrypt.genSaltSync(10);
 
-exports.recovery = (email, password, cb) => {
-    db.get().collection('users').findOneAndUpdate({'email': email}, {$set: {'userPassword': password}}, (err, doc) => {
-        cb(err, doc);
-    });
+
+exports.recovery = (password, token, cb) => {
+  let HASHED_PASSWORD = bcrypt.hashSync(password, salt);
+  const {email, code} = jwt.verify(token, config.passSecret);
+  db.get().collection('users').findOneAndUpdate({'email': email}, {$set: {'userPassword': HASHED_PASSWORD}}, (err, doc) => {
+      cb(err, doc);
+  });
 }
 
 exports.remind = (email, cb) => {
@@ -28,7 +33,7 @@ exports.remind = (email, cb) => {
     db.get().collection('users').findOne({'email': email}, (err, result) => {
         if(result) {
             db.get().collection('recovery-pass').insertOne(recoveryParams, (err, doc) => {
-                cb(err, doc.ops[0]);
+                cb(err, recoveryParams);
             })
         } else {
             cb(err, null);
@@ -39,12 +44,11 @@ exports.remind = (email, cb) => {
 
 exports.confirm = (token, codeSent, cb) => {
     db.get().collection('recovery-pass').findOne({'token': token}, (err, doc) => {
-        const {email, code} = jwt.verify(doc, config.passSecret);
-        if(codeSent === code) {
-            cb(err, {success: true});
-        } else {
-            cb(err, {success: false});
-        }
-
+      const {email, code} = jwt.verify(doc.token, config.passSecret);
+      if(codeSent === code) {
+          cb(err, {success: true});
+      } else {
+          cb(err, {success: false});
+      }
     })
 }

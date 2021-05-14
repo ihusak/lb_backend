@@ -11,7 +11,7 @@ exports.createTransporter = async () => {
     {forceRefreshOnFailure: true}
   );
   myOAuth2Client.setCredentials({
-    refresh_token: '1//04H8tKW6OyW5WCgYIARAAGAQSNwF-L9IreIXWFHj6EoGy2PKPYlGmYEp4YOSSheVifae9ztWKgLg3WfKVkasg3qju5QhJ1J25dHY'
+    refresh_token: '1//04hoWyrxdgfN9CgYIARAAGAQSNwF-L9IrvqtlUsnsYkcaJlFFSlV-8pzzgMBnjbt5AcRu9JqWb5tW_BdlJKQMuncLw1Bb7hPEqz8'
   });
   const accessToken = await new Promise((resolve, reject) => {
     myOAuth2Client.getAccessToken((err, token) => {
@@ -33,7 +33,7 @@ exports.createTransporter = async () => {
       user: 'afreestylers2016@gmail.com',
       clientId: '743800966740-v90gbc6ltd3hm56ndh5ni32hc3l0uqp7.apps.googleusercontent.com',
       clientSecret: 'xf9ijHAX_ZBupYsyCxiFiKNs',
-      refreshToken: '1//04H8tKW6OyW5WCgYIARAAGAQSNwF-L9IreIXWFHj6EoGy2PKPYlGmYEp4YOSSheVifae9ztWKgLg3WfKVkasg3qju5QhJ1J25dHY',
+      refreshToken: '1//04hoWyrxdgfN9CgYIARAAGAQSNwF-L9IrvqtlUsnsYkcaJlFFSlV-8pzzgMBnjbt5AcRu9JqWb5tW_BdlJKQMuncLw1Bb7hPEqz8',
       accessToken,
       expires: 1717987187825
     }
