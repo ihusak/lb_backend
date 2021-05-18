@@ -39,11 +39,19 @@ exports.remind = (req, res, next) => {
     })
 }
 
-exports.confirm = (req, res) => {
+exports.confirm = (req, res, next) => {
     const code = req.body.code;
     const token = req.body.token;
     RecoveryPass.confirm(token, code, (err, token) => {
         if(err) return res.sendStatus(500);
+        if(!token.success) {
+          const err = {
+            errorMessage: 'Wrong code',
+            errKey: 'INVALID_CODE',
+            code: 400
+        };
+        return next(err);
+        }
         return res.json(token);
     })
 }

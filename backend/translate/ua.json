@@ -322,8 +322,8 @@
           "VERIFY_EMAIL_INFO": "Введіть код який був відправлений на <b>{{email}}</b> для верифікації пошти",
           "VERIFY": "Підтвердити"
         }
-
       },
+      "INVALID_CODE": "Невірний код",
       "RESET_PASSWORD_TITLE": "Відновлення паролю",
       "NEW_PASSWORD": "Новий пароль",
       "REPEAT_NEW_PASSWORD": "Повторіть новий пароль",

@@ -44,11 +44,16 @@ exports.remind = (email, cb) => {
 
 exports.confirm = (token, codeSent, cb) => {
     db.get().collection('recovery-pass').findOne({'token': token}, (err, doc) => {
-      const {email, code} = jwt.verify(doc.token, config.passSecret);
-      if(codeSent === code) {
+      console.log(doc);
+      const {email, code} = jwt.verify(doc.token, config.passSecret, (err) => {
+        if(err) {
+          cb(err, {success: false});
+        };
+        if(codeSent === doc.code) {
           cb(err, {success: true});
       } else {
           cb(err, {success: false});
       }
+      });
     })
 }

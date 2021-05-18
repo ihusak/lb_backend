@@ -8,6 +8,7 @@
     "BIRTHDAY": "Date of birthday",
     "BRIEF": "Brief",
     "BUY": "Buy",
+    "CODE": "Code",
     "COACH": "Coach",
     "COURSE": "Course",
     "CONSENT": "Consent to privacy policy and personal data processing",
@@ -312,7 +313,16 @@
       }
     },
     "FORGOT_PASSWORD": {
-      "TITLE": "Forgot password??",
+      "TITLE": "Forgot password?",
+      "EMAIL_VERIFICATION": {
+        "SEND_EMAIL_INFO": "Enter your email for recovery",
+        "VERIFY_CODE": {
+          "VERIFY_EMAIL_TITLE": "Email verification",
+          "VERIFY_EMAIL_INFO": "Enter code from letter that was send to <b>{{email}}</b> for verification",
+          "VERIFY": "Verify"
+        }
+      },
+      "INVALID_CODE": "Invalid code",
       "RESET_PASSWORD_TITLE": "Password recovery",
       "NEW_PASSWORD": "New password",
       "REPEAT_NEW_PASSWORD": "Repeat new password",

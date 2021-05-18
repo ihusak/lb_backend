@@ -3,6 +3,16 @@ const config = require('../../../config.json');
 const DB_URL = config.url_web;
 require('winston-mongodb');
 
+const createLoggerForNode = createLogger({
+  transports: [
+    new transports.Console({
+      'colorize': true
+    })
+  ]
+});
+
+const errorLogger = createLoggerForNode;
+
 
 const userLoginlogger = createLogger({
   transports: [
@@ -79,11 +89,20 @@ const mailTransporterLogger = createLogger({
     })
   ]
 });
+errorLogger.add(new transports.File({ filename: 'logfile.log' }), {
+  'name': 'error-file',
+  'level': 'error',
+  'filename': './logs/error.log',
+  'json': false,
+  'datePattern': 'yyyy-MM-dd-',
+  'prepend': true
+});
 module.exports = {
   userLoginlogger,
   requestErrorLogger,
   userTasksLogger,
   userLogoutlogger,
   userInfoUpdateLogger,
-  mailTransporterLogger
+  mailTransporterLogger,
+  errorLogger
 };
