@@ -87,7 +87,7 @@
       "USER_SESSION_EXPIRED_LOGOUT": "User session expired, user logged out from system, please relogin",
       "REQUEST_SENT": "Request sucessfully sent, wait for confirmation",
       "USER_NOT_FOUND": "User with that email {{email}} not found, or you did mistake in email",
-      "PASSWORD_RECOVERED": "Password successfully recovered and sent to {{email}} "
+      "PASSWORD_RECOVERED": "Password successfully recovered"
     }
   },
   "TEMPLATE": {
@@ -326,7 +326,9 @@
       "RESET_PASSWORD_TITLE": "Password recovery",
       "NEW_PASSWORD": "New password",
       "REPEAT_NEW_PASSWORD": "Repeat new password",
-      "RESET_PASSWORD": "Recover"
+      "RESET_PASSWORD": "Recover",
+      "RESEND_CODE": "Resend code",
+      "CODE_SUCCESSFULLY_RESEND": "New code sent tou your email"
     }
   }
 }

@@ -33,7 +33,6 @@ exports.remind = (req, res, next) => {
             };
             return next(err);
         }
-        console.log('tokenObj', tokenObj);
         if(err) return res.sendStatus(500);
         return res.json(tokenObj);
     })
@@ -53,6 +52,17 @@ exports.confirm = (req, res, next) => {
         return next(err);
         }
         return res.json(token);
+    })
+}
+exports.resend = (req, res) => {
+    const token = req.body.token;
+    const host = req.get('origin');
+    RecoveryPass.resend(token, (err, response) => {
+      if(err) return res.sendStatus(500);
+      if(response.result) {
+       sendSecureCodeForEmailRecovery(response.email, response.newCode, host);
+      }
+      return res.json({result: 'ok', status: 'code updated', token: response.createdToken});
     })
 }
 

@@ -44,11 +44,10 @@ exports.remind = (email, cb) => {
 
 exports.confirm = (token, codeSent, cb) => {
     db.get().collection('recovery-pass').findOne({'token': token}, (err, doc) => {
-      console.log(doc);
       const {email, code} = jwt.verify(doc.token, config.passSecret, (err) => {
         if(err) {
           cb(err, {success: false});
-        };
+        }
         if(codeSent === doc.code) {
           cb(err, {success: true});
       } else {
@@ -56,4 +55,22 @@ exports.confirm = (token, codeSent, cb) => {
       }
       });
     })
+}
+
+exports.resend = (token, cb) => {
+    const newCode = Math.floor(100000 + Math.random() * 900000);
+    const {email, code} = jwt.verify(token, config.passSecret);
+    const createdToken =  jwt.sign(
+        {
+            email: email,
+            code: newCode
+        },
+        config.passSecret,
+        {
+            expiresIn: '5m'
+        }
+    );
+    db.get().collection('recovery-pass').findOneAndUpdate({'token': token}, {$set: {'code': newCode, 'token': createdToken}}, (err, doc) => {
+        cb(err, {result: doc, email, newCode, createdToken});
+    });
 }
