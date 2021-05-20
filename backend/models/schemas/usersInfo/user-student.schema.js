@@ -14,14 +14,16 @@ const userStudentInfo = new Schema({
   },
   phone: {type: String, default: ''},
   startTraining: {type: Date, default: ''},
+  birthDay: {type: Date, default: ''},
   parent: {
     name: {type: String, default: ''},
     email: {type: String, default: ''},
     phone: {type: String, default: ''}
   },
-  group: {
+  course: {
     id: {type: Number, default: null},
     name: {type: String, default: ''},
+    paid: {type: Boolean, default: false}
   },
   rating: {type: Number, default: 0},
   progress: {type: Number, default: 0}, // ???? remove

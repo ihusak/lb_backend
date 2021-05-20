@@ -4,11 +4,13 @@ const app = express();
 const db = require('./backend/config/db');
 const config = require('./config.json')
 const cors = require('cors');
-const PORT = process.env.PORT || 8000;
-const DB_URL = process.env.MONGODB_URI || config.url_local;
+const PORT = 3000;
+const DB_URL = config.url_local;
 const errorHandler = require('./backend/config/error-handler');
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const cron = require('./backend/config/cron');
+const {errorLogger} = require('./backend/config/middleware/logger')
 
 if(!process.env.MONGODB_URI) {
   var corsOptions = {
@@ -17,24 +19,21 @@ if(!process.env.MONGODB_URI) {
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
 }
   app.use(cors(corsOptions))
-} else {
-  app.use(function(req, res, next) {
-    console.log('cross origin prod');
-    res.header("Access-Control-Allow-Origin", '*');
-    res.header("Access-Control-Allow-Credentials", 'true');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json, Authorization');
-    next();
-});
 }
-console.log('local MONGODB_URI',process.env.MONGODB_URI, 'DB_URL', DB_URL);
-console.log(__dirname );
-app.use('/uploads', express.static(__dirname + '/uploads'));
+console.log('DB_URI', DB_URL);
+
+app.use('/uploads/avatars', express.static(path.resolve(__dirname + '/uploads/avatars')));
 app.use('/translate', express.static(path.join(__dirname + '/backend/translate')));
-app.use(express.static('public'));
+app.use('/static', express.static(path.resolve(__dirname + '/public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
+
+process.on('uncaughtException', function (err) {
+  errorLogger.error(`Node error ${err}`)
+});
+
+cron.deleteExpiredToken.start();
      
 // MONGOOSE
 db.connect(DB_URL, (err) => {
@@ -45,8 +44,11 @@ db.connect(DB_URL, (err) => {
       app.use('/roles', require('./backend/routes/roles/roles'));
       app.use('/userInfo', require('./backend/routes/userInfo/userInfo'));
       app.use('/task', require('./backend/routes/task/task'));
-      app.use('/groups', require('./backend/routes/groups/groups'));
+      app.use('/courses', require('./backend/routes/courses/courses'));
       app.use('/uploadImage', require('./backend/routes/files/files'));
+      app.use('/payments', require('./backend/routes/payments/payments'));
+      app.use('/homeworks', require('./backend/routes/homeworks/homeworks'));
+      app.use('/recovery', require('./backend/routes/recovery-pass/recovery'));
       app.use(errorHandler);
   });
 });

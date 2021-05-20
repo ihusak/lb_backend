@@ -4,19 +4,18 @@ const bcrypt = require('bcrypt');
 const User = require('../models/schemas/userSchema');
 const jwt = require('jsonwebtoken');
 const config = require('../../config.json');
-const nodemailer = require('nodemailer');
-const {userlogger, requestErrorLogger} = require('../config/middleware/logger');
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'afreestylers2016@gmail.com',
-    pass: 'afreestylers2016'
-  }
-})
+const {
+  userLoginlogger, 
+  requestErrorLogger, 
+  userLogoutlogger, 
+  mailTransporterLogger
+} = require('../config/middleware/logger');
+const {createTransporter} = require('../config/email');
+
 
 const salt = bcrypt.genSaltSync(10);
 
-exports.all = (req, res) => {
+exports.all = (req, res, next) => {
   Users.all((err, docs) => {
     if(err) {
       return res.sendStatus(500);
@@ -34,15 +33,20 @@ exports.createUser = (req, res, next) => {
     userType: req.body.userType,
     role: req.body.userRole
   });
-  const host = req.get('host');
+  const host = req.get('origin');
   Users.createUser(user, (err, docs) => {
     if(err) {
       return res.sendStatus(500);
     } 
     if(!docs) {
-      const err = {name: 'User already exist', title: 'User', code: 409};
+      const err = {
+        errorMessage: 'User already exist',
+        errKey: 'USER_ALREADY_EXIST',
+        code: 409
+      };
+      requestErrorLogger.error(`Error ${err.code}`, err);
       return next(err);
-    };
+    }
     sendConfirmUserByEmail(user, host);
     res.send(user);
   })
@@ -53,7 +57,12 @@ exports.confirmUser = (req, res, next) => {
   Users.confirmUserRegistration(token, (err, doc) => {
   if(err) return res.sendStatus(500); 
     if(!doc) {
-      const err = {name: 'Not confirmed', title: 'User', code: 409};
+      const err = {
+        errorMessage: 'Could not confirm user',
+        errKey: 'NOT_FIND_USER_TO_CONFIRM',
+        code: 404
+      };
+      requestErrorLogger.error(`Error ${err.code}`, err);
       return next(err);
     }  
     res.send(doc);
@@ -84,16 +93,25 @@ exports.getUserById = (req, res) => {
 exports.loginUser = (req, res, next) => {
   const user = {email: req.body.email, userPassword: bcrypt.hashSync(req.body.userPassword, salt)};
   Users.loginUser(user, (err, matchUser, tokens) => {
-    console.log('matchUser', matchUser, err);
     if(err) {
       return res.sendStatus(500);
     };
     if(!matchUser) {
-      const err = {name: 'Not registred', title: 'User', code: 404};
+      const err = {
+        errorMessage: 'Not registered user',
+        errKey: 'USER_NOT_REGISTERED',
+        code: 400
+      };
+      requestErrorLogger.error(`Error ${err.code}`, err);
       return next(err);
     }
     if(!matchUser.confirmed) {
-      const err = {name: 'Not confirmed', title: 'User', code: 409};
+      const err = {
+        errorMessage: 'Not confirmed user',
+        errKey: 'USER_NOT_CONFIRMED',
+        code: 426
+      };
+      requestErrorLogger.error(`Error ${err.code}`, err);
       return next(err);
     };
     let passwordMatch = bcrypt.compareSync(req.body.userPassword, matchUser.userPassword) && matchUser.email === user.email;
@@ -103,9 +121,15 @@ exports.loginUser = (req, res, next) => {
       matchUser.id = matchUser._id;
       delete matchUser._id;
       if(passwordMatch) {
+        userLoginlogger.info(`User logged in ${matchUser.userName}`, {id: matchUser.id, email: matchUser.email});
         res.send(matchUser);
       } else {
-        const err = {name: 'Wrong password', title: 'User', code: 400};
+        const err = {
+          errorMessage: 'Wrong user password',
+          errKey: 'WRONG_PASSWORD',
+          code: 400
+        };
+        requestErrorLogger.error(`Error ${err.code}`, {err, matchUser});
         return next(err);
       }
     }
@@ -117,6 +141,7 @@ exports.logoutUser = (req, res) => {
     if(err) {
       return res.sendStatus(500);
     }
+    userLogoutlogger.info(`User logged out`, req.user);
     res.send({message:'logout!'});
   })
 }
@@ -132,21 +157,39 @@ exports.updateUser = (req, res) => {
   })
 };
 
-exports.userToken = (req, res) => {
-  const refreshToken = req.body.refreshToken;
-  Users.userToken((err, tokens, jwt, config, generateToken) => {
+exports.userRefreshToken = (req, res) => {
+  const user = req.user;
+  Users.userRefreshToken(user, (err, accessToken, refreshToken) => {
     if(err) return res.sendStatus(500);
-    if(refreshToken == null) return res.sendStatus(401);
-    if(!tokens.some(t => t.refreshToken == refreshToken)) return res.sendStatus(403);
-    jwt.verify(refreshToken, config.refreshToken, (err, user) => {
-      if(err) return res.sendStatus(403);
-      const accessToken = generateToken({name: user.name});
-      return res.json({accessToken});
-    })
+    return res.json({accessToken, refreshToken});
   })
-}
+};
 
-sendConfirmUserByEmail = (createdUser, host) => {
+exports.recoveryPassword = (req, res, next) => {
+  const newPassword = bcrypt.hashSync(req.body.newPassword, salt);
+  const passwordRecoveryData = {
+    email: req.body.email,
+    newPassword
+  };
+  const host = req.get('origin');
+  Users.recoverPassword(passwordRecoveryData, (err, result) => {
+    if(err) return res.sendStatus(500);
+    if(!result) {
+      const err = {
+        errorMessage: 'Used not found',
+        errKey: 'USER_NOT_FOUND',
+        code: 400
+      };
+      requestErrorLogger.error(`Error reset password ${err.code}`, {err, email: req.body.email});
+      return next(err);
+    };
+    sentRecoveredPassword({email: req.body.email, newPassword: req.body.newPassword}, host);
+    return res.json({result: 'ok', status: 'accept'});
+  })
+};
+
+sendConfirmUserByEmail = async (createdUser, host) => {
+  const transporter = await createTransporter();
   const emailToken = jwt.sign(
     {
       user: createdUser._id
@@ -157,21 +200,48 @@ sendConfirmUserByEmail = (createdUser, host) => {
     }
   );
   if(host.indexOf('local') >= 0) {
-    host = 'http://' + host;
+    host = host;
   } else {
-    host = 'https://' + host;
+    host = 'https://lb.afreestylers.com';
   }
   const url = `${host}/confirm/${emailToken}`;
   const mailOptions = {
-    from: 'afreestyler2016@gmail.com', // sender address
+    from: 'afreestylers2016@gmail.com', // sender address
     to: createdUser.email, // list of receivers
     subject: 'Подтверждение регестрации', // Subject line 
-    html: `<p>Что бы активировать профиль ${createdUser.userName} нажмите <a href='${url}'>Подтвердить регистрацию</a></p>`// plain text body
+    html: `<p>Что бы активировать профиль ${createdUser.userName} нажмите <a href='${url}'>Подтвердить регистрацию</a></p>`,
   };
   transporter.sendMail(mailOptions, (err, info) => {
-    if(err)
-      console.log(err)
-    else
+    if(err) {
+      mailTransporterLogger.info('Mail sending error', err);
+      console.log(err);
+    } else {
+      mailTransporterLogger.info('Mail sending info', info);
       console.log(info);
+    }
  });
-}
+};
+
+sentRecoveredPassword = async (recoveryData, host) => {
+  const transporter = await createTransporter();
+  if(host.indexOf('local') >= 0) {
+    host = host;
+  } else {
+    host = 'https://lb.afreestylers.com';
+  }
+  const mailOptions = {
+    from: 'afreestylers2016@gmail.com', // sender address
+    to: recoveryData.email, // list of receivers
+    subject: 'Обновление пароля', // Subject line 
+    html: `<p>Ваш пароль только что был обновлен. Новый пароль (${recoveryData.newPassword})</p>`,
+  };
+  transporter.sendMail(mailOptions, (err, info) => {
+    if(err) {
+      mailTransporterLogger.info('Mail sending error', err);
+      console.log(err);
+    } else {
+      mailTransporterLogger.info('Mail sending info', info);
+      console.log(info);
+    }
+ });
+};

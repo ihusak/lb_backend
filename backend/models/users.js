@@ -8,6 +8,7 @@ const UserInfoStudent = require('../models/schemas/usersInfo/user-student.schema
 const UserInfoParent = require('../models/schemas/usersInfo/user-parent.schema');
 const UserInfoCoach = require('../models/schemas/usersInfo/user-coach.schema');
 const RolesEnum = require('../config/enum/roles');
+const { refreshToken } = require('../config/middleware/refresh');
 
 exports.all = (cb) => {
   db.get().collection('users').find({}).toArray((err, docs) => {
@@ -105,17 +106,15 @@ exports.loginUser = (user, cb) => {
   db.get().collection('users').findOne({'email': user.email}, (err, matchUser) => {
     if(matchUser) {
       accessToken = generateAccessToken({id: matchUser._id, roleId: matchUser.role.id});
-      refreshToken = jwt.sign({id: matchUser._id, roleId: matchUser.role.id}, config.refreshToken);
-      db.get().collection('tokens').insertOne({refreshToken, accessToken, user_id: matchUser._id});
-    } else {
-      console.log('NOT MATCH USER');
+      refreshToken = jwt.sign({id: matchUser._id, roleId: matchUser.role.id}, config.refreshToken, {expiresIn: '3d'});
+      db.get().collection('tokens').insertOne({refreshToken, accessToken, userId: matchUser._id});
     }
     cb(err, matchUser, {accessToken, refreshToken});
   });
 }
 
 exports.logoutUser = (token, userId, cb) => {
-  db.get().collection('tokens').deleteOne({user_id: ObjectID(userId)}, (err, doc) => {
+  db.get().collection('tokens').deleteOne({userId: ObjectID(userId)}, (err, doc) => {
     cb(err, doc);
   });
 }
@@ -126,14 +125,27 @@ exports.updateUser = (updatedUser, id, cb) => {
   })
 };
 
-exports.userToken = (cb) => {
+exports.userRefreshToken = (user, cb) => {
+  let accessToken, refreshToken;
+  accessToken = generateAccessToken({id: user.id, roleId: user.roleId});
+  refreshToken = jwt.sign({id: user.id, roleId: user.roleId}, config.refreshToken, {expiresIn: '2d'});
   db.get().collection('tokens').find({}).toArray((err, tokens) => {
-    cb(err, tokens, jwt, config, generateAccessToken);
+    const mathToken = tokens.find( t => t.userId === user.id);
+    if(mathToken) {
+      db.get().collection('tokens').updateOne({userId: new ObjectID(user.id)}, {$set: {'accessToken': accessToken, 'refreshToken': refreshToken}})
+    }
+    cb(err, accessToken, refreshToken);
+  });
+};
+
+exports.recoverPassword = (recoveryData, cb) => {
+  db.get().collection('users').findOneAndUpdate({email: recoveryData.email}, {$set: {userPassword: recoveryData.newPassword}}, (err, doc) => {
+    cb(err, doc.value);
   })
-}
+};
 
 generateAccessToken = (user) => {
-  return jwt.sign(user, config.accessToken, {expiresIn: '5h'})
+  return jwt.sign(user, config.accessToken, {expiresIn: '4h'})
 }
 
 createUserInfoByRole = (collection, user) => {

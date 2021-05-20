@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../../config/middleware/auth');
+const refresh = require('../../config/middleware/refresh');
 const controller = require('../../controllers/users');
 
 router.get('/', auth.authUser, controller.all);
@@ -12,6 +13,6 @@ router.delete('/', auth.authUser, controller.deleteUser);
 router.put('/', auth.authUser, controller.updateUser);
 router.get('/confirm/:token', controller.confirmUser);
 
-router.post('/token', controller.userToken);
+router.put('/token', refresh.refreshToken, controller.userRefreshToken);
 
 module.exports = router;

@@ -5,25 +5,21 @@ const studentInfoSchema = require('./schemas/usersInfo/user-student.schema');
 const adminInfoSchema = require('./schemas/usersInfo/user-admin.schema');
 const parentInfoSchema = require('./schemas/usersInfo/user-parent.schema');
 const coachInfoSchema = require('./schemas/usersInfo/user-coach.schema');
-const nodemailer = require('nodemailer');
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'afreestylers2016@gmail.com',
-    pass: 'afreestylers2016'
-  }
-});
+const { createTransporter } = require('../config/email');
 const RolesEnum = require('../config/enum/roles');
 const { ObjectID } = require('mongodb');
-const {userTasksLogger} = require('../config/middleware/logger');
+const { 
+  userTasksLogger,
+  mailTransporterLogger
+} = require('../config/middleware/logger');
 
 exports.acceptTask = (userId, task, cb) => {
   db.get().collection('userStudentInfo').findOneAndUpdate({'id': userId}, {$set: {
     'currentTask.status': 'Done'
   }, $push: {'doneTasks': task.taskId}}, {returnOriginal: false}, (err, studentInfo) => {
     const studentInfoValue = studentInfo.value;
-    db.get().collection("tasks").find({'group.id': task.groupId}).toArray((err, foundTasks) => {
-      if(studentInfoValue.currentTask.group.id !== studentInfoValue.group.id) {
+    db.get().collection("tasks").find({'course.id': task.courseId}).toArray((err, foundTasks) => {
+      if(studentInfoValue.currentTask.course.id !== studentInfoValue.course.id) {
         if(studentInfoValue.rating >= 100) {
           studentInfoValue.rating = 0;
         }
@@ -61,22 +57,6 @@ exports.getUserInfo = (id, roleId, cb) => {
   db.get().collection(table).findOne(userId, (err, doc) => {
     cb(err, doc);
   })
-  // getUserInfoByRole(userId, table, cb);
-  console.log('USERINFO',userId, table);
-  // switch(parseInt(roleId)) {
-  //   case RolesEnum.ADMIN: 
-  //   getUserInfoByRole(userId, table, cb);
-  //   break;
-  //   case RolesEnum.STUDENT: 
-  //   getUserInfoByRole(userId, table, cb);
-  //   break;
-  //   case RolesEnum.PARENT: 
-  //   getUserInfoByRole(userId, table, cb);
-  //   break;
-  //   case RolesEnum.COACH:
-  //   getUserInfoByRole(userId, table, cb);
-  //   break;
-  // }
 }
 
 exports.getAllUserInfo = (roleId, cb) => {
@@ -92,9 +72,13 @@ exports.getUserInfoByCoach = (coachId, cb) => {
   })
 }
 
-exports.getUsersInfoByGroup = (groupId, cb) => {
-  db.get().collection('userStudentInfo').find({'group.id': groupId}).toArray((err, usersInfo) => {
-    cb(err, usersInfo);
+exports.getUsersInfoByCourse = (courseId, cb) => {
+  db.get().collection('userStudentInfo').find({'course.id': courseId}).toArray((err, usersInfo) => {
+    const mappedStudents = usersInfo.map(stud => {
+      delete stud._id;
+      return stud
+    });
+    cb(err, mappedStudents);
   })
 }
 
@@ -103,7 +87,6 @@ exports.updateUserInfo = (id, userInfo, file, roleId, cb) => {
   let userInfoBody = JSON.parse(userInfo);
   if(file) userInfoBody.userImg = file.path;
   let userInfoReq = { $set: userInfoBody };
-  console.log(userInfoBody);
   const table = defineUserInfoTable(roleId);
   db.get().collection(table).findOneAndUpdate(userId, userInfoReq, {returnOriginal: false}, (err, doc) => {
     cb(err, doc.value);
@@ -136,7 +119,8 @@ exports.acceptCoachRequest = (token, cb) => {
   }
 }
 
-sendRequestCoachPermission = (user, phone, host) => {
+sendRequestCoachPermission = async (user, phone, host) => {
+  const transporter = await createTransporter();
   const userPhone = user.phone ? user.phone : phone;
   const emailToken = jwt.sign(
     {
@@ -148,9 +132,9 @@ sendRequestCoachPermission = (user, phone, host) => {
     }
   );
   if(host.indexOf('local') >= 0) {
-    host = 'http://localhost:4200/';
+    host = host;
   } else {
-    host = 'production';
+    host = 'https://lb.afreestylers.com';
   }
   const url = `${host}/userInfo/confirm/coach/${emailToken}`;
   const mailOptions = {
@@ -160,13 +144,16 @@ sendRequestCoachPermission = (user, phone, host) => {
     html: `<h1>${user.userName} хочет быть тренером</h1>
     <p>Свяжись с ним что бы подтвердить его роль: <b>${userPhone}</b></p>
     <p>Если все этапы пройдены <a href='${url}'>Подтверди его роль</a></p>
-    `// plain text body
+    `
   };
   transporter.sendMail(mailOptions, (err, info) => {
-    if(err)
-      console.log(err)
-    else
+    if(err) {
+      mailTransporterLogger.info('Mail sending error', err);
+      console.log(err);
+    } else {
+      mailTransporterLogger.info('Mail sending info', info);
       console.log(info);
+    }
  });
 }
 
@@ -234,7 +221,7 @@ userLoggerTasks = (msg, task, userId) => {
     taskTitle: task.title,
     taskDescription: task.description,
     taskReward: task.reward,
-    taskGroup: task.group,
+    taskCourse: task.course,
     taskStatus: task.status
   }
 )}
