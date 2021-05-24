@@ -12,3 +12,15 @@
 {"message":"Node error TypeError: Cannot destructure property `email` of 'undefined' or 'null'.","level":"error"}
 {"message":"Node error TypeError: Cannot destructure property `email` of 'undefined' or 'null'.","level":"error"}
 {"message":"Node error TypeError: Cannot destructure property `email` of 'undefined' or 'null'.","level":"error"}
+{"message":"Node error SyntaxError: Identifier 'notify' has already been declared","level":"error"}
+{"message":"Node error SyntaxError: Identifier 'notifications' has already been declared","level":"error"}
+{"message":"Node error SyntaxError: Identifier 'notifications' has already been declared","level":"error"}
+{"message":"Node error SyntaxError: Identifier 'notifications' has already been declared","level":"error"}
+{"message":"Node error TypeError: Cannot read property 'map' of undefined","level":"error"}
+{"message":"Node error TypeError: Cannot read property 'map' of undefined","level":"error"}
+{"message":"Node error TypeError: Cannot read property 'map' of undefined","level":"error"}
+{"message":"Node error TypeError: Cannot read property 'map' of undefined","level":"error"}
+{"message":"Node error TypeError: Cannot read property 'map' of undefined, undefined","level":"error"}
+{"message":"Node error TypeError: Cannot read property 'map' of undefined, undefined","level":"error"}
+{"message":"Caught exception: TypeError: Cannot read property 'map' of undefined\nException origin: undefined","level":"error"}
+{"message":"Caught exception: TypeError: Cannot read property 'map' of undefined\nException origin: undefined","level":"error"}
