@@ -5,13 +5,13 @@ const notifySchema = new Schema({
   id: String,
   users: [
     {
-      id: String
+      id: String,
+      name: String
     }
   ],
   title: String,
   description: String,
-  type: String,
-  hasNotify: {default: false, type: Boolean}
+  userType: String
 });
 
 module.exports = mongoose.model('Notify', notifySchema);

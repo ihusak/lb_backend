@@ -1,5 +1,7 @@
+const userRoles = require('../enum/roles');
 module.exports = Object.freeze({
-  HOMEWORKS: 'homeworks',
-  INFO: 'info',
-  COURSE: 'course'
+  [userRoles.STUDENT]: ['all', 'homeworks'],
+  [userRoles.ADMIN]: ['all', 'homeworks'],
+  [userRoles.PARENT]: ['all', 'homeworks'],
+  [userRoles.COACH]: ['all', 'homeworks']
 });
