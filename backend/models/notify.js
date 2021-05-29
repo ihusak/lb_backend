@@ -52,8 +52,12 @@ exports.onNotifyEnd = (cb) => {
   console.log(cb, subscriptions);
   subscriptions.push(cb);
 }
-exports.unsubscribe = () => {
-  subscriptions.forEach((subscriber, i) => delete subscriber(i));
+exports.unsubscribe = (cb) => {
+  subscriptions.forEach((subscriber, i) => {
+    if(subscriber === cb) {
+      subscriptions.splice(subscriptions.indexOf(subscriptions[i]));
+    }
+  });
 }
 exports.userHasPermission = (type, userRole) => {
   return notifyTypes[userRole].find((notifyAllow) => notifyAllow === type);

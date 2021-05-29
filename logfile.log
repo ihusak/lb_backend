@@ -34,3 +34,5 @@
 {"message":"Node error TypeError: Cannot read property 'find' of undefined","level":"error"}
 {"message":"Node error TypeError: Cannot read property 'find' of undefined","level":"error"}
 {"message":"Node error TypeError: Cannot read property 'find' of undefined","level":"error"}
+{"message":"Node error SyntaxError: missing ) after argument list","level":"error"}
+{"message":"Node error SyntaxError: missing ) after argument list","level":"error"}
