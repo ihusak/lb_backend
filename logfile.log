@@ -1,38 +1,5 @@
-{"message":"Node error Error: We crashed!!!!!","level":"error"}
+{"message":"Node error Error: listen EADDRINUSE: address already in use :::3000","level":"error"}
 {"message":"Node error TypeError: Cannot destructure property `email` of 'undefined' or 'null'.","level":"error"}
 {"message":"Node error TypeError: Cannot destructure property `email` of 'undefined' or 'null'.","level":"error"}
-{"message":"Node error TypeError: Cannot destructure property `email` of 'undefined' or 'null'.","level":"error"}
-{"message":"Node error TypeError: Cannot destructure property `email` of 'undefined' or 'null'.","level":"error"}
-{"message":"Node error TypeError: Cannot destructure property `email` of 'undefined' or 'null'.","level":"error"}
-{"message":"Node error TypeError: Cannot destructure property `email` of 'undefined' or 'null'.","level":"error"}
-{"message":"Node error Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client","level":"error"}
-{"message":"Node error Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client","level":"error"}
-{"message":"Node error TypeError: Cannot destructure property `email` of 'undefined' or 'null'.","level":"error"}
-{"message":"Node error TypeError: Cannot destructure property `email` of 'undefined' or 'null'.","level":"error"}
-{"message":"Node error TypeError: Cannot destructure property `email` of 'undefined' or 'null'.","level":"error"}
-{"message":"Node error TypeError: Cannot destructure property `email` of 'undefined' or 'null'.","level":"error"}
-{"message":"Node error TypeError: Cannot destructure property `email` of 'undefined' or 'null'.","level":"error"}
-{"message":"Node error SyntaxError: Identifier 'notify' has already been declared","level":"error"}
-{"message":"Node error SyntaxError: Identifier 'notifications' has already been declared","level":"error"}
-{"message":"Node error SyntaxError: Identifier 'notifications' has already been declared","level":"error"}
-{"message":"Node error SyntaxError: Identifier 'notifications' has already been declared","level":"error"}
-{"message":"Node error TypeError: Cannot read property 'map' of undefined","level":"error"}
-{"message":"Node error TypeError: Cannot read property 'map' of undefined","level":"error"}
-{"message":"Node error TypeError: Cannot read property 'map' of undefined","level":"error"}
-{"message":"Node error TypeError: Cannot read property 'map' of undefined","level":"error"}
-{"message":"Node error TypeError: Cannot read property 'map' of undefined, undefined","level":"error"}
-{"message":"Node error TypeError: Cannot read property 'map' of undefined, undefined","level":"error"}
-{"message":"Caught exception: TypeError: Cannot read property 'map' of undefined\nException origin: undefined","level":"error"}
-{"message":"Caught exception: TypeError: Cannot read property 'map' of undefined\nException origin: undefined","level":"error"}
-{"message":"Node error TypeError [ERR_INVALID_ARG_TYPE]: The \"chunk\" argument must be one of type string or Buffer. Received type object","level":"error"}
-{"message":"Node error TypeError [ERR_INVALID_ARG_TYPE]: The \"chunk\" argument must be one of type string or Buffer. Received type object","level":"error"}
-{"message":"Node error TypeError [ERR_INVALID_ARG_TYPE]: The \"chunk\" argument must be one of type string or Buffer. Received type object","level":"error"}
-{"message":"Node error Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client","level":"error"}
-{"message":"Node error Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client","level":"error"}
-{"message":"Node error Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client","level":"error"}
-{"message":"Node error Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client","level":"error"}
-{"message":"Node error TypeError: Cannot read property 'find' of undefined","level":"error"}
-{"message":"Node error TypeError: Cannot read property 'find' of undefined","level":"error"}
-{"message":"Node error TypeError: Cannot read property 'find' of undefined","level":"error"}
-{"message":"Node error SyntaxError: missing ) after argument list","level":"error"}
-{"message":"Node error SyntaxError: missing ) after argument list","level":"error"}
+{"message":"Node error Error: Cannot find module '/config.json'\nRequire stack:\n- /home/ilya/github/lb_backend/backend/config/email.js\n- /home/ilya/github/lb_backend/backend/models/userInfo.js\n- /home/ilya/github/lb_backend/backend/models/users.js\n- /home/ilya/github/lb_backend/backend/controllers/users.js\n- /home/ilya/github/lb_backend/backend/routes/users/users.js\n- /home/ilya/github/lb_backend/server.js","level":"error"}
+{"message":"Node error Error: Cannot find module 'config.json'\nRequire stack:\n- /home/ilya/github/lb_backend/backend/config/email.js\n- /home/ilya/github/lb_backend/backend/models/userInfo.js\n- /home/ilya/github/lb_backend/backend/models/users.js\n- /home/ilya/github/lb_backend/backend/controllers/users.js\n- /home/ilya/github/lb_backend/backend/routes/users/users.js\n- /home/ilya/github/lb_backend/server.js","level":"error"}

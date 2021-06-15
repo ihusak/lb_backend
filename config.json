@@ -5,5 +5,12 @@
   "refreshToken": "3024ca012711af8f52a47fd0b8c3d35d8c469aadb1e603ff75e88fefb0a3fb14eebfbc1c1dc03e5ffe97305d96d7d6deb349607e9f89560e7923b307414737ea",
   "emailSercet": "f0fd4f13b11ca5a2fdc2f0dd45010ec07ad929092230a0d72e99c5ba2ea2860889675d2c62addc6c199de88016b704f8869785dc24dc580331223754a93ad1c4",
   "passSecret": "7890388ac02329711c4bf17389294601b788e54858b385853a6feebad354a56725e4797ea72d2bb71377797db3651cb2",
-  "local_dev": "http://localhost:4200"
+  "local_dev": "http://localhost:4200",
+  "mail": {
+    "user": "afreestylers2016@gmail.com",
+    "pass": "afreestylers2016",
+    "clientId": "743800966740-v90gbc6ltd3hm56ndh5ni32hc3l0uqp7.apps.googleusercontent.com",
+    "clientSecret": "xf9ijHAX_ZBupYsyCxiFiKNs",
+    "refreshToken": ""
+  }
 }
