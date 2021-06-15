@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 const notifySchema = new Schema({
   id: String,
+  author: {
+    id: String,
+    name: String
+  },
   users: [
     {
       id: String,
@@ -10,7 +14,7 @@ const notifySchema = new Schema({
     }
   ],
   title: String,
-  description: String,
+  type: String,
   userType: String
 });
 

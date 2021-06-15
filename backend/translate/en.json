@@ -27,6 +27,10 @@
     "MAIN": "Main",
     "MAX_SYMBOLS": "Max 250 symbols ({{amount}})",
     "NAME": "Name",
+    "NOTIFY": {
+      "NEW_HOMEWORK": "You have new homework from {{coach}}",
+      "NEW_COURSE": "{{coach}} created new course"
+    },
     "OFFER": "Offer",
     "RATING": "Rating",
     "REJECT": "Reject",
@@ -138,7 +142,6 @@
       }
     },
     "TASK_LIST": {
-      "TITLE": "Tasks",
       "TASK_REWARD": "Task reward",
       "TASK_STATUSES": {
         "DONE": "Done",

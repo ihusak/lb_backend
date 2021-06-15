@@ -29,7 +29,6 @@ exports.getDefaultNotify = (type, roleId, userId, cb) => {
       notify.id = notify._id;
       delete notify._id;
       delete notify.users;
-      delete notify.type;
       return notify;
     });
     console.log(mapped);
