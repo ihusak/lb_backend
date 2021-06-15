@@ -5,14 +5,26 @@ const subscriptions = [];
 
 exports.sendNotify = (notify, cb) => {
   const NOTIFY = new Notify(notify);
-  db.get().collection('notifications').insertOne(NOTIFY, (err, doc) => {
-    cb(err, doc);
-  });
+  if(NOTIFY.userType === null) {
+    db.get().collection('users').find({}).toArray((err, users) => {
+      NOTIFY.users = users.map(user => {
+        return {
+          id: user._id.toString(),
+          name: user.userName
+        }
+      });
+      console.log(users);
+      console.log(NOTIFY);
+      setNotification(NOTIFY, cb);
+    })
+  } else {
+    setNotification(NOTIFY, cb);
+  }
 };
 
 exports.getDefaultNotify = (type, roleId, userId, cb) => {
   console.log(type, typeof roleId);
-  db.get().collection('notifications').find({'userType': roleId.toString()}).toArray((err, notifications) => {
+  db.get().collection('notifications').find({}).toArray((err, notifications) => {
     let mapped = notifications.filter(n => n.users.find(u => u.id === userId)).map(notify => {
       notify.id = notify._id;
       delete notify._id;
@@ -61,4 +73,10 @@ exports.unsubscribe = (cb) => {
 }
 exports.userHasPermission = (type, userRole) => {
   return notifyTypes[userRole].find((notifyAllow) => notifyAllow === type);
+}
+
+setNotification = (NOTIFY, cb) => {
+  db.get().collection('notifications').insertOne(NOTIFY, (err, doc) => {
+    cb(err, doc);
+  });
 }

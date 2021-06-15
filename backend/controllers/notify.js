@@ -22,6 +22,8 @@ exports.getNotificationLongPoll = (req, res) => {
     }
     if(ROLE_ID === notify.userType && userHasNotification) {
       res.end(JSON.stringify(data));
+    } else if (notify.userType === null) {
+      res.end(JSON.stringify(data));
     }
   };
   Notify.onNotifyEnd(callback);
