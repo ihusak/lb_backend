@@ -13,8 +13,6 @@
 # profiling files
 chrome-profiler-events*.json
 speed-measure-plugin*.json
-/logfile.log
-/config.json
 
 # IDEs and editors
 /.idea
@@ -46,3 +44,5 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+config.json
+logfile.log
