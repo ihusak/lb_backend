@@ -19,7 +19,11 @@ const notifySchema = new Schema({
   course: {
     id: String,
     name: String
-  }
+  } | null,
+  homework: {
+    id: String,
+    name: String
+  } | null
 });
 
 module.exports = mongoose.model('Notify', notifySchema);

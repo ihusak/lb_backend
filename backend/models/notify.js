@@ -7,7 +7,11 @@ const subscriptions = [];
 
 exports.readNotify = (userId, notifyId, cb) => {
   //{users: {$elemMatch: {id: userId}, $unset: {id: userId}}}
-  db.get().collection('notifications').updateOne({'_id': new ObjectID(notifyId)}, {$pull: {users: {id: userId}}}, (err, notification) => {
+  let notifyObjectId = {'_id': new ObjectID(notifyId)};
+  db.get().collection('notifications').findOneAndUpdate(notifyObjectId, {$pull: {users: {id: userId}}}, (err, notification) => {
+    if(notification.value.users.length <= 1) {
+      db.get().collection('notifications').deleteOne(notifyObjectId);
+    }
     cb(err, notification);
   });
 }
@@ -27,7 +31,6 @@ exports.getDefaultNotify = (roleId, userId, cb) => {
       delete notify.users;
       return notify;
     });
-    console.log(mapped);
     cb(err, mapped);
   });
 };
@@ -51,12 +54,10 @@ exports.getDefaultNotify = (roleId, userId, cb) => {
 // };
 
 exports.publish = (data) => {
-  console.log('publish data', data, subscriptions);
   subscriptions.forEach(subscriber => subscriber(data));
 }
 
 exports.onNotifyEnd = (cb) => {
-  console.log('onnotify end');
   subscriptions.push(cb);
 }
 exports.unsubscribe = (cb) => {

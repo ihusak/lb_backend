@@ -8,11 +8,12 @@ exports.createHomework = (req, res) => {
     description: req.body.description,
     example: req.body.example,
     reward: req.body.reward,
-    createdDate: new Date()
+    createdDate: new Date(),
+    author: req.body.author
   });
   Homework.createHomework(HOMEWORK, (err, savedHomework) => {
     if(err) return res.sendStatus(500);
-    return res.json(savedHomework);
+    return res.json(savedHomework.ops);
   });
 }
 
