@@ -28,8 +28,9 @@
     "MAX_SYMBOLS": "Максимум 250 символів ({{amount}})",
     "NAME": "Ім'я",
     "NOTIFY": {
-      "NEW_HOMEWORK": "У вас нове домашне завдання від {{coach}}",
-      "NEW_COURSE": "{{coach}} створив новий курс"
+      "NEW_HOMEWORK": "У вас нове домашне завдання від <b>{{coach}}</b>",
+      "NEW_COURSE": "<b>{{coach}}</b> створив новий курс",
+      "NEW_TASK": "<b>{{coach}}</b> створив нову задачу в курсі <b>{{courseName}}</b>"
     },
     "NO_USER": "Користувача не існує",
     "OFFER": "Оферта",

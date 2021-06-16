@@ -1,5 +1,14 @@
 const Notify = require('../models/notify');
 
+exports.readNotify = (req, res) => {
+  const userId = req.body.userId;
+  const notifyId = req.body.notifyId;
+  Notify.readNotify(userId, notifyId, (err, notify) => {
+    if(err) return res.sendStatus(500);
+    return res.json({read: true});
+  });
+}
+
 exports.sendNotify = (req, res) => {
   const notification = req.body.notify;
   Notify.sendNotify(notification, (err, notify) => {
@@ -9,9 +18,7 @@ exports.sendNotify = (req, res) => {
   });
 }
 exports.getNotificationLongPoll = (req, res) => {
-  const ROLE_ID = JSON.stringify(req.user.roleId);
   const USER_ID = JSON.stringify(req.user.id);
-  const TYPE = req.params.type;
   const callback = (data) => {
     let notify = data[0];
     let userHasNotification;
@@ -19,10 +26,10 @@ exports.getNotificationLongPoll = (req, res) => {
       userHasNotification = notify.users.find(user => {
         return JSON.stringify(user.id) === USER_ID;
       })
-    }
-    if(ROLE_ID === notify.userType && userHasNotification) {
-      res.end(JSON.stringify(data));
-    } else if (notify.userType === null) {
+      if(userHasNotification) {
+        res.end(JSON.stringify(data));
+      }
+    } else {
       res.end(JSON.stringify(data));
     }
   };
@@ -33,10 +40,9 @@ exports.getNotificationLongPoll = (req, res) => {
   }, 120000)
 }
 exports.getNotificationByDefault = (req, res) => {
-  const TYPE = req.params.type;
   const USER_ID = req.user.id;
   const ROLE_ID = req.user.roleId;
-  Notify.getDefaultNotify(TYPE, ROLE_ID, USER_ID, (err, notifications) => {
+  Notify.getDefaultNotify(ROLE_ID, USER_ID, (err, notifications) => {
     if(err) return res.sendStatus(500);
     return res.json(notifications);
   });

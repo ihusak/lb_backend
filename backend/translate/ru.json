@@ -28,8 +28,9 @@
     "MAX_SYMBOLS": "Максимум 250 символов ({{amount}})",
     "NAME": "Имя",
     "NOTIFY": {
-      "NEW_HOMEWORK": "У вас новое домашнее задание от {{coach}}",
-      "NEW_COURSE": "{{coach}} создал новый курс"
+      "NEW_HOMEWORK": "У вас новое домашнее задание от <b>{{coach}}</b>",
+      "NEW_COURSE": "<b>{{coach}}</b> создал новый курс",
+      "NEW_TASK": "<b>{{coach}}</b> создал новую задачу в курсе <b>{{courseName}}</b>"
     },
     "OFFER": "Оферта",
     "RATING": "Рейтинг",

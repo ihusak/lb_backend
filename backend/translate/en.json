@@ -28,8 +28,9 @@
     "MAX_SYMBOLS": "Max 250 symbols ({{amount}})",
     "NAME": "Name",
     "NOTIFY": {
-      "NEW_HOMEWORK": "You have new homework from {{coach}}",
-      "NEW_COURSE": "{{coach}} created new course"
+      "NEW_HOMEWORK": "You have new homework from <b>{{coach}}</b>",
+      "NEW_COURSE": "<b>{{coach}}</b> created new course",
+      "NEW_TASK": "<b>{{coach}}</b> created new task in course <b>{{courseName}}</b>"
     },
     "OFFER": "Offer",
     "RATING": "Rating",
