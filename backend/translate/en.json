@@ -28,9 +28,14 @@
     "MAX_SYMBOLS": "Max 250 symbols ({{amount}})",
     "NAME": "Name",
     "NOTIFY": {
-      "NEW_HOMEWORK": "You have new homework from <b>{{coach}}</b>",
-      "NEW_COURSE": "<b>{{coach}}</b> created new course",
-      "NEW_TASK": "<b>{{coach}}</b> created new task in course <b>{{courseName}}</b>"
+      "NEW_HOMEWORK": "You have new homework from <b>{{author}}</b>",
+      "NEW_COURSE": "<b>{{author}}</b> created new course",
+      "NEW_TASK": "<b>{{author}}</b> created new task in course <b>{{courseName}}</b>",
+      "HOMEWORK_UPDATE": "<b>{{author}}</b> updated homework <b>{{homeWorkName}}</b>",
+      "HOMEWORK_DELETE": "<b>{{author}}</b> delete homework <b>{{homeWorkName}}</b>",
+      "UPDATE_COURSE_TASK": "<b>{{author}}</b> update task <b>{{taskName}}</b> in course <b>{{courseName}}</b>",
+      "DELETE_COURSE_TASK": "<b>{{author}}</b> delete task <b>{{taskName}}</b> in course <b>{{courseName}}</b>",
+      "UPDATE_PROFILE": "<b>{{author}}</b> update profile"
     },
     "OFFER": "Offer",
     "RATING": "Rating",

@@ -28,9 +28,14 @@
     "MAX_SYMBOLS": "Максимум 250 символів ({{amount}})",
     "NAME": "Ім'я",
     "NOTIFY": {
-      "NEW_HOMEWORK": "У вас нове домашне завдання від <b>{{coach}}</b>",
-      "NEW_COURSE": "<b>{{coach}}</b> створив новий курс",
-      "NEW_TASK": "<b>{{coach}}</b> створив нову задачу в курсі <b>{{courseName}}</b>"
+      "NEW_HOMEWORK": "У вас нове домашне завдання від <b>{{author}}</b>",
+      "NEW_COURSE": "<b>{{author}}</b> створив новий курс",
+      "NEW_TASK": "<b>{{author}}</b> створив нову задачу в курсі <b>{{courseName}}</b>",
+      "HOMEWORK_UPDATE": "<b>{{author}}</b> оновив домашне завдання <b>{{homeWorkName}}</b>",
+      "HOMEWORK_DELETE": "<b>{{author}}</b> видалив домашне завдання <b>{{homeWorkName}}</b>",
+      "UPDATE_COURSE_TASK": "<b>{{author}}</b> оновив задачу <b>{{taskName}}</b> в курсі <b>{{courseName}}</b>",
+      "DELETE_COURSE_TASK": "<b>{{author}}</b> видалив звдачу <b>{{taskName}}</b> в курсі <b>{{courseName}}</b>",
+      "UPDATE_PROFILE": "<b>{{author}}</b> оновив профіль"
     },
     "NO_USER": "Користувача не існує",
     "OFFER": "Оферта",

@@ -23,6 +23,10 @@ const notifySchema = new Schema({
   homework: {
     id: String,
     name: String
+  } | null,
+  task: {
+    id: String,
+    name: String
   } | null
 });
 
