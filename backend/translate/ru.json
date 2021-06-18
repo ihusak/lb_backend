@@ -35,7 +35,11 @@
       "HOMEWORK_DELETE": "<b>{{author}}</b> удалил домашне завдання <b>{{homeWorkName}}</b>",
       "UPDATE_COURSE_TASK": "<b>{{author}}</b> обновил задача <b>{{taskName}}</b> в курсе <b>{{courseName}}</b>",
       "DELETE_COURSE_TASK": "<b>{{author}}</b> удалил задачу <b>{{taskName}}</b> в курсе <b>{{courseName}}</b>",
-      "UPDATE_PROFILE": "<b>{{author}}</b> обновил профиль"
+      "UPDATE_PROFILE": "<b>{{author}}</b> обновил профиль",
+      "REJECT_TASK": "<b>{{author}}</b> тренер не принял задачу <b>{{taskName}}</b>",
+      "TASK_IN_PROGRESS": "<b>{{author}}</b> начал выполнение задачи <b>{{taskName}}</b> в курсе <b>{{courseName}}</b>",
+      "PASS_TASK": "<b>{{author}}</b> сдал на проверку задачу <b>{{taskName}}</b> в курсе <b>{{courseName}}</b>",
+      "CONFIRM_PASS_TASK": "<b>{{author}}</b> принял задачу <b>{{taskName}}</b> в курсе <b>{{courseName}}</b>"
     },
     "OFFER": "Оферта",
     "RATING": "Рейтинг",

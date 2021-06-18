@@ -35,7 +35,11 @@
       "HOMEWORK_DELETE": "<b>{{author}}</b> delete homework <b>{{homeWorkName}}</b>",
       "UPDATE_COURSE_TASK": "<b>{{author}}</b> update task <b>{{taskName}}</b> in course <b>{{courseName}}</b>",
       "DELETE_COURSE_TASK": "<b>{{author}}</b> delete task <b>{{taskName}}</b> in course <b>{{courseName}}</b>",
-      "UPDATE_PROFILE": "<b>{{author}}</b> update profile"
+      "UPDATE_PROFILE": "<b>{{author}}</b> update profile",
+      "REJECT_TASK": "<b>{{author}}</b> reject task <b>{{taskName}}</b>",
+      "TASK_IN_PROGRESS": "<b>{{author}}</b> start training task <b>{{taskName}}</b> in course <b>{{courseName}}</b>",
+      "PASS_TASK": "<b>{{author}}</b> pass to review task <b>{{taskName}}</b> in course <b>{{courseName}}</b>",
+      "CONFIRM_PASS_TASK": "<b>{{author}}</b> confirm passed task <b>{{taskName}}</b> in course <b>{{courseName}}</b>"
     },
     "OFFER": "Offer",
     "RATING": "Rating",
