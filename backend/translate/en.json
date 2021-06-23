@@ -342,6 +342,15 @@
       "RESET_PASSWORD": "Recover",
       "RESEND_CODE": "Resend code",
       "CODE_SUCCESSFULLY_RESEND": "New code sent tou your email"
+    },
+    "VIDEOS": {
+      "TITLE": "Videos",
+      "CREATE_POST": "Create post",
+      "CREATE": {
+        "TITLE": "Create video post",
+        "DESCRIPTION": "If you want create post please set only YouTube, Instagram or TikTok link",
+        "VIDEO_EXAMPLE": "Set link"
+      }
     }
   }
 }
