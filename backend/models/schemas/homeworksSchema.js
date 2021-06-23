@@ -16,7 +16,11 @@ const homeworkSchema = new Schema({
   createdDate: Date,
   likes: [
     {userId: String}
-  ]
+  ],
+  author: {
+    id: String,
+    name: String
+  }
 });
 
 module.exports = mongoose.model('Homework', homeworkSchema);

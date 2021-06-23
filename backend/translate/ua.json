@@ -27,6 +27,20 @@
     "MAIN": "Головна",
     "MAX_SYMBOLS": "Максимум 250 символів ({{amount}})",
     "NAME": "Ім'я",
+    "NOTIFY": {
+      "NEW_HOMEWORK": "У вас нове домашне завдання від <b>{{author}}</b>",
+      "NEW_COURSE": "<b>{{author}}</b> створив новий курс",
+      "NEW_TASK": "<b>{{author}}</b> створив нову задачу в курсі <b>{{courseName}}</b>",
+      "HOMEWORK_UPDATE": "<b>{{author}}</b> оновив домашне завдання <b>{{homeWorkName}}</b>",
+      "HOMEWORK_DELETE": "<b>{{author}}</b> видалив домашне завдання <b>{{homeWorkName}}</b>",
+      "UPDATE_COURSE_TASK": "<b>{{author}}</b> оновив задачу <b>{{taskName}}</b> в курсі <b>{{courseName}}</b>",
+      "DELETE_COURSE_TASK": "<b>{{author}}</b> видалив звдачу <b>{{taskName}}</b> в курсі <b>{{courseName}}</b>",
+      "UPDATE_PROFILE": "<b>{{author}}</b> оновив профіль",
+      "REJECT_TASK": "<b>{{author}}</b> не прийняв задачу <b>{{taskName}}</b>",
+      "TASK_IN_PROGRESS": "<b>{{author}}</b> почав виконання задачі <b>{{taskName}}</b> в курсі <b>{{courseName}}</b>",
+      "PASS_TASK": "<b>{{author}}</b> сдав на перевірку задачу <b>{{taskName}}</b> в курсі <b>{{courseName}}</b>",
+      "CONFIRM_PASS_TASK": "<b>{{author}}</b> прийняв задачу <b>{{taskName}}</b> в курсі <b>{{courseName}}</b>"
+    },
     "NO_USER": "Користувача не існує",
     "OFFER": "Оферта",
     "RATING": "Рейтинг",
@@ -139,7 +153,6 @@
       }
     },
     "TASK_LIST": {
-      "TITLE": "Завдання",
       "TASK_REWARD": "Нагорода завданя",
       "TASK_STATUSES": {
         "DONE": "Зроблено",
@@ -228,7 +241,7 @@
       "ABOUT_ME": "Про мене",
       "ADDITIONAL_INFO": "Додаткова інформація",
       "BEST_TRICK": "Найкращий трюк",
-      "PARENTS_INFO": "Онформація про батька",
+      "PARENTS_INFO": "Інформація про батька",
       "SELECT_YOUR_COACH": "Обрати тренера",
       "MY_KID": "Моє дитя",
       "SELECT_YOUR_KID": "Обрати моє дитя",

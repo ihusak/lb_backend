@@ -49,6 +49,7 @@ db.connect(DB_URL, (err) => {
       app.use('/payments', require('./backend/routes/payments/payments'));
       app.use('/homeworks', require('./backend/routes/homeworks/homeworks'));
       app.use('/recovery', require('./backend/routes/recovery-pass/recovery'));
+      app.use('/notify', require('./backend/routes/notify/notify'));
       app.use(errorHandler);
   });
 });
