@@ -145,7 +145,7 @@ exports.recoverPassword = (recoveryData, cb) => {
 };
 
 generateAccessToken = (user) => {
-  return jwt.sign(user, config.accessToken, {expiresIn: '4h'})
+  return jwt.sign(user, config.accessToken, {expiresIn: '1d'})
 }
 
 createUserInfoByRole = (collection, user) => {
