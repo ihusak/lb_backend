@@ -8,7 +8,8 @@ exports.createVideoPost = (req, res) => {
             id: req.body.author.id,
             name: req.body.author.name
         },
-        createdDate: new Date()
+        createdDate: new Date(),
+        description: req.body.description
     });
     Videos.create(newVideo, (err, returnVideo) => {
         if(err) return res.sendStatus(500);

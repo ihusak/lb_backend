@@ -10,9 +10,9 @@ const videoSchema = new Schema({
         name: String
     },
     createdDate: Date,
-    likes: Array,
+    likes: {default: [], type: Array},
     verified: {default: false, type: Boolean},
-    tags: Array
+    tags: {default: [], type: Array}
 });
 
 
