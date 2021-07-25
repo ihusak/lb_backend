@@ -23,3 +23,27 @@ exports.getAllVideoPosts = (cb) => {
         cb(err, mappedVideos)
     })
 }
+exports.delete = (videoId, cb) => {
+    db.get().collection(dbName).deleteOne({_id: new ObjectID(videoId)}, (err, doc) => {
+        cb(err, doc);
+    });
+}
+exports.like = (videoId, userId, cb) => {
+    console.log(videoId, userId);
+   db.get().collection(dbName).findOne({'_id': new ObjectID(videoId)}, (err, video) => {
+    if(video.likes.find(lk => lk === userId)) {
+      video.likes.splice(video.likes.indexOf(userId), 1);
+      db.get().collection(dbName).findOneAndUpdate({'_id': new ObjectID(videoId)}, {$set: {'likes': video.likes}})
+    } else {
+      video.likes.push(userId);
+      db.get().collection(dbName).findOneAndUpdate({'_id': new ObjectID(videoId)}, {$set: {'likes': video.likes}})
+    }
+    cb(err, video);
+  })
+}
+exports.verify = (videoId, cb) => {
+    console.log(videoId);
+    db.get().collection(dbName).findOneAndUpdate({_id: new ObjectID(videoId)}, {$set: {'verified': true}}, (err, doc) => {
+        cb(err, doc);
+    });
+}

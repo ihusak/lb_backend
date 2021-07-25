@@ -22,3 +22,26 @@ exports.getAllVideoPosts = (req, res) => {
         return res.json(allVideos);
     });
 }
+exports.deleteVideoPost = (req, res) => {
+  const videoId = req.body.videoId;
+  Videos.delete(videoId, (err, video) => {
+    if(err) return res.sendStatus(500);
+    return res.json({status: 'delete', ok: true});
+  })
+}
+exports.likeVideoPost = (req, res) => {
+  const videoId = req.body.videoId;
+  const userId = req.user.id;
+  Videos.like(videoId, userId, (err, video) => {
+    if(err) return res.sendStatus(500);
+    return res.json(video);
+  });
+}
+exports.verifyVideoPost = (req, res) => {
+    const videoId = req.body.videoId;
+    Videos.verify(videoId, (err, video) => {
+        if(err) return res.sendStatus(500);
+        return res.json({status: 'verified', ok: true});
+    });
+}
+
