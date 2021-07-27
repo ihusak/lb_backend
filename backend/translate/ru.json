@@ -41,6 +41,7 @@
       "PASS_TASK": "<b>{{author}}</b> сдал на проверку задачу <b>{{taskName}}</b> в курсе <b>{{courseName}}</b>",
       "CONFIRM_PASS_TASK": "<b>{{author}}</b> принял задачу <b>{{taskName}}</b> в курсе <b>{{courseName}}</b>"
     },
+    "NOT_APPROVED": "Не подтверженные",
     "OFFER": "Оферта",
     "RATING": "Рейтинг",
     "REJECT": "Отклонить",
@@ -342,6 +343,15 @@
       "RESET_PASSWORD": "Восстановить",
       "RESEND_CODE": "Отправить новый код",
       "CODE_SUCCESSFULLY_RESEND": "Новый код отправлен вам на почту"
+    },
+    "VIDEOS": {
+      "TITLE": "Интересные видео",
+      "CREATE_POST": "Создать пост",
+      "CREATE": {
+        "TITLE": "Создать видео пост",
+        "DESCRIPTION": "Что бы создать пост, вставте ссылку на видео из одного из ресурсов, YouTube, Intagram, TikTok",
+        "VIDEO_EXAMPLE": "Ссылка на видео"
+      }
     }
   }
 }

@@ -41,6 +41,7 @@
       "PASS_TASK": "<b>{{author}}</b> pass to review task <b>{{taskName}}</b> in course <b>{{courseName}}</b>",
       "CONFIRM_PASS_TASK": "<b>{{author}}</b> confirm passed task <b>{{taskName}}</b> in course <b>{{courseName}}</b>"
     },
+    "NOT_APPROVED": "Not approved",
     "OFFER": "Offer",
     "RATING": "Rating",
     "REJECT": "Reject",

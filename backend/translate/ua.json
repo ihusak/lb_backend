@@ -41,6 +41,7 @@
       "PASS_TASK": "<b>{{author}}</b> сдав на перевірку задачу <b>{{taskName}}</b> в курсі <b>{{courseName}}</b>",
       "CONFIRM_PASS_TASK": "<b>{{author}}</b> прийняв задачу <b>{{taskName}}</b> в курсі <b>{{courseName}}</b>"
     },
+    "NOT_APPROVED": "Не підтверджено",
     "NO_USER": "Користувача не існує",
     "OFFER": "Оферта",
     "RATING": "Рейтинг",
@@ -343,6 +344,15 @@
       "RESET_PASSWORD": "Відновити",
       "RESEND_CODE": "Відправити новий код",
       "CODE_SUCCESSFULLY_RESEND": "Новий код відправленно вам на пошту"
+    },
+    "VIDEOS": {
+      "TITLE": "Цікаві відео",
+      "CREATE_POST": "Створити пост",
+      "CREATE": {
+        "TITLE": "Створити відео пост",
+        "DESCRIPTION": "Щоб створити пост, додайте одне із посиланб на соц. мережі YouTube, Intagram, TikTok",
+        "VIDEO_EXAMPLE": "Посилання на відео"
+      }
     }
   }
 }
