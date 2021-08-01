@@ -4,6 +4,7 @@
     "ABOUT_US": "About us",
     "ACCEPT": "Accept",
     "ATTENTION": "Attention",
+    "AUTHOR": "Author",
     "BACK": "Back",
     "BIRTHDAY": "Date of birthday",
     "BRIEF": "Brief",
@@ -39,7 +40,9 @@
       "REJECT_TASK": "<b>{{author}}</b> reject task <b>{{taskName}}</b>",
       "TASK_IN_PROGRESS": "<b>{{author}}</b> start training task <b>{{taskName}}</b> in course <b>{{courseName}}</b>",
       "PASS_TASK": "<b>{{author}}</b> pass to review task <b>{{taskName}}</b> in course <b>{{courseName}}</b>",
-      "CONFIRM_PASS_TASK": "<b>{{author}}</b> confirm passed task <b>{{taskName}}</b> in course <b>{{courseName}}</b>"
+      "CONFIRM_PASS_TASK": "<b>{{author}}</b> confirm passed task <b>{{taskName}}</b> in course <b>{{courseName}}</b>",
+      "VIDEO_APPROVED": "Your video has been approved",
+      "VERIFY_VIDEO": "User <b>{{author}}</b> created new video post"
     },
     "NOT_APPROVED": "Not approved",
     "OFFER": "Offer",
@@ -62,6 +65,13 @@
     "PROCESSING_OF_PERSONAL_DATA": "Processing of personal data",
     "REWARDS": "Rewards",
     "SAVE": "Save",
+    "SORT": {
+      "PLACEHOLDER": "Sort",
+      "NEW": "New",
+      "OLD": "Old",
+      "POPULAR": "Popular",
+      "NOT_APPROVED": "Not approved"
+    },
     "SIGN_IN": "Sign in",
     "SIGN_UP": "Sign up",
     "STUDENTS": "Students",
@@ -103,8 +113,10 @@
       "USER_SESSION_EXPIRED_LOGOUT": "User session expired, user logged out from system, please relogin",
       "REQUEST_SENT": "Request sucessfully sent, wait for confirmation",
       "USER_NOT_FOUND": "User with that email {{email}} not found, or you did mistake in email",
-      "PASSWORD_RECOVERED": "Password successfully recovered"
-    }
+      "PASSWORD_RECOVERED": "Password successfully recovered",
+      "VIDEO_MOVED_TO_VERIFICATION": "Video moved to verification"
+    },
+    "VIDEOS": "Videos"
   },
   "TEMPLATE": {
     "MAIN_INFO": {
@@ -348,10 +360,12 @@
     "VIDEOS": {
       "TITLE": "Videos",
       "CREATE_POST": "Create post",
+      "SEARCH_DESCRIPTION": "Search by discription",
       "CREATE": {
         "TITLE": "Create video post",
         "DESCRIPTION": "If you want create post please set only YouTube, Instagram or TikTok link",
-        "VIDEO_EXAMPLE": "Set link"
+        "VIDEO_EXAMPLE": "Set link",
+        "APPROVED_AWARD": "For every post you can earn <b>5</b> sCoins after ADMIN approved"
       }
     }
   }

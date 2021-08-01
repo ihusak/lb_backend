@@ -41,9 +41,10 @@ exports.like = (videoId, userId, cb) => {
     cb(err, video);
   })
 }
-exports.verify = (videoId, cb) => {
-    console.log(videoId);
+exports.verify = (videoId, userId, cb) => {
+  console.log(userId);
     db.get().collection(dbName).findOneAndUpdate({_id: new ObjectID(videoId)}, {$set: {'verified': true}}, (err, doc) => {
         cb(err, doc);
+    db.get().collection('userStudentInfo').findOneAndUpdate({id: userId}, {$inc: {coin: 5}});
     });
 }

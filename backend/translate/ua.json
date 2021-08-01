@@ -4,6 +4,7 @@
     "ABOUT_US": "Про нас",
     "ACCEPT": "Прийняти",
     "ATTENTION": "Увага",
+    "AUTHOR": "Автор",
     "BACK": "Назад",
     "BIRTHDAY": "Дата народження",
     "BRIEF": "Коротко про себе",
@@ -39,7 +40,9 @@
       "REJECT_TASK": "<b>{{author}}</b> не прийняв задачу <b>{{taskName}}</b>",
       "TASK_IN_PROGRESS": "<b>{{author}}</b> почав виконання задачі <b>{{taskName}}</b> в курсі <b>{{courseName}}</b>",
       "PASS_TASK": "<b>{{author}}</b> сдав на перевірку задачу <b>{{taskName}}</b> в курсі <b>{{courseName}}</b>",
-      "CONFIRM_PASS_TASK": "<b>{{author}}</b> прийняв задачу <b>{{taskName}}</b> в курсі <b>{{courseName}}</b>"
+      "CONFIRM_PASS_TASK": "<b>{{author}}</b> прийняв задачу <b>{{taskName}}</b> в курсі <b>{{courseName}}</b>",
+      "VIDEO_APPROVED": "Твоє відео було підтверджене",
+      "VERIFY_VIDEO": "Користувач <b>{{author}}</b> створив новий відео пост"
     },
     "NOT_APPROVED": "Не підтверджено",
     "NO_USER": "Користувача не існує",
@@ -63,6 +66,13 @@
     "PROCESSING_OF_PERSONAL_DATA": "Обробка персональних даних",
     "REWARDS": "Нагороди",
     "SAVE": "Зберегти",
+    "SORT": {
+      "PLACEHOLDER": "Сортування",
+      "NEW": "Нові",
+      "OLD": "Старі",
+      "POPULAR": "Популярні",
+      "NOT_APPROVED": "Не підтверджені"
+    },
     "SIGN_IN": "Логін",
     "SIGN_UP": "Реєстрація",
     "STUDENTS": "Студенти",
@@ -103,8 +113,10 @@
       "USER_SESSION_EXPIRED_LOGOUT": "Сесія завершена і користувача вилогінено, залогінтесь будь-ласка знову",
       "REQUEST_SENT": "Запит успішно відправлено, очікуйте на підтвердження",
       "USER_NOT_FOUND": "Користувача з такою поштою {{email}} не існує, або ви допустили полимку в вашій почті",
-      "PASSWORD_RECOVERED": "Пароль успішно оновлений"
-    }
+      "PASSWORD_RECOVERED": "Пароль успішно оновлений",
+      "VIDEO_MOVED_TO_VERIFICATION": "Відео відправленно на верифікацію"
+    },
+    "VIDEOS": "Відео"
   },
   "TEMPLATE": {
     "MAIN_INFO": {
@@ -348,10 +360,12 @@
     "VIDEOS": {
       "TITLE": "Цікаві відео",
       "CREATE_POST": "Створити пост",
+      "SEARCH_DESCRIPTION": "Пошук по описанню",
       "CREATE": {
         "TITLE": "Створити відео пост",
         "DESCRIPTION": "Щоб створити пост, додайте одне із посиланб на соц. мережі YouTube, Intagram, TikTok",
-        "VIDEO_EXAMPLE": "Посилання на відео"
+        "VIDEO_EXAMPLE": "Посилання на відео",
+        "APPROVED_AWARD": "За кожен пост ти зможеш отримати <b>5</b> sCoins після підтвердження адміністратора"
       }
     }
   }

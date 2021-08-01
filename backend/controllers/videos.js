@@ -39,7 +39,8 @@ exports.likeVideoPost = (req, res) => {
 }
 exports.verifyVideoPost = (req, res) => {
     const videoId = req.body.videoId;
-    Videos.verify(videoId, (err, video) => {
+    const userId = req.body.userId;
+    Videos.verify(videoId, userId, (err, video) => {
         if(err) return res.sendStatus(500);
         return res.json({status: 'verified', ok: true});
     });
