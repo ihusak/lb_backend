@@ -55,6 +55,15 @@
       "PARENT": "Parent",
       "ADMIN": "Admin"
     },
+    "PAGINATION": {
+      "ITEMS_PER_PAGE_LABEL": "Items per page",
+      "NEXT_PAGE_LABEL": "Next",
+      "PREVIOUS_PAGE_LABEL": "Prev",
+      "FIRST_PAGE_LABEL": "Forst",
+      "LAST_PAGE_LABEL": "Last",
+      "RANGE_PAGE_LABEL_1": "0 of {{length}}",
+      "RANGE_PAGE_LABEL_2": "{{startIndex}} - {{endIndex}} of {{length}}"
+    },
     "PASSWORD": "Password",
     "PASSWORD_NOT_MATCH": "Password not match",
     "CONFIRM_PASSWORD": "Confirm password",
@@ -356,6 +365,30 @@
       "RESET_PASSWORD": "Recover",
       "RESEND_CODE": "Resend code",
       "CODE_SUCCESSFULLY_RESEND": "New code sent tou your email"
+    },
+    "VERSIONS": {
+      "TITLE": "Versions",
+      "CURRENT_VERSION": "Current version",
+      "DESCRIPTION": "Here you can view all updated during releases",
+      "1_0_0": {
+        "START_PROJECT": "Launch project",
+        "HOMEWORKS_FOR_OFFLINE": "Homewroks for offline students",
+        "FREE_COURSES": "Free courses",
+        "UPDATING_PROFILE": "Updating profile",
+        "PARENTS_CONTROL": "Parents can control childs successes",
+        "COACH_CAN": "Coaches can create and update homeworls and courses",
+        "MULTI_SELECT_COACHES": "Multiselecting coaches",
+        "FEEDBACK_TELEGRAM": "Freedback throught telegram app",
+        "MULTI_LANGUAGES": "Supporting multilanguages EN,UA,RU"
+      },
+      "1_0_1": {
+        "NOTIFICATIONS": "Notifications: homeworks, profile, course task, course, videos",
+        "SORTING_HOMEWORKS": "Sorting homeworks",
+        "DATE_OF_BIRTH_STUDENT": "Date of birth (student)"
+      },
+      "1_0_2": {
+        "NEW_VIDEO_MODULE": "New video page for sharing amazing videos (instagram, youtube, tiktok)"
+      }
     },
     "VIDEOS": {
       "TITLE": "Videos",

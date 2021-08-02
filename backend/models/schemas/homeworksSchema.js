@@ -14,6 +14,10 @@ const homeworkSchema = new Schema({
   example: String,
   reward: Number,
   createdDate: Date,
+  createdBy: {
+    id: String,
+    name: String
+  },
   likes: [
     {userId: String}
   ],

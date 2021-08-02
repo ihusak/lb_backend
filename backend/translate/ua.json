@@ -56,6 +56,15 @@
       "PARENT": "Батько",
       "ADMIN": "Адміністратор"
     },
+    "PAGINATION": {
+      "ITEMS_PER_PAGE_LABEL": "Кількість на сторінці",
+      "NEXT_PAGE_LABEL": "Наступна",
+      "PREVIOUS_PAGE_LABEL": "Попередня",
+      "FIRST_PAGE_LABEL": "Перша",
+      "LAST_PAGE_LABEL": "Остання",
+      "RANGE_PAGE_LABEL_1": "0 з {{length}}",
+      "RANGE_PAGE_LABEL_2": "{{startIndex}} - {{endIndex}} з {{length}}"
+    },
     "PASSWORD": "Пароль",
     "PASSWORD_NOT_MATCH": "Паролі не збагаються, перевірте",
     "CONFIRM_PASSWORD": "Підтвердження паролю",
@@ -92,7 +101,7 @@
     "SUCCESS": "Успіх",
     "SNACK_BAR": {
       "LOGIN": "Ви успішно увійшли в систему",
-      "REGISTER": "На вашу пошту{{email}} відправлено лист з підтвердження о реєстації",
+      "REGISTER": "На вашу пошту {{email}} відправлено лист з підтвердження о реєстації",
       "USER_NOT_REGISTERED": "Користувач не зареєстрований",
       "USER_NOT_CONFIRMED": "Користувач не активований, на вашу пошту було відправлено лист з підтвердженням",
       "WRONG_PASSWORD": "Не вірний пароль",
@@ -356,6 +365,30 @@
       "RESET_PASSWORD": "Відновити",
       "RESEND_CODE": "Відправити новий код",
       "CODE_SUCCESSFULLY_RESEND": "Новий код відправленно вам на пошту"
+    },
+    "VERSIONS": {
+      "TITLE": "Версіонність",
+      "CURRENT_VERSION": "Поточна версія",
+      "DESCRIPTION": "Тут ви можете слідкувати за всіми змінами у версіях проекту",
+      "1_0_0": {
+        "START_PROJECT": "Запуск проекту",
+        "HOMEWORKS_FOR_OFFLINE": "Домашні завдання для офлайн учнів",
+        "FREE_COURSES": "Безкоштовні курси",
+        "UPDATING_PROFILE": "Оновлення профілю",
+        "PARENTS_CONTROL": "Батькі можуть слідкувати за успіхами їх дітей",
+        "COACH_CAN": "Тренер може створювати й редагувати домашні завдання та курси",
+        "MULTI_SELECT_COACHES": "Мультвибір тренерів",
+        "FEEDBACK_TELEGRAM": "Зворотній зв'язок через додаток телеграм",
+        "MULTI_LANGUAGES": "Підтримка багатомовності EN,UA,RU"
+      },
+      "1_0_1": {
+        "NOTIFICATIONS": "Сповіщення: домашні завдання, профіль, задачі курсу, курси, відео",
+        "SORTING_HOMEWORKS": "Сортування домашніх завдань",
+        "DATE_OF_BIRTH_STUDENT": "Дата народження (студентам)"
+      },
+      "1_0_2": {
+        "NEW_VIDEO_MODULE": "Нова сторінка де користувачі можуть ділитися цікавими відео (instagram, youtube, tiktok)"
+      }
     },
     "VIDEOS": {
       "TITLE": "Цікаві відео",
