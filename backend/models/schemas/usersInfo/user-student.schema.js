@@ -26,6 +26,7 @@ const userStudentInfo = new Schema({
     paid: {type: Boolean, default: false}
   },
   rating: {type: Number, default: 0},
+  coins: {type: Number, default: 0},
   progress: {type: Number, default: 0}, // ???? remove
   role: {
     id: Number,

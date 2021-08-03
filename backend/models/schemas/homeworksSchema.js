@@ -14,13 +14,13 @@ const homeworkSchema = new Schema({
   example: String,
   reward: Number,
   createdDate: Date,
-  likes: [
-    {userId: String}
-  ],
-  author: {
+  createdBy: {
     id: String,
     name: String
-  }
+  },
+  likes: [
+    {userId: String}
+  ]
 });
 
 module.exports = mongoose.model('Homework', homeworkSchema);

@@ -128,7 +128,7 @@ exports.updateUser = (updatedUser, id, cb) => {
 exports.userRefreshToken = (user, cb) => {
   let accessToken, refreshToken;
   accessToken = generateAccessToken({id: user.id, roleId: user.roleId});
-  refreshToken = jwt.sign({id: user.id, roleId: user.roleId}, config.refreshToken, {expiresIn: '2d'});
+  refreshToken = jwt.sign({id: user.id, roleId: user.roleId}, config.refreshToken, {expiresIn: '20d'});
   db.get().collection('tokens').find({}).toArray((err, tokens) => {
     const mathToken = tokens.find( t => t.userId === user.id);
     if(mathToken) {
@@ -145,7 +145,7 @@ exports.recoverPassword = (recoveryData, cb) => {
 };
 
 generateAccessToken = (user) => {
-  return jwt.sign(user, config.accessToken, {expiresIn: '4h'})
+  return jwt.sign(user, config.accessToken, {expiresIn: '1d'})
 }
 
 createUserInfoByRole = (collection, user) => {

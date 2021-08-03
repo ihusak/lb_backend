@@ -4,6 +4,7 @@
     "ABOUT_US": "About us",
     "ACCEPT": "Accept",
     "ATTENTION": "Attention",
+    "AUTHOR": "Author",
     "BACK": "Back",
     "BIRTHDAY": "Date of birthday",
     "BRIEF": "Brief",
@@ -39,8 +40,11 @@
       "REJECT_TASK": "<b>{{author}}</b> reject task <b>{{taskName}}</b>",
       "TASK_IN_PROGRESS": "<b>{{author}}</b> start training task <b>{{taskName}}</b> in course <b>{{courseName}}</b>",
       "PASS_TASK": "<b>{{author}}</b> pass to review task <b>{{taskName}}</b> in course <b>{{courseName}}</b>",
-      "CONFIRM_PASS_TASK": "<b>{{author}}</b> confirm passed task <b>{{taskName}}</b> in course <b>{{courseName}}</b>"
+      "CONFIRM_PASS_TASK": "<b>{{author}}</b> confirm passed task <b>{{taskName}}</b> in course <b>{{courseName}}</b>",
+      "VIDEO_APPROVED": "Your video has been approved",
+      "VERIFY_VIDEO": "User <b>{{author}}</b> created new video post"
     },
+    "NOT_APPROVED": "Not approved",
     "OFFER": "Offer",
     "RATING": "Rating",
     "REJECT": "Reject",
@@ -50,6 +54,15 @@
       "COACH": "Coach",
       "PARENT": "Parent",
       "ADMIN": "Admin"
+    },
+    "PAGINATION": {
+      "ITEMS_PER_PAGE_LABEL": "Items per page",
+      "NEXT_PAGE_LABEL": "Next",
+      "PREVIOUS_PAGE_LABEL": "Prev",
+      "FIRST_PAGE_LABEL": "Forst",
+      "LAST_PAGE_LABEL": "Last",
+      "RANGE_PAGE_LABEL_1": "0 of {{length}}",
+      "RANGE_PAGE_LABEL_2": "{{startIndex}} - {{endIndex}} of {{length}}"
     },
     "PASSWORD": "Password",
     "PASSWORD_NOT_MATCH": "Password not match",
@@ -61,9 +74,17 @@
     "PROCESSING_OF_PERSONAL_DATA": "Processing of personal data",
     "REWARDS": "Rewards",
     "SAVE": "Save",
+    "SORT": {
+      "PLACEHOLDER": "Sort",
+      "NEW": "New",
+      "OLD": "Old",
+      "POPULAR": "Popular",
+      "NOT_APPROVED": "Not approved"
+    },
     "SIGN_IN": "Sign in",
     "SIGN_UP": "Sign up",
     "STUDENTS": "Students",
+    "TAGS": "Tags",
     "TASKS": "Tasks",
     "TASK_NAME": "Task name",
     "TASK_DESCRIPTION": "Task description",
@@ -101,8 +122,10 @@
       "USER_SESSION_EXPIRED_LOGOUT": "User session expired, user logged out from system, please relogin",
       "REQUEST_SENT": "Request sucessfully sent, wait for confirmation",
       "USER_NOT_FOUND": "User with that email {{email}} not found, or you did mistake in email",
-      "PASSWORD_RECOVERED": "Password successfully recovered"
-    }
+      "PASSWORD_RECOVERED": "Password successfully recovered",
+      "VIDEO_MOVED_TO_VERIFICATION": "Video moved to verification"
+    },
+    "VIDEOS": "Videos"
   },
   "TEMPLATE": {
     "MAIN_INFO": {
@@ -342,6 +365,41 @@
       "RESET_PASSWORD": "Recover",
       "RESEND_CODE": "Resend code",
       "CODE_SUCCESSFULLY_RESEND": "New code sent tou your email"
+    },
+    "VERSIONS": {
+      "TITLE": "Versions",
+      "CURRENT_VERSION": "Current version",
+      "DESCRIPTION": "Here you can view all updated during releases",
+      "1_0_0": {
+        "START_PROJECT": "Launch project",
+        "HOMEWORKS_FOR_OFFLINE": "Homewroks for offline students",
+        "FREE_COURSES": "Free courses",
+        "UPDATING_PROFILE": "Updating profile",
+        "PARENTS_CONTROL": "Parents can control childs successes",
+        "COACH_CAN": "Coaches can create and update homeworls and courses",
+        "MULTI_SELECT_COACHES": "Multiselecting coaches",
+        "FEEDBACK_TELEGRAM": "Freedback throught telegram app",
+        "MULTI_LANGUAGES": "Supporting multilanguages EN,UA,RU"
+      },
+      "1_0_1": {
+        "NOTIFICATIONS": "Notifications: homeworks, profile, course task, course, videos",
+        "SORTING_HOMEWORKS": "Sorting homeworks",
+        "DATE_OF_BIRTH_STUDENT": "Date of birth (student)"
+      },
+      "1_0_2": {
+        "NEW_VIDEO_MODULE": "New video page for sharing amazing videos (instagram, youtube, tiktok)"
+      }
+    },
+    "VIDEOS": {
+      "TITLE": "Videos",
+      "CREATE_POST": "Create post",
+      "SEARCH_DESCRIPTION": "Search by discription",
+      "CREATE": {
+        "TITLE": "Create video post",
+        "DESCRIPTION": "If you want create post please set only YouTube, Instagram or TikTok link",
+        "VIDEO_EXAMPLE": "Set link",
+        "APPROVED_AWARD": "For every post you can earn <b>5</b> sCoins after ADMIN approved"
+      }
     }
   }
 }

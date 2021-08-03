@@ -23,6 +23,10 @@ exports.getHomeworkById = (homeworkId, cb) => {
 
 exports.getAllHomeworks = (cb) => {
   db.get().collection(DATA_TABLE).find({}).toArray((err, homeworks) => {
+    homeworks = homeworks.map(hm => {
+      hm.students = hm.students.map(s => ({id: s.id, name: s.name}));
+      return hm;
+    })
     cb(err, homeworks);
   })
 }
