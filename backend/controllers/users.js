@@ -39,7 +39,6 @@ exports.createUser = (req, res, next) => {
   Users.createUser(user, request.registerToken, request.invited, (err, docs) => {
     const createdUser = docs.ops[0];
     const sentInviteLetter = request.invited;
-    console.log(sentInviteLetter, createdUser);
 
     const inviter = {
       name: createdUser.userName,
@@ -47,7 +46,6 @@ exports.createUser = (req, res, next) => {
       id: createdUser._id.toString(),
       roleId: createdUser.role.id
     };
-    console.log('inviter', inviter);
     if(err) {
       return res.sendStatus(500);
     }
@@ -279,7 +277,8 @@ sendInviteLetter = async (invitedPerson, inviter, host) => {
   } else {
     host = 'https://lb.afreestylers.com';
   }
-  const url = `${host}/register/${emailsToken}`;
+  const roleToRegister = inviter.roleId === rolesEnum.PARENT ? rolesEnum.STUDENT : rolesEnum.PARENT;
+  const url = `${host}/register?token=${emailsToken}&roleId=${roleToRegister}`;
   const mailOptions = {
     from: 'afreestylers2016@gmail.com', // sender address
     to: invitedPerson, // list of receivers
