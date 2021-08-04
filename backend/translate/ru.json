@@ -258,6 +258,7 @@
     "PROFILE": {
       "UPLOAD_PHOTO": "Загрузить фото",
       "PROFILE": "Профиль",
+      "NICK_NAME": "Никнейм",
       "FULL_NAME": "ФИО",
       "START_TRAINING": "Начало тренировок",
       "ABOUT_ME": "Обо мне",

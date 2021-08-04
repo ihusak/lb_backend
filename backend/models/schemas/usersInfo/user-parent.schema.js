@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const userParentInfo = new Schema({
   id: String,
+  nickName: {type: String, default: ''},
   userImg: {type: String, default: ''},
   userName: {type: String, default: ''},
   email: {type: String, default: ''},

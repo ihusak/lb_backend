@@ -259,6 +259,7 @@
     "PROFILE": {
       "UPLOAD_PHOTO": "Upload photo",
       "PROFILE": "Profile",
+      "NICK_NAME": "Nickname",
       "FULL_NAME": "Full name",
       "START_TRAINING": "Start training",
       "ABOUT_ME": "About me",
