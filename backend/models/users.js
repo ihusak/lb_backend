@@ -16,12 +16,14 @@ exports.all = (cb) => {
   })
 };
 
-exports.createUser = async (user, cb) => {
+exports.createUser = async (user, registerToken, invited, cb) => {
   db.get().collection('users').findOne({'email': user.email}, (err, matchUser) => {
     if(!matchUser) {
       if(user.role.id === RolesEnum.ADMIN) {
         user.role.status = true;
       }
+      const invitationData = registerToken ? jwt.verify(registerToken, config.emailSercet) : null;
+      console.log('invitationData', invitationData);
       db.get().collection('users').insertOne(user, (err, createdUser) => {
         cb(err, createdUser);
         const userId = createdUser.ops[0]._id;
@@ -35,23 +37,65 @@ exports.createUser = async (user, cb) => {
           });
           createUserInfoByRole('userAdminInfo', ADMIN);
           break;
-          case RolesEnum.STUDENT: 
-          const STUDENT = new UserInfoStudent({
-            userName: user.userName, 
-            email: user.email, 
-            role: user.role,
-            id: userId
-          });
-          createUserInfoByRole('userStudentInfo', STUDENT);
+          case RolesEnum.STUDENT:
+          let student
+          if(invitationData && invitationData.inviter.roleId === RolesEnum.PARENT) {
+            student = new UserInfoStudent({
+              userName: user.userName,
+              email: user.email,
+              role: user.role,
+              id: userId,
+              parent: {
+                name: invitationData.inviter.name,
+                email: invitationData.inviter.email,
+                phone: ''
+              }
+            });
+          } else {
+            student = new UserInfoStudent({
+              userName: user.userName,
+              email: user.email,
+              role: user.role,
+              id: userId,
+              parent: {
+                name: '',
+                email: invited,
+                phone: ''
+              }
+            });
+          }
+          console.log('STUDENT', student);
+          createUserInfoByRole('userStudentInfo', student);
           break;
-          case RolesEnum.PARENT: 
-          const PARENT = new UserInfoParent({
-            userName: user.userName, 
-            email: user.email, 
-            role: user.role,
-            id: userId
-          });
-          createUserInfoByRole('userParentInfo', PARENT);
+          case RolesEnum.PARENT:
+          let parent;
+          if(invitationData && invitationData.inviter.roleId === RolesEnum.STUDENT) {
+            parent = new UserInfoParent({
+              userName: user.userName,
+              email: user.email,
+              role: user.role,
+              id: userId,
+              myKid: [{
+                id: invitationData.inviter.id,
+                name: invitationData.inviter.name,
+                email: invited
+              }]
+            });
+          } else {
+            parent = new UserInfoParent({
+              userName: user.userName,
+              email: user.email,
+              role: user.role,
+              id: userId,
+              myKid: [{
+                id: null,
+                name: null,
+                email: invited
+              }]
+            });
+          }
+          console.log('PARENT', parent);
+          createUserInfoByRole('userParentInfo', parent);
           break;
           case RolesEnum.COACH: 
           const COACH = new UserInfoCoach({

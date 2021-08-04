@@ -22,6 +22,8 @@
     "DETAILS": "Details",
     "DELETE": "Delete",
     "EMAIL": "Email",
+    "EMAIL_PARENT": "Your parent Email",
+    "EMAIL_CHILD": "Your child Email",
     "EMPTY": "Empty",
     "EMPTY_LIST": "Empty list",
     "HOMEWORKS": "Homeworks",

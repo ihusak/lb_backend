@@ -22,6 +22,8 @@
     "DETAILS": "Детали",
     "DELETE": "Удалить",
     "EMAIL": "Email",
+    "EMAIL_PARENT": "Email твоего родителя",
+    "EMAIL_CHILD": "Email вашего ребенка",
     "EMPTY": "Пусто",
     "EMPTY_LIST": "Список пуст",
     "HOMEWORKS": "Домашние задания",
