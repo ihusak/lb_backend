@@ -38,13 +38,14 @@ exports.createUser = async (user, registerToken, invited, cb) => {
           break;
           case RolesEnum.STUDENT:
           let student
-          if(invitationData && invitationData.inviter.roleId === RolesEnum.PARENT) {
+          if(invitationData) {
             student = new UserInfoStudent({
               userName: user.userName,
               email: user.email,
               role: user.role,
               id: userId,
               parent: {
+                id: invitationData.inviter.id,
                 name: invitationData.inviter.name,
                 email: invitationData.inviter.email,
                 phone: ''
@@ -67,7 +68,7 @@ exports.createUser = async (user, registerToken, invited, cb) => {
           break;
           case RolesEnum.PARENT:
           let parent;
-          if(invitationData && invitationData.inviter.roleId === RolesEnum.STUDENT) {
+          if(invitationData) {
             parent = new UserInfoParent({
               userName: user.userName,
               email: user.email,
@@ -76,7 +77,7 @@ exports.createUser = async (user, registerToken, invited, cb) => {
               myKid: [{
                 id: invitationData.inviter.id,
                 name: invitationData.inviter.name,
-                email: invited
+                email: invitationData.inviter.email
               }]
             });
           } else {
@@ -189,23 +190,18 @@ generateAccessToken = (user) => {
   return jwt.sign(user, config.accessToken, {expiresIn: '1d'})
 }
 
-createUserInfoByRole = (collection, user, inviter) => {
+createUserInfoByRole = (collection, user, invitationData) => {
   db.get().collection(collection).findOne({'email': user.email}, (err, userInfoMatch) => {
     if(!userInfoMatch) {
       db.get().collection(collection).insertOne(user, (err, doc) => {
-        console.log('createdUserInfo', collection, user);
-        console.log('inviter', inviter);
         const createdUserInfo = doc.ops[0];
-        if(inviter) {
-          console.log('in inviter');
-          let table = inviter.roleId === RolesEnum.PARENT ? 'userStudentInfo' : 'userParentInfo',
+        if(invitationData) {
+          let inviter = invitationData.inviter;
+          let table = inviter.roleId === RolesEnum.PARENT ? 'userParentInfo' : 'userStudentInfo',
               updatingParam = {'email': inviter.email},
               settingData = inviter.roleId === RolesEnum.PARENT ? 
-              {$set: {'parent.name': createdUserInfo.userName, 'parent.email': createdUserInfo.email, 'parent.id': createdUserInfo.id}} : {$set: {myKid: [{name: createdUserInfo.userName, email: createdUserInfo.email, id: createdUserInfo.id}]}};
-              console.log('settingData', settingData.$set);
-          db.get().collection(table).findOneAndUpdate(updatingParam, settingData, (err, doc) => {
-            console.log('updated PARAM', doc.value);
-          });
+              {$set: {myKid: [{name: createdUserInfo.userName, email: createdUserInfo.email, id: createdUserInfo.id}]}} : {$set: {'parent.name': createdUserInfo.userName, 'parent.email': createdUserInfo.email, 'parent.id': createdUserInfo.id}};
+          db.get().collection(table).findOneAndUpdate(updatingParam, settingData);
         }
       })
     }

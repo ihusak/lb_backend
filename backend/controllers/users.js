@@ -262,6 +262,7 @@ sentRecoveredPassword = async (recoveryData, host) => {
 
 sendInviteLetter = async (invitedPerson, inviter, host) => {
   const transporter = await createTransporter();
+  console.log('letter inviter', inviter);
   const emailsToken = jwt.sign(
       {
         inviter: inviter,
@@ -278,7 +279,7 @@ sendInviteLetter = async (invitedPerson, inviter, host) => {
     host = 'https://lb.afreestylers.com';
   }
   const roleToRegister = inviter.roleId === rolesEnum.PARENT ? rolesEnum.STUDENT : rolesEnum.PARENT;
-  const url = `${host}/register?token=${emailsToken}&roleId=${roleToRegister}`;
+  const url = `${host}/register?token=${emailsToken}&roleId=${roleToRegister}&email=${invitedPerson}`;
   const mailOptions = {
     from: 'afreestylers2016@gmail.com', // sender address
     to: invitedPerson, // list of receivers
