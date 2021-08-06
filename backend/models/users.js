@@ -64,7 +64,7 @@ exports.createUser = async (user, registerToken, invited, cb) => {
               }
             });
           }
-          createUserInfoByRole('userStudentInfo', student, invitationData);
+          createUserInfoByRole('userStudentInfo', student, invitationData, cb);
           break;
           case RolesEnum.PARENT:
           let parent;
@@ -93,7 +93,7 @@ exports.createUser = async (user, registerToken, invited, cb) => {
               }]
             });
           }
-          createUserInfoByRole('userParentInfo', parent, invitationData);
+          createUserInfoByRole('userParentInfo', parent, invitationData, cb);
           break;
           case RolesEnum.COACH: 
           const COACH = new UserInfoCoach({
@@ -102,7 +102,7 @@ exports.createUser = async (user, registerToken, invited, cb) => {
             role: user.role,
             id: userId
           });
-          createUserInfoByRole('userCoachInfo', COACH, null);
+          createUserInfoByRole('userCoachInfo', COACH, null, cb);
           break;
         }
       });
@@ -190,7 +190,7 @@ generateAccessToken = (user) => {
   return jwt.sign(user, config.accessToken, {expiresIn: '1d'})
 }
 
-createUserInfoByRole = (collection, user, invitationData) => {
+createUserInfoByRole = (collection, user, invitationData, cb) => {
   db.get().collection(collection).findOne({'email': user.email}, (err, userInfoMatch) => {
     if(!userInfoMatch) {
       db.get().collection(collection).insertOne(user, (err, doc) => {
@@ -200,10 +200,12 @@ createUserInfoByRole = (collection, user, invitationData) => {
           let table = inviter.roleId === RolesEnum.PARENT ? 'userParentInfo' : 'userStudentInfo',
               updatingParam = {'email': inviter.email},
               settingData = inviter.roleId === RolesEnum.PARENT ? 
-              {$set: {myKid: [{name: createdUserInfo.userName, email: createdUserInfo.email, id: createdUserInfo.id}]}} : {$set: {'parent.name': createdUserInfo.userName, 'parent.email': createdUserInfo.email, 'parent.id': createdUserInfo.id}};
+              {$push: {myKid: {name: createdUserInfo.userName, email: createdUserInfo.email, id: createdUserInfo.id}}} : {$set: {'parent.name': createdUserInfo.userName, 'parent.email': createdUserInfo.email, 'parent.id': createdUserInfo.id}};
           db.get().collection(table).findOneAndUpdate(updatingParam, settingData);
         }
       })
+    } else {
+      cb(err, null);
     }
   });
 }

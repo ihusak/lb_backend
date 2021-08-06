@@ -76,6 +76,7 @@
     "PROCESSING_OF_PERSONAL_DATA": "Processing of personal data",
     "REWARDS": "Rewards",
     "SAVE": "Save",
+    "SEND_INVITATION": "Send invitation",
     "SORT": {
       "PLACEHOLDER": "Sort",
       "NEW": "New",
@@ -122,10 +123,12 @@
       "DELETE_SUCCESSFULLY": "Delete successfully",
       "USER_SESSION_EXPIRED_RECOVERED": "User session expired and recovered",
       "USER_SESSION_EXPIRED_LOGOUT": "User session expired, user logged out from system, please relogin",
-      "REQUEST_SENT": "Request sucessfully sent, wait for confirmation",
+      "REQUEST_SENT": "Request successfully sent, wait for confirmation",
       "USER_NOT_FOUND": "User with that email {{email}} not found, or you did mistake in email",
       "PASSWORD_RECOVERED": "Password successfully recovered",
-      "VIDEO_MOVED_TO_VERIFICATION": "Video moved to verification"
+      "VIDEO_MOVED_TO_VERIFICATION": "Video moved to verification",
+      "INVITATIONS_SENT": "Invitations send to {{users}} and wait to confirm",
+      "EMAIL_EXIST": "User {{userEmail}} exists, try another kid email"
     },
     "VIDEOS": "Videos"
   },

@@ -37,18 +37,6 @@ exports.createUser = (req, res, next) => {
   });
   const host = req.get('origin');
   Users.createUser(user, request.registerToken, request.invited, (err, docs) => {
-    const createdUser = docs.ops[0];
-    const sentInviteLetter = request.invited;
-
-    const inviter = {
-      name: createdUser.userName,
-      email: createdUser.email,
-      id: createdUser._id.toString(),
-      roleId: createdUser.role.id
-    };
-    if(err) {
-      return res.sendStatus(500);
-    }
     if(!docs) {
       const err = {
         errorMessage: 'User already exist',
@@ -57,6 +45,17 @@ exports.createUser = (req, res, next) => {
       };
       requestErrorLogger.error(`Error ${err.code}`, err);
       return next(err);
+    }
+    const createdUser = docs.ops[0];
+    const sentInviteLetter = request.invited;
+    const inviter = {
+      name: createdUser.userName,
+      email: createdUser.email,
+      id: createdUser._id.toString(),
+      roleId: createdUser.role.id
+    };
+    if(err) {
+      return res.sendStatus(500);
     }
     sendConfirmUserByEmail(user, host);
     if(sentInviteLetter) {
@@ -202,6 +201,18 @@ exports.recoveryPassword = (req, res, next) => {
   })
 };
 
+exports.invite = (req, res, next) => {
+  const invitedPersons = req.body.emails;
+  const inviter = req.body.inviter;
+  const host = req.get('origin');
+  if(invitedPersons.length) {
+    invitedPersons.forEach((invitedPerson) => {
+      sendInviteLetter(invitedPerson, inviter, host);
+    });
+    return res.json({status: 'sent', ok: true});
+  }
+}
+
 sendConfirmUserByEmail = async (createdUser, host) => {
   const transporter = await createTransporter();
   const emailToken = jwt.sign(
@@ -296,4 +307,5 @@ sendInviteLetter = async (invitedPerson, inviter, host) => {
     }
   });
 };
+
 
