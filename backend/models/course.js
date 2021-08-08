@@ -1,4 +1,5 @@
 const db = require('../config/db');
+const { ObjectID } = require('mongodb');
 const Course = require('./schemas/coursesSchema');
 
 exports.all = (cb) => {
@@ -12,6 +13,18 @@ exports.all = (cb) => {
     cb(err, coursesMapped);
   })
 };
+
+exports.getCourseById = (id, cb) => {
+  db.get().collection('courses').find({'_id': new ObjectID(id)}).toArray((err, courses) => {
+    const coursesMapped = courses.map(course => {
+      course.id = course._id;
+      delete course._id;
+      delete course.__v;
+      return course
+    })
+    cb(err, coursesMapped);
+  })
+}
 
 exports.createCourse = (req, cb) => {
   const COURSE = new Course({
