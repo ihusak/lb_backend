@@ -7,9 +7,10 @@ exports.getCourses = (req, res) => {
   });
 }
 
-exports.getCourseById = (req, res) => {
-  const id = req.body.courseId;
-  Course.getCourseById(id, (err, course) => {
+exports.getCourseByCoachId = (req, res) => {
+  const id = req.params.coachId;
+  console.log(id);
+  Course.getCourseByCoachId(id, (err, course) => {
     if(err) return res.sendStatus(500);
     return res.json(course);
   });

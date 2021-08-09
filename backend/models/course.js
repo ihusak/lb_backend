@@ -14,15 +14,9 @@ exports.all = (cb) => {
   })
 };
 
-exports.getCourseById = (id, cb) => {
-  db.get().collection('courses').find({'_id': new ObjectID(id)}).toArray((err, courses) => {
-    const coursesMapped = courses.map(course => {
-      course.id = course._id;
-      delete course._id;
-      delete course.__v;
-      return course
-    })
-    cb(err, coursesMapped);
+exports.getCourseByCoachId = (id, cb) => {
+  db.get().collection('courses').findOne({coachId: id}, (err, course) => {
+    cb(err, course);
   })
 }
 
