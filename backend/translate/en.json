@@ -18,6 +18,7 @@
     "CREATE": "Create",
     "CURRENT_TASK": "Current task",
     "CURRENT_STATUS": "Current status",
+    "DASHBOARD": "Dashboard",
     "DESCRIPTION": "Description",
     "DETAILS": "Details",
     "DELETE": "Delete",
@@ -50,6 +51,7 @@
     "OFFER": "Offer",
     "RATING": "Rating",
     "REJECT": "Reject",
+    "REGISTER": "Registeration",
     "REQUEST": "Request",
     "ROLES": {
       "STUDENT": "Student",
@@ -128,7 +130,8 @@
       "PASSWORD_RECOVERED": "Password successfully recovered",
       "VIDEO_MOVED_TO_VERIFICATION": "Video moved to verification",
       "INVITATIONS_SENT": "Invitations send to {{users}} and wait to confirm",
-      "EMAIL_EXIST": "User {{userEmail}} exists, try another kid email"
+      "EMAIL_EXIST": "User {{userEmail}} exists, try another kid email",
+      "COURSE_UPDATED": "Course has been updated"
     },
     "VIDEOS": "Videos"
   },
@@ -181,6 +184,7 @@
       }
     },
     "TASK_LIST": {
+      "START_COURSE": "Start course",
       "TASK_REWARD": "Task reward",
       "TASK_STATUSES": {
         "DONE": "Done",
@@ -193,7 +197,8 @@
           "CREATE_COURSE": "Create course",
           "CREATE_TASK": "Create task",
           "IN_PROGRESS": "In progress",
-          "CHECK": "Check"
+          "CHECK": "Check",
+          "UPDATE_COURSE": "Update course"
         },
         "TASKS_IN_PROGRESS": "Tasks in progress",
         "CREATE_COURSE": {
@@ -304,7 +309,7 @@
       }
     },
     "HOW_TO_USE": {
-      "TITLE": "How to use Librarytricks",
+      "TITLE": "How to use project",
       "COMMON": {
         "AFTER_SIGN_UP": "After registration, a letter will be sent to the mail you specified to confirm your account. After confirmation, you will be able to enter the service.",
         "FILL_PROFILE": "The main thing is to fill in the profile (edit) and detailed information."
@@ -394,7 +399,11 @@
         "DATE_OF_BIRTH_STUDENT": "Date of birth (student)"
       },
       "1_0_2": {
-        "NEW_VIDEO_MODULE": "New video page for sharing amazing videos (instagram, youtube, tiktok)"
+        "NEW_VIDEO_MODULE": "New video page for sharing amazing videos (instagram, youtube, tiktok)",
+        "ASSIGN_USER_REGISTARTION": "Allowed to send invite letter parent -> kid, kid -> parent",
+        "PARENT_PROFILE_CHANGE": "(Parents) Added possibility sent invite letter from profile to assign another child",
+        "PAGE_TITLES": "Added page titles",
+        "COURSE_CHANGE": "Added possibility to change COACH and COURSE to watch course description. You can share link URL. And STUDENT can change his current course in course page"
       }
     },
     "VIDEOS": {

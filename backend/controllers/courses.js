@@ -9,10 +9,9 @@ exports.getCourses = (req, res) => {
 
 exports.getCourseByCoachId = (req, res) => {
   const id = req.params.coachId;
-  console.log(id);
-  Course.getCourseByCoachId(id, (err, course) => {
+  Course.getCourseByCoachId(id, (err, courses) => {
     if(err) return res.sendStatus(500);
-    return res.json(course);
+    return res.json(courses);
   });
 }
 
@@ -21,4 +20,12 @@ exports.createCourse = (req, res) => {
     if(err) return res.sendStatus(500);
     return res.json(course);
   });
+}
+exports.updateCourse = (req, res) => {
+  const courseId = req.params.courseId;
+  const course = req.body.course;
+  Course.updateCourse(courseId, course, (err, updatedCourse) => {
+    if(err) return res.sendStatus(500);
+    return res.json(updatedCourse);
+  })
 }

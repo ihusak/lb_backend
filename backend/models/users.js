@@ -85,12 +85,7 @@ exports.createUser = async (user, registerToken, invited, cb) => {
               userName: user.userName,
               email: user.email,
               role: user.role,
-              id: userId,
-              myKid: [{
-                id: null,
-                name: null,
-                email: invited
-              }]
+              id: userId
             });
           }
           createUserInfoByRole('userParentInfo', parent, invitationData, cb);
