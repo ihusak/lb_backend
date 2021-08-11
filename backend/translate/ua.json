@@ -416,6 +416,11 @@
         "VIDEO_EXAMPLE": "Посилання на відео",
         "APPROVED_AWARD": "За кожен пост ти зможеш отримати <b>5</b> sCoins після підтвердження адміністратора"
       }
+    },
+    "META_TAGS": {
+      "MAIN_DESCRIPTION": "Головна сторінка librarytricks. Онлайн ресурсу по навчанну футболного фрітсайлу та футбольної техніки.",
+      "LOGIN_DESCRIPTION": "Вхід до librarytricks онлайн школи",
+      "REGISTER_DESCRIPTION": "Реєстрація на ресурсі для отримання доступу до librarytricks онлайн школи"
     }
   }
 }
