@@ -416,6 +416,24 @@
         "VIDEO_EXAMPLE": "Set link",
         "APPROVED_AWARD": "For every post you can earn <b>5</b> sCoins after ADMIN approved"
       }
+    },
+    "META_TAGS": {
+      "MAIN_DESC": "Home page librarytricks. An online resource for training football freestyle and football skills.",
+      "LOGIN_DESC": "Entrance to the librarytricks online school",
+      "REGISTER_DESC": "Register on the resource to access librarytricks online school",
+      "DASHBOARD_DESC": "The Dashboard page shows general information on student achievement. Also the current progress of the student",
+      "VIDEO_DESC": "Interesting videos from the Internet. Here you can watch cool videos from all users. YouTube, Instagram, TikTok",
+      "PAYMENT_DESC": "Course payment page. You will have access to a presentation of the courses and if you like the course, you can pay for it",
+      "ABOUT_US_DESC": "Detailed information on who we are and why we created this resource",
+      "VERSIONS_DESC": "Service update. View versions and changes",
+      "HOMEWORKS_DESC": "Homework for students",
+      "CREATE_HM_DESC": "Creating homework for students",
+      "UPDATE_HM_DESC": "Homework updates",
+      "CREATE_TASK_DESC": "Creating a course task",
+      "TASK_LIST_DESC": "List of courses and tasks Librarytricks",
+      "UPDATE_TASK_DESC": "Update the course task",
+      "CHECK_TASK_DESC": "Checking the completed tasks of the course",
+      "PROFILE_DESC": "Librarytricks's profile"
     }
   }
 }
