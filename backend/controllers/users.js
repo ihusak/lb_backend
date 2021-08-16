@@ -11,6 +11,7 @@ const {
   mailTransporterLogger
 } = require('../config/middleware/logger');
 const {createTransporter} = require('../config/email');
+const rolesEnum = require('../config/enum/roles');
 
 
 const salt = bcrypt.genSaltSync(10);
@@ -26,18 +27,16 @@ exports.all = (req, res, next) => {
 
 exports.createUser = (req, res, next) => {
   let password = bcrypt.hashSync(req.body.userPassword, salt);
+  const request = req.body;
   const user = new User({
-    userName: req.body.userName, 
-    email: req.body.email, 
+    userName: request.userName,
+    email: request.email,
     userPassword: password, 
-    userType: req.body.userType,
-    role: req.body.userRole
+    userType: request.userType,
+    role: request.userRole
   });
   const host = req.get('origin');
-  Users.createUser(user, (err, docs) => {
-    if(err) {
-      return res.sendStatus(500);
-    } 
+  Users.createUser(user, request.registerToken, request.invited, (err, docs) => {
     if(!docs) {
       const err = {
         errorMessage: 'User already exist',
@@ -47,7 +46,21 @@ exports.createUser = (req, res, next) => {
       requestErrorLogger.error(`Error ${err.code}`, err);
       return next(err);
     }
+    const createdUser = docs.ops[0];
+    const sentInviteLetter = request.invited;
+    const inviter = {
+      name: createdUser.userName,
+      email: createdUser.email,
+      id: createdUser._id.toString(),
+      roleId: createdUser.role.id
+    };
+    if(err) {
+      return res.sendStatus(500);
+    }
     sendConfirmUserByEmail(user, host);
+    if(sentInviteLetter) {
+      sendInviteLetter(sentInviteLetter, inviter, host);
+    }
     res.send(user);
   })
 };
@@ -188,6 +201,18 @@ exports.recoveryPassword = (req, res, next) => {
   })
 };
 
+exports.invite = (req, res, next) => {
+  const invitedPersons = req.body.emails;
+  const inviter = req.body.inviter;
+  const host = req.get('origin');
+  if(invitedPersons.length) {
+    invitedPersons.forEach((invitedPerson) => {
+      sendInviteLetter(invitedPerson, inviter, host);
+    });
+    return res.json({status: 'sent', ok: true});
+  }
+}
+
 sendConfirmUserByEmail = async (createdUser, host) => {
   const transporter = await createTransporter();
   const emailToken = jwt.sign(
@@ -245,3 +270,42 @@ sentRecoveredPassword = async (recoveryData, host) => {
     }
  });
 };
+
+sendInviteLetter = async (invitedPerson, inviter, host) => {
+  const transporter = await createTransporter();
+  console.log('letter inviter', inviter);
+  const emailsToken = jwt.sign(
+      {
+        inviter: inviter,
+        invitedPerson: invitedPerson
+      },
+      config.emailSercet,
+      {
+        expiresIn: '1d'
+      }
+  );
+  if(host.indexOf('local') >= 0) {
+    host = host;
+  } else {
+    host = 'https://lb.afreestylers.com';
+  }
+  const roleToRegister = inviter.roleId === rolesEnum.PARENT ? rolesEnum.STUDENT : rolesEnum.PARENT;
+  const url = `${host}/register?token=${emailsToken}&roleId=${roleToRegister}&email=${invitedPerson}`;
+  const mailOptions = {
+    from: 'afreestylers2016@gmail.com', // sender address
+    to: invitedPerson, // list of receivers
+    subject: 'Приглашение о регистрации на lb.afreestylers.com', // Subject line
+    html: `<p>Вам было отправленно приглашение на регистрацию от пользователя <b>${inviter.name}</b> (${inviter.email}), что бы зарегестрироваться перейдите по ссылке (<a href='${url}'>Регистрация по приглашению</a>)</p>`,
+  };
+  transporter.sendMail(mailOptions, (err, info) => {
+    if(err) {
+      mailTransporterLogger.info('Mail sending error', err);
+      console.log(err);
+    } else {
+      mailTransporterLogger.info('Mail sending info', info);
+      console.log(info);
+    }
+  });
+};
+
+

@@ -18,7 +18,8 @@ const userStudentInfo = new Schema({
   parent: {
     name: {type: String, default: ''},
     email: {type: String, default: ''},
-    phone: {type: String, default: ''}
+    phone: {type: String, default: ''},
+    id: {type: String, default: ''}
   },
   course: {
     id: {type: Number, default: null},

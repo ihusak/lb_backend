@@ -16,12 +16,13 @@ exports.all = (cb) => {
   })
 };
 
-exports.createUser = async (user, cb) => {
+exports.createUser = async (user, registerToken, invited, cb) => {
   db.get().collection('users').findOne({'email': user.email}, (err, matchUser) => {
     if(!matchUser) {
       if(user.role.id === RolesEnum.ADMIN) {
         user.role.status = true;
       }
+      const invitationData = registerToken ? jwt.verify(registerToken, config.emailSercet) : null;
       db.get().collection('users').insertOne(user, (err, createdUser) => {
         cb(err, createdUser);
         const userId = createdUser.ops[0]._id;
@@ -33,25 +34,61 @@ exports.createUser = async (user, cb) => {
             role: user.role,
             id: userId
           });
-          createUserInfoByRole('userAdminInfo', ADMIN);
+          createUserInfoByRole('userAdminInfo', ADMIN, null);
           break;
-          case RolesEnum.STUDENT: 
-          const STUDENT = new UserInfoStudent({
-            userName: user.userName, 
-            email: user.email, 
-            role: user.role,
-            id: userId
-          });
-          createUserInfoByRole('userStudentInfo', STUDENT);
+          case RolesEnum.STUDENT:
+          let student
+          if(invitationData) {
+            student = new UserInfoStudent({
+              userName: user.userName,
+              email: user.email,
+              role: user.role,
+              id: userId,
+              parent: {
+                id: invitationData.inviter.id,
+                name: invitationData.inviter.name,
+                email: invitationData.inviter.email,
+                phone: ''
+              }
+            });
+          } else {
+            student = new UserInfoStudent({
+              userName: user.userName,
+              email: user.email,
+              role: user.role,
+              id: userId,
+              parent: {
+                name: '',
+                email: invited,
+                phone: ''
+              }
+            });
+          }
+          createUserInfoByRole('userStudentInfo', student, invitationData, cb);
           break;
-          case RolesEnum.PARENT: 
-          const PARENT = new UserInfoParent({
-            userName: user.userName, 
-            email: user.email, 
-            role: user.role,
-            id: userId
-          });
-          createUserInfoByRole('userParentInfo', PARENT);
+          case RolesEnum.PARENT:
+          let parent;
+          if(invitationData) {
+            parent = new UserInfoParent({
+              userName: user.userName,
+              email: user.email,
+              role: user.role,
+              id: userId,
+              myKid: [{
+                id: invitationData.inviter.id,
+                name: invitationData.inviter.name,
+                email: invitationData.inviter.email
+              }]
+            });
+          } else {
+            parent = new UserInfoParent({
+              userName: user.userName,
+              email: user.email,
+              role: user.role,
+              id: userId
+            });
+          }
+          createUserInfoByRole('userParentInfo', parent, invitationData, cb);
           break;
           case RolesEnum.COACH: 
           const COACH = new UserInfoCoach({
@@ -60,7 +97,7 @@ exports.createUser = async (user, cb) => {
             role: user.role,
             id: userId
           });
-          createUserInfoByRole('userCoachInfo', COACH);
+          createUserInfoByRole('userCoachInfo', COACH, null, cb);
           break;
         }
       });
@@ -148,10 +185,22 @@ generateAccessToken = (user) => {
   return jwt.sign(user, config.accessToken, {expiresIn: '1d'})
 }
 
-createUserInfoByRole = (collection, user) => {
+createUserInfoByRole = (collection, user, invitationData, cb) => {
   db.get().collection(collection).findOne({'email': user.email}, (err, userInfoMatch) => {
     if(!userInfoMatch) {
-      db.get().collection(collection).insertOne(user, (err, doc) => {})
+      db.get().collection(collection).insertOne(user, (err, doc) => {
+        const createdUserInfo = doc.ops[0];
+        if(invitationData) {
+          let inviter = invitationData.inviter;
+          let table = inviter.roleId === RolesEnum.PARENT ? 'userParentInfo' : 'userStudentInfo',
+              updatingParam = {'email': inviter.email},
+              settingData = inviter.roleId === RolesEnum.PARENT ? 
+              {$push: {myKid: {name: createdUserInfo.userName, email: createdUserInfo.email, id: createdUserInfo.id}}} : {$set: {'parent.name': createdUserInfo.userName, 'parent.email': createdUserInfo.email, 'parent.id': createdUserInfo.id}};
+          db.get().collection(table).findOneAndUpdate(updatingParam, settingData);
+        }
+      })
+    } else {
+      cb(err, null);
     }
-  })
+  });
 }

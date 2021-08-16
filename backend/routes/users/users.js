@@ -7,6 +7,7 @@ const controller = require('../../controllers/users');
 router.get('/', auth.authUser, controller.all);
 router.get('/:id', auth.authUser, controller.getUserById);
 router.post('/create', controller.createUser);
+router.post('/invite', controller.invite);
 router.delete('/logout', auth.authUser, controller.logoutUser);
 router.post('/login', controller.loginUser);
 router.delete('/', auth.authUser, controller.deleteUser);
