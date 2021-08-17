@@ -434,6 +434,9 @@
       "UPDATE_TASK_DESC": "Update the course task",
       "CHECK_TASK_DESC": "Checking the completed tasks of the course",
       "PROFILE_DESC": "Librarytricks's profile"
+    },
+    "SHOP": {
+      "TITLE": "Shop"
     }
   }
 }

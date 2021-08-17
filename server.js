@@ -51,6 +51,7 @@ db.connect(DB_URL, (err) => {
       app.use('/recovery', require('./backend/routes/recovery-pass/recovery'));
       app.use('/notify', require('./backend/routes/notify/notify'));
       app.use('/videos', require('./backend/routes/videos/videos'));
+      app.use('/shop', require('./backend/routes/shop/shop'));
       app.use(errorHandler);
   });
 });

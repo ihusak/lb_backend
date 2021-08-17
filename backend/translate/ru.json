@@ -433,6 +433,9 @@
       "UPDATE_TASK_DESC": "Обновление задачу курса",
       "CHECK_TASK_DESC": "Проверка выполненных заданий курса",
       "PROFILE_DESC": "Профиль пользователя Librarytricks"
+    },
+    "SHOP": {
+      "TITLE": "Магазин"
     }
   }
 }
