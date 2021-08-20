@@ -4,9 +4,16 @@ const Schema = mongoose.Schema;
 const productSchema = new Schema({
   title: {type: String, default: ''},
   description: {type: String, default: ''},
-  price: {type: Number, default: 0},
-  allow: {type: Boolean, default: false},
-  category: {type: Array, default: []}
+  images: {type: Array, default: [String]},
+  pricing: {
+    price: {type: Number, default: 0},
+    skillz: {type: Number, default: 0}
+  },
+  category: {type: String, default: ''},
+  sizes: {type: Array, default: [Object]},
+  available: {type: Boolean, default: false},
+  sale: {type: Number, default: 0},
+  manufacturer: {type: String, default: ''}
 });
 
 
