@@ -30,7 +30,7 @@ exports.createUser = (req, res, next) => {
   const request = req.body;
   const user = new User({
     userName: request.userName,
-    email: request.email,
+    email: request.email.toLowerCase(),
     userPassword: password, 
     userType: request.userType,
     role: request.userRole
@@ -281,7 +281,7 @@ sendInviteLetter = async (invitedPerson, inviter, host) => {
       },
       config.emailSercet,
       {
-        expiresIn: '1d'
+        expiresIn: '7d'
       }
   );
   if(host.indexOf('local') >= 0) {
