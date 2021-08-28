@@ -2,7 +2,21 @@ const Shop = require('../models/shop');
 const Product = require('../models/schemas/product')
 
 exports.createProduct = (req, res) => {
-  const PRODUCT = new Product(req.body);
+  console.log(req.body.product);
+  const product = JSON.parse(req.body.product);
+  const PRODUCT = new Product({
+    title: product.title,
+    description: product.description,
+    images: req.files ? req.files.map(file => file.path) : [],
+    price: product.price,
+    skillz: product.skillz,
+    category: product.category,
+    sizes: product.sizes,
+    available: product.available,
+    sale: product.sale,
+    manufacturer: product.manufacturer,
+  });
+  console.log('PRODUCT', PRODUCT);
   Shop.create(PRODUCT, (err, products) => {
     if(err) return res.sendStatus(500);
     return res.json(products);

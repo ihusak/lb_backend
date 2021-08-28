@@ -131,7 +131,10 @@
       "VIDEO_MOVED_TO_VERIFICATION": "Video moved to verification",
       "INVITATIONS_SENT": "Invitations send to {{users}} and wait to confirm",
       "EMAIL_EXIST": "User {{userEmail}} exists, try another kid email",
-      "COURSE_UPDATED": "Course has been updated"
+      "COURSE_UPDATED": "Course has been updated",
+      "SHOP": {
+        "PRODUCT_CREATED": "Product successfully created"
+      }
     },
     "VIDEOS": "Videos"
   },
@@ -436,7 +439,27 @@
       "PROFILE_DESC": "Librarytricks's profile"
     },
     "SHOP": {
-      "TITLE": "Shop"
+      "TITLE": "Shop",
+      "PRODUCT": {
+        "CREATE_TITLE": "Create product",
+        "PRODUCT_CATEGORY": "Product category",
+        "CATEGORY": "Category",
+        "CATEGORIES": {
+          "BALL": "Ball",
+          "CLOTHES": "Clothes",
+          "FOOTWEAR": "Footwear",
+          "ACCESSORIES": "Accessories"
+        },
+        "PRODUCT_SIZES": "Sizes",
+        "TITLE": "Producr title",
+        "DETAILS_DESCRIPTION": "Details description",
+        "PRICE": "Price",
+        "SKILLZ": "Skillz",
+        "CREATE": "Create",
+        "AVAILABLE": "Available",
+        "SALE": "Sale",
+        "MANUFACTURER": "Manufacturer"
+      }
     }
   }
 }

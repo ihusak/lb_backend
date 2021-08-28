@@ -131,7 +131,10 @@
       "VIDEO_MOVED_TO_VERIFICATION": "Відео відправленно на верифікацію",
       "INVITATIONS_SENT": "Запрошення відправленні юзерам {{users}}, чекайте на підтвердження",
       "EMAIL_EXIST": "Юзер {{userEmail}} вже існує, спробуйте іншу пошту дитини",
-      "COURSE_UPDATED": "Курс було вдало оновлено"
+      "COURSE_UPDATED": "Курс було вдало оновлено",
+      "SHOP": {
+        "PRODUCT_CREATED": "Продукт успішно створенний"
+      }
     },
     "VIDEOS": "Відео"
   },
@@ -436,7 +439,18 @@
       "PROFILE_DESC": "Профіль користувача Librarytricks"
     },
     "SHOP": {
-      "TITLE": "Магазин"
+      "TITLE": "Магазин",
+      "PRODUCT": {
+        "CREATE_TITLE": "Create product",
+        "PRODUCT_CATEGORY": "Product category",
+        "CATEGORY": "Category",
+        "PRODUCT_SIZES": "Sizes",
+        "TITLE": "Producr title",
+        "DETAILS_DESCRIPTION": "Details description",
+        "PRICE": "Price",
+        "SKILLZ": "Skillz",
+        "CREATE": "Create"
+      }
     }
   }
 }
