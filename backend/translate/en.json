@@ -27,6 +27,7 @@
     "EMAIL_CHILD": "Your child Email",
     "EMPTY": "Empty",
     "EMPTY_LIST": "Empty list",
+    "FINISH_TASK_TO_CONTINUE" : "Finish current task {{taskName}} to continue course or switch coach",
     "HOMEWORKS": "Homeworks",
     "MAIN": "Main",
     "MAX_SYMBOLS": "Max 250 symbols ({{amount}})",
