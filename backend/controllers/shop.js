@@ -2,7 +2,6 @@ const Shop = require('../models/shop');
 const Product = require('../models/schemas/product')
 
 exports.createProduct = (req, res) => {
-  console.log(req.body.product);
   const product = JSON.parse(req.body.product);
   const PRODUCT = new Product({
     title: product.title,
@@ -16,7 +15,6 @@ exports.createProduct = (req, res) => {
     sale: product.sale,
     manufacturer: product.manufacturer,
   });
-  console.log('PRODUCT', PRODUCT);
   Shop.create(PRODUCT, (err, products) => {
     if(err) return res.sendStatus(500);
     return res.json(products);

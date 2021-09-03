@@ -11,7 +11,8 @@ const productSchema = new Schema({
   sizes: {type: Array, default: [Object]},
   available: {type: Boolean, default: false},
   sale: {type: Number, default: 0},
-  manufacturer: {type: String, default: ''}
+  manufacturer: {type: String, default: ''},
+  rating: {type: Number, default: 0}
 });
 
 
