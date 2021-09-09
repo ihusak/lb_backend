@@ -3,10 +3,16 @@ const Product = require('./schemas/product');
 const crypto = require('crypto');
 const tableName = 'products';
 const ObjectID = require('mongodb').ObjectID;
+const product = require('./schemas/product');
 
 exports.all = (cb) => {
   db.get().collection(tableName).find({}).toArray((err, products) => {
-    cb(err, products);
+    const mappedProducts = products.map(product => {
+      product.id = product._id;
+      delete product._id;
+      return product;
+    })
+    cb(err, mappedProducts);
   });
 };
 
