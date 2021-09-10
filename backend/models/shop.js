@@ -1,9 +1,6 @@
 const db = require('../config/db');
-const Product = require('./schemas/product');
-const crypto = require('crypto');
 const tableName = 'products';
 const ObjectID = require('mongodb').ObjectID;
-const product = require('./schemas/product');
 
 exports.all = (cb) => {
   db.get().collection(tableName).find({}).toArray((err, products) => {
@@ -14,6 +11,14 @@ exports.all = (cb) => {
     })
     cb(err, mappedProducts);
   });
+};
+
+exports.getById = (id, cb) => {
+  db.get().collection(tableName).findOne({'_id': new ObjectID(id)}, (err, product) => {
+    product.id = product._id;
+    delete product._id;
+    cb(err, product);
+  })
 };
 
 exports.create = (product, cb) => {

@@ -28,6 +28,14 @@ exports.getAllProducts = (req, res) => {
   });
 }
 
+exports.getProductById = (req, res) => {
+  const ID = req.params.id;
+  Shop.getById(ID, (err, product) => {
+    if(err) return res.sendStatus(500);
+    return res.json(product);
+  })
+}
+
 exports.updateProduct = (req, res) => {
   const ID = req.params.ID;
   const PRODUCT = req.body;
