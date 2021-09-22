@@ -39,7 +39,7 @@ const handleUploadImg = (req, res, next) => {
 router.get('/products', auth.authUser, controller.getAllProducts);
 router.get('/product/:id', auth.authUser, controller.getProductById);
 router.post('/create', [auth.authUser, handleUploadImg], controller.createProduct);
-router.put('/products/:id', auth.authUser, controller.updateProduct);
-router.delete('/products/:id', auth.authUser, controller.deleteProduct);
+router.put('/products/:id/update', [auth.authUser, handleUploadImg], controller.updateProduct);
+router.delete('/products/:id/delete', auth.authUser, controller.deleteProduct);
 
 module.exports = router;

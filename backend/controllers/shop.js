@@ -37,9 +37,12 @@ exports.getProductById = (req, res) => {
 }
 
 exports.updateProduct = (req, res) => {
-  const ID = req.params.ID;
-  const PRODUCT = req.body;
+  const ID = req.params.id;
+  const PRODUCT = JSON.parse(req.body.product);
+  const newImages = req.files ? req.files.map(file => file.path) : [];
+  PRODUCT.images = newImages.concat(PRODUCT.images);
   Shop.update(ID, PRODUCT, (err, products) => {
+    console.log('err111'. err);
     if(err) return res.sendStatus(500);
     return res.json(products);
   });
