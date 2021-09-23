@@ -34,7 +34,7 @@ exports.update = (id, product, cb) => {
 };
 
 exports.delete = (id, cb) => {
-  db.get().collection(dbName).deleteOne({_id: new ObjectID(id)}, (err, doc) => {
+  db.get().collection(tableName).deleteOne({_id: new ObjectID(id)}, (err, doc) => {
     cb(err, doc);
   });
 }
