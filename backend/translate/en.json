@@ -133,7 +133,11 @@
       "EMAIL_EXIST": "User {{userEmail}} exists, try another kid email",
       "COURSE_UPDATED": "Course has been updated",
       "SHOP": {
-        "PRODUCT_CREATED": "Product successfully created"
+        "PRODUCT_ADDED": "Product successfully added to basket",
+        "PRODUCT_CREATED": "Product successfully created",
+        "PRODUCT_UPDATED": "Product successfully updated",
+        "PRODUCT_DELETED": "Product successfully deleted",
+        "PRODUCT_ALREADY_ADDED": "Product has been already added to you basket"
       }
     },
     "VIDEOS": "Videos"
@@ -436,12 +440,18 @@
       "TASK_LIST_DESC": "List of courses and tasks Librarytricks",
       "UPDATE_TASK_DESC": "Update the course task",
       "CHECK_TASK_DESC": "Checking the completed tasks of the course",
-      "PROFILE_DESC": "Librarytricks's profile"
+      "PROFILE_DESC": "Librarytricks's profile",
+      "SHOP_DESC": "Librarytricks shop for buying staff using system money (skillz)"
     },
     "SHOP": {
+      "BUY": "Buy",
+      "VIEW": "View",
       "TITLE": "Shop",
+      "UPDATE": "Update",
+      "PAY": "Pay",
+      "ORDER": "Order",
       "PRODUCT": {
-        "CREATE_TITLE": "Create product",
+        "CREATE_PRODUCT": "Create product",
         "PRODUCT_CATEGORY": "Product category",
         "CATEGORY": "Category",
         "CATEGORIES": {
@@ -451,14 +461,32 @@
           "ACCESSORIES": "Accessories"
         },
         "PRODUCT_SIZES": "Sizes",
-        "TITLE": "Producr title",
+        "TITLE": "Product title",
         "DETAILS_DESCRIPTION": "Details description",
         "PRICE": "Price",
         "SKILLZ": "Skillz",
         "CREATE": "Create",
         "AVAILABLE": "Available",
         "SALE": "Sale",
-        "MANUFACTURER": "Manufacturer"
+        "MANUFACTURER": "Manufacturer",
+        "UNAVAILABLE": "Product temporary unavailable",
+        "UPDATE_TITLE": "Update product"
+      },
+      "CHECKOUT": {
+        "TITLE": "Checkout",
+        "CONTACT_PERSON": "Contact person info",
+        "NAME": "Name",
+        "SURNAME": "Surname",
+        "PHONE": "Phone",
+        "CITY": "City",
+        "DELIVERY": "Delivery type",
+        "DELIVERY_ADDRESS": "Address",
+        "POST": "Post",
+        "TAKE_AWAY": "Take away",
+        "ADDITION_INFO": "Addition info",
+        "ADDITION_INFO_HELP": "Specify the size (if it is clothes), color, quantity, post office (if order with delivery) etc.",
+        "PAYMENT_METHOD": "Choose payment method",
+        "NOT_ENOUGH_SKILLZ": "You don have enough (skillz) for buying this staff, you need reach at least {{skillz}} skillz for checkout this item(s)"
       }
     }
   }

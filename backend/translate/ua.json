@@ -133,7 +133,11 @@
       "EMAIL_EXIST": "Юзер {{userEmail}} вже існує, спробуйте іншу пошту дитини",
       "COURSE_UPDATED": "Курс було вдало оновлено",
       "SHOP": {
-        "PRODUCT_CREATED": "Продукт успішно створенний"
+        "PRODUCT_ADDED": "Товар додану в кошик",
+        "PRODUCT_CREATED": "Товар успішно створенний",
+        "PRODUCT_UPDATED": "Товар успішно оновлений",
+        "PRODUCT_DELETED": "Товар успішно видалений",
+        "PRODUCT_ALREADY_ADDED": "Товар вже у вашому кошику"
       }
     },
     "VIDEOS": "Відео"
@@ -436,20 +440,53 @@
       "TASK_LIST_DESC": "Список курсів і завдань Librarytricks",
       "UPDATE_TASK_DESC": "Оновлення задачі курсу",
       "CHECK_TASK_DESC": "Перевірка виконаних завдань курсу",
-      "PROFILE_DESC": "Профіль користувача Librarytricks"
+      "PROFILE_DESC": "Профіль користувача Librarytricks",
+      "SHOP_DESC": "Librarytricks магазин де можна купити спортивний товар за валюту (skillz)"
     },
     "SHOP": {
+      "BUY": "Купити",
+      "VIEW": "Переглянути",
       "TITLE": "Магазин",
+      "UPDATE": "Оновити",
+      "PAY": "Оплатити",
+      "ORDER": "Замовити",
       "PRODUCT": {
-        "CREATE_TITLE": "Create product",
-        "PRODUCT_CATEGORY": "Product category",
-        "CATEGORY": "Category",
-        "PRODUCT_SIZES": "Sizes",
-        "TITLE": "Producr title",
-        "DETAILS_DESCRIPTION": "Details description",
-        "PRICE": "Price",
+        "CREATE_PRODUCT": "Створити товар",
+        "PRODUCT_CATEGORY": "Категорія товару",
+        "CATEGORY": "Категорія",
+        "CATEGORIES": {
+          "BALL": "М'ячі",
+          "CLOTHES": "Одяг",
+          "FOOTWEAR": "Взуття",
+          "ACCESSORIES": "Аксесуари"
+        },
+        "PRODUCT_SIZES": "Розміри",
+        "TITLE": "Назва товару",
+        "DETAILS_DESCRIPTION": "Деталі товару",
+        "PRICE": "Ціна",
         "SKILLZ": "Skillz",
-        "CREATE": "Create"
+        "CREATE": "Створити",
+        "AVAILABLE": "Є в наявності",
+        "SALE": "Скидка",
+        "MANUFACTURER": "Виробник",
+        "UNAVAILABLE": "Товар тимчасово недоступний",
+        "UPDATE_TITLE": "Оновлення товару"
+      },
+      "CHECKOUT": {
+        "TITLE": "Оплата товару",
+        "CONTACT_PERSON": "Контактна інформація отримувача",
+        "NAME": "Ім'я",
+        "SURNAME": "Прізвище",
+        "PHONE": "Телефон",
+        "CITY": "Місто",
+        "DELIVERY": "Тип доставки",
+        "DELIVERY_ADDRESS": "Адреса",
+        "POST": "Пошта",
+        "TAKE_AWAY": "Заберу сам",
+        "ADDITION_INFO": "Додаткова інформація",
+        "ADDITION_INFO_HELP": "Вкажіть розмір, колір, кількість, відділення пошти (якщо замовлення з доставкою) і тд. і тп.",
+        "PAYMENT_METHOD": "Оберіть валюту оплати",
+        "NOT_ENOUGH_SKILLZ": "У вас недостатньо (skillz) для придбання даного продукту, вам треба заробити ще {{skillz}} skillz для замовлення данного товару"
       }
     }
   }

@@ -42,14 +42,13 @@ exports.updateProduct = (req, res) => {
   const newImages = req.files ? req.files.map(file => file.path) : [];
   PRODUCT.images = newImages.concat(PRODUCT.images);
   Shop.update(ID, PRODUCT, (err, products) => {
-    console.log('err111'. err);
     if(err) return res.sendStatus(500);
     return res.json(products);
   });
 }
 
 exports.deleteProduct = (req, res) => {
-  const ID = req.params.ID;
+  const ID = req.params.id;
   Shop.delete(ID, (err, products) => {
     if(err) return res.sendStatus(500);
     return res.json({status: 'deleted', ok: true});

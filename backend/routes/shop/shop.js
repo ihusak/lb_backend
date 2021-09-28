@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  if(file.mimetype === 'image/jpg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') {
+  if(file.mimetype === 'image/jpg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/gif') {
     cb(null, true);
   } else {
     cb(null, false);
@@ -39,7 +39,7 @@ const handleUploadImg = (req, res, next) => {
 router.get('/products', auth.authUser, controller.getAllProducts);
 router.get('/product/:id', auth.authUser, controller.getProductById);
 router.post('/create', [auth.authUser, handleUploadImg], controller.createProduct);
-router.put('/products/:id/update', [auth.authUser, handleUploadImg], controller.updateProduct);
-router.delete('/products/:id/delete', auth.authUser, controller.deleteProduct);
+router.put('/product/:id/update', [auth.authUser, handleUploadImg], controller.updateProduct);
+router.delete('/product/:id/delete', auth.authUser, controller.deleteProduct);
 
 module.exports = router;

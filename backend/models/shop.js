@@ -23,17 +23,23 @@ exports.getById = (id, cb) => {
 
 exports.create = (product, cb) => {
   db.get().collection(tableName).insertOne(product, (err, doc) => {
-    cb(err, doc.ops[0]);
+    const createdProduct = doc.ops[0];
+    createdProduct.id = createdProduct._id;
+    delete createdProduct._id;
+    cb(err, createdProduct);
   })
 };
 
 exports.update = (id, product, cb) => {
   db.get().collection(tableName).findOneAndUpdate({_id: new ObjectID(id)}, {$set: product}, (err, doc) => {
-    cb(err, doc);
+    doc.value.id = doc.value._id;
+    delete doc.value._id;
+    cb(err, doc.value);
   });
 };
 
 exports.delete = (id, cb) => {
+  console.log('delete ID', id);
   db.get().collection(tableName).deleteOne({_id: new ObjectID(id)}, (err, doc) => {
     cb(err, doc);
   });
