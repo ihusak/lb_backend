@@ -1,6 +1,14 @@
 const Shop = require('../models/shop');
 const Product = require('../models/schemas/product')
 
+exports.checkout = (req, res) => {
+  const ORDER = req.body.order;
+  Shop.checkout(ORDER, (err, result) => {
+    if(err) return res.sendStatus(500);
+    return res.json(result);
+  });
+}
+
 exports.createProduct = (req, res) => {
   const product = JSON.parse(req.body.product);
   const PRODUCT = new Product({

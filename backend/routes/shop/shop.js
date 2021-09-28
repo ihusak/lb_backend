@@ -41,5 +41,6 @@ router.get('/product/:id', auth.authUser, controller.getProductById);
 router.post('/create', [auth.authUser, handleUploadImg], controller.createProduct);
 router.put('/product/:id/update', [auth.authUser, handleUploadImg], controller.updateProduct);
 router.delete('/product/:id/delete', auth.authUser, controller.deleteProduct);
+router.post('/order/checkout', auth.authUser, controller.checkout);
 
 module.exports = router;

@@ -137,7 +137,8 @@
         "PRODUCT_CREATED": "Product successfully created",
         "PRODUCT_UPDATED": "Product successfully updated",
         "PRODUCT_DELETED": "Product successfully deleted",
-        "PRODUCT_ALREADY_ADDED": "Product has been already added to you basket"
+        "PRODUCT_ALREADY_ADDED": "Product has been already added to you basket",
+        "ORDERED_SUCCESSFULL": "Your order was successfully send, wait and we contact you soon"
       }
     },
     "VIDEOS": "Videos"

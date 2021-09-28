@@ -13,6 +13,12 @@ exports.all = (cb) => {
   });
 };
 
+exports.checkout = (order, cb) => {
+  db.get().collection('orders').insertOne(order, (err, res) => {
+    cb(err, res);
+  })
+}
+
 exports.getById = (id, cb) => {
   db.get().collection(tableName).findOne({'_id': new ObjectID(id)}, (err, product) => {
     product.id = product._id;
