@@ -1,4 +1,5 @@
 const db = require('../config/db');
+const RolesEnum = require("../config/enum/roles");
 const tableName = 'products';
 const ObjectID = require('mongodb').ObjectID;
 
@@ -13,9 +14,21 @@ exports.all = (cb) => {
   });
 };
 
-exports.checkout = (order, cb) => {
-  db.get().collection('orders').insertOne(order, (err, res) => {
-    cb(err, res);
+exports.checkout = (order, user, cb) => {
+  const table = defineUserInfoTable(user.roleId);
+  db.get().collection('orders').insertOne(order, (err, savedOrder) => {
+    const CREATED_ORDER = savedOrder.ops[0];
+    CREATED_ORDER.id = CREATED_ORDER._id;
+    delete CREATED_ORDER._id;
+    if(user.roleId === RolesEnum.STUDENT) {
+      db.get().collection(table).findOne({'id': user.id}, (err, userInfo) => {
+        const RESULT = userInfo.rating - order.sum;
+        db.get().collection(table).updateOne({'id': user.id},{ $set: { 'rating' : RESULT } });
+        cb(err, CREATED_ORDER);
+      });
+    } else {
+      cb(err, CREATED_ORDER);
+    }
   })
 }
 
@@ -49,4 +62,15 @@ exports.delete = (id, cb) => {
   db.get().collection(tableName).deleteOne({_id: new ObjectID(id)}, (err, doc) => {
     cb(err, doc);
   });
+}
+
+defineUserInfoTable = (roleId) => {
+  let table = '';
+  switch (parseInt(roleId)) {
+    case RolesEnum.ADMIN: table = 'userAdminInfo'; break;
+    case RolesEnum.STUDENT: table = 'userStudentInfo'; break;
+    case RolesEnum.COACH: table = 'userCoachInfo'; break;
+    case RolesEnum.PARENT: table = 'userParentInfo'; break;
+  }
+  return table;
 }
