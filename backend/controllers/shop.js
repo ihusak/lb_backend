@@ -43,6 +43,23 @@ exports.createProduct = (req, res) => {
   });
 }
 
+exports.orderStatus = (req, res) => {
+  const STATUS = req.body.status;
+  const ID = req.params.id;
+  Shop.updateOrderStatus(ID, STATUS, (err, orders) => {
+    if(err) return res.sendStatus(500);
+    return res.json({ok: true, status: STATUS});
+  });
+}
+
+exports.getOrders = (req, res) => {
+  const STATUS = req.params.status;
+  Shop.getOrders(req.user, STATUS, (err, orders) => {
+    if(err) return res.sendStatus(500);
+    return res.json(orders);
+  });
+}
+
 exports.getAllProducts = (req, res) => {
   Shop.all((err, products) => {
     if(err) return res.sendStatus(500);

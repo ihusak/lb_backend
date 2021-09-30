@@ -1,7 +1,17 @@
 const db = require('../config/db');
 const RolesEnum = require("../config/enum/roles");
 const tableName = 'products';
+const tableNameOrders = 'orders';
 const ObjectID = require('mongodb').ObjectID;
+const {
+  orderLogger
+} = require('../config/middleware/logger');
+
+const ORDER_STATUSES = Object.freeze({
+  PENDING: 'pending',
+  READY: 'ready',
+  ALL: 'all'
+})
 
 exports.all = (cb) => {
   db.get().collection(tableName).find({}).toArray((err, products) => {
@@ -16,11 +26,11 @@ exports.all = (cb) => {
 
 exports.checkout = (order, user, cb) => {
   const table = defineUserInfoTable(user.roleId);
-  db.get().collection('orders').insertOne(order, (err, savedOrder) => {
+  db.get().collection(tableNameOrders).insertOne(order, (err, savedOrder) => {
     const CREATED_ORDER = savedOrder.ops[0];
     CREATED_ORDER.id = CREATED_ORDER._id;
     delete CREATED_ORDER._id;
-    if(user.roleId === RolesEnum.STUDENT) {
+    if(user.roleId === RolesEnum.STUDENT && order.paymentMethod !== 'price') {
       db.get().collection(table).findOne({'id': user.id}, (err, userInfo) => {
         const RESULT = userInfo.rating - order.sum;
         db.get().collection(table).updateOne({'id': user.id},{ $set: { 'rating' : RESULT } });
@@ -30,6 +40,28 @@ exports.checkout = (order, user, cb) => {
       cb(err, CREATED_ORDER);
     }
   })
+}
+
+exports.getOrders = (user, status, cb) => {
+  const SEARCH = RolesEnum.ADMIN === user.roleId ? {} : {status};
+  db.get().collection(tableNameOrders).find(SEARCH).toArray((err, orders) => {
+    const ORDERS_MAPPED = orders.map((order) => {
+      order.id = order._id;
+      delete order._id;
+      return order;
+    }).filter((ord) => {
+      return RolesEnum.ADMIN !== user.roleId ? ord.userId === user.id && ord.status !== ORDER_STATUSES.READY : true;
+    });
+    console.log('ORDERS_MAPPED', ORDERS_MAPPED);
+    cb(err, ORDERS_MAPPED);
+  });
+}
+
+exports.updateOrderStatus = (id, status, cb) => {
+  db.get().collection(tableNameOrders).findOneAndUpdate({'_id': new ObjectID(id)}, {$set: {status: status}}, (err, response) => {
+    orderLogger.info(`Order change status to ${status}`, {order: response.value})
+    cb(err, response.value);
+  });
 }
 
 exports.getById = (id, cb) => {
