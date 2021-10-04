@@ -46,10 +46,13 @@
       "PASS_TASK": "<b>{{author}}</b> pass to review task <b>{{taskName}}</b> in course <b>{{courseName}}</b>",
       "CONFIRM_PASS_TASK": "<b>{{author}}</b> confirm passed task <b>{{taskName}}</b> in course <b>{{courseName}}</b>",
       "VIDEO_APPROVED": "Your video has been approved",
-      "VERIFY_VIDEO": "User <b>{{author}}</b> created new video post"
+      "VERIFY_VIDEO": "User <b>{{author}}</b> created new video post",
+      "ORDER_SENT": "Your order already sent, wait for you products <b>{{products}}</b>",
+      "NEW_PRODUCT": "New products in shop available: <b>{{products}}</b>"
     },
     "NOT_APPROVED": "Not approved",
     "OFFER": "Offer",
+    "PRODUCTS": "Products",
     "RATING": "Rating",
     "REJECT": "Reject",
     "REGISTER": "Registeration",
@@ -90,6 +93,7 @@
     "SIGN_IN": "Sign in",
     "SIGN_UP": "Sign up",
     "STUDENTS": "Students",
+    "SUM": "Summary",
     "TAGS": "Tags",
     "TASKS": "Tasks",
     "TASK_NAME": "Task name",
@@ -132,7 +136,16 @@
       "VIDEO_MOVED_TO_VERIFICATION": "Video moved to verification",
       "INVITATIONS_SENT": "Invitations send to {{users}} and wait to confirm",
       "EMAIL_EXIST": "User {{userEmail}} exists, try another kid email",
-      "COURSE_UPDATED": "Course has been updated"
+      "COURSE_UPDATED": "Course has been updated",
+      "SHOP": {
+        "PRODUCT_ADDED": "Product successfully added to basket",
+        "PRODUCT_CREATED": "Product successfully created",
+        "PRODUCT_UPDATED": "Product successfully updated",
+        "PRODUCT_DELETED": "Product successfully deleted",
+        "PRODUCT_ALREADY_ADDED": "Product has been already added to you basket",
+        "ORDERED_SUCCESSFUL": "Your order was successfully send, wait and we contact you soon",
+        "ORDER_SENT": "Order {{id}} with products {{products}} successfully sent to user {{userName}}"
+      }
     },
     "VIDEOS": "Videos"
   },
@@ -434,7 +447,61 @@
       "TASK_LIST_DESC": "List of courses and tasks Librarytricks",
       "UPDATE_TASK_DESC": "Update the course task",
       "CHECK_TASK_DESC": "Checking the completed tasks of the course",
-      "PROFILE_DESC": "Librarytricks's profile"
+      "PROFILE_DESC": "Librarytricks's profile",
+      "SHOP_DESC": "Librarytricks shop for buying staff using system money (skillz)"
+    },
+    "SHOP": {
+      "BUY": "Buy",
+      "VIEW": "View",
+      "TITLE": "Shop",
+      "UPDATE": "Update",
+      "PAY": "Pay",
+      "ORDER": "Order",
+      "PRODUCT": {
+        "CREATE_PRODUCT": "Create product",
+        "PRODUCT_CATEGORY": "Product category",
+        "CATEGORY": "Category",
+        "CATEGORIES": {
+          "BALL": "Ball",
+          "CLOTHES": "Clothes",
+          "FOOTWEAR": "Footwear",
+          "ACCESSORIES": "Accessories"
+        },
+        "PRODUCT_SIZES": "Sizes",
+        "TITLE": "Product title",
+        "DETAILS_DESCRIPTION": "Details description",
+        "PRICE": "Price",
+        "SKILLZ": "Skillz",
+        "CREATE": "Create",
+        "AVAILABLE": "Available",
+        "SALE": "Sale",
+        "MANUFACTURER": "Manufacturer",
+        "UNAVAILABLE": "Product temporary unavailable",
+        "UPDATE_TITLE": "Update product"
+      },
+      "CHECKOUT": {
+        "TITLE": "Checkout",
+        "CONTACT_PERSON": "Contact person info",
+        "NAME": "Name",
+        "SURNAME": "Surname",
+        "PHONE": "Phone",
+        "CITY": "City",
+        "DELIVERY": "Delivery type",
+        "DELIVERY_ADDRESS": "Address",
+        "POST": "Post",
+        "TAKE_AWAY": "Take away",
+        "ADDITION_INFO": "Addition info",
+        "ADDITION_INFO_HELP": "Specify the size (if it is clothes), color, quantity, post office (if order with delivery) etc.",
+        "PAYMENT_METHOD": "Payment method",
+        "NOT_ENOUGH_SKILLZ": "You don have enough (skillz) for buying this staff, you need reach at least {{skillz}} skillz for checkout this item(s)"
+      },
+      "ORDERS": {
+        "TITLE": "Orders",
+        "STATUS": {
+          "PENDING": "Pending",
+          "READY": "Already sent"
+        }
+      }
     }
   }
 }

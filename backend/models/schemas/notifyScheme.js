@@ -27,7 +27,8 @@ const notifySchema = new Schema({
   task: {
     id: String,
     name: String
-  } | null
+  } | null,
+  products: String | null,
 });
 
 module.exports = mongoose.model('Notify', notifySchema);

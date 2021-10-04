@@ -1,6 +1,6 @@
 const {createLogger , transports, format} = require('winston');
 const config = require('../../../config.json');
-const DB_URL = config.url_web;
+const DB_URL = config.url_local;
 require('winston-mongodb');
 
 const createLoggerForNode = createLogger({
@@ -89,6 +89,19 @@ const mailTransporterLogger = createLogger({
     })
   ]
 });
+
+const orderLogger = createLogger({
+  transports: [
+    new transports.MongoDB({
+      db: DB_URL,
+      level: 'info',
+      options: {useUnifiedTopology: true},
+      format: format.combine(format.timestamp(),format.json(),format.metadata()),
+      tryReconnect: true,
+      collection: 'order-logs'
+    })
+  ]
+});
 errorLogger.add(new transports.File({ filename: 'logfile.log' }), {
   'name': 'error-file',
   'level': 'error',
@@ -104,5 +117,6 @@ module.exports = {
   userLogoutlogger,
   userInfoUpdateLogger,
   mailTransporterLogger,
-  errorLogger
+  errorLogger,
+  orderLogger
 };

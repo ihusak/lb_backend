@@ -46,11 +46,14 @@
       "PASS_TASK": "<b>{{author}}</b> сдав на перевірку задачу <b>{{taskName}}</b> в курсі <b>{{courseName}}</b>",
       "CONFIRM_PASS_TASK": "<b>{{author}}</b> прийняв задачу <b>{{taskName}}</b> в курсі <b>{{courseName}}</b>",
       "VIDEO_APPROVED": "Твоє відео було підтверджене",
-      "VERIFY_VIDEO": "Користувач <b>{{author}}</b> створив новий відео пост"
+      "VERIFY_VIDEO": "Користувач <b>{{author}}</b> створив новий відео пост",
+      "ORDER_SENT": "Ваше замевлення успішно відправлене, очікуйте на товар <b>{{products}}</b>",
+      "NEW_PRODUCT": "Новий товар в наявності: <b>{{products}}</b>"
     },
     "NOT_APPROVED": "Не підтверджено",
     "NO_USER": "Користувача не існує",
     "OFFER": "Оферта",
+    "PRODUCTS": "Товари",
     "RATING": "Рейтинг",
     "REJECT": "Відхилити",
     "REGISTER": "Реєстрація",
@@ -91,6 +94,7 @@
     "SIGN_IN": "Логін",
     "SIGN_UP": "Реєстрація",
     "STUDENTS": "Студенти",
+    "SUM": "Сума",
     "TASKS": "Завдання",
     "TASK_NAME": "Назва завдання",
     "TASK_DESCRIPTION": "Опис завдання",
@@ -132,7 +136,16 @@
       "VIDEO_MOVED_TO_VERIFICATION": "Відео відправленно на верифікацію",
       "INVITATIONS_SENT": "Запрошення відправленні юзерам {{users}}, чекайте на підтвердження",
       "EMAIL_EXIST": "Юзер {{userEmail}} вже існує, спробуйте іншу пошту дитини",
-      "COURSE_UPDATED": "Курс було вдало оновлено"
+      "COURSE_UPDATED": "Курс було вдало оновлено",
+      "SHOP": {
+        "PRODUCT_ADDED": "Товар додану в кошик",
+        "PRODUCT_CREATED": "Товар успішно створенний",
+        "PRODUCT_UPDATED": "Товар успішно оновлений",
+        "PRODUCT_DELETED": "Товар успішно видалений",
+        "PRODUCT_ALREADY_ADDED": "Товар вже у вашому кошику",
+        "ORDERED_SUCCESSFUL": "Ваша замевлення успішно відправлене, очікуйте, ми з вами скоро зв'яжемося",
+        "ORDER_SENT": "Замовлення №{{id}} з продукцією {{products}} успішно відправлений користувачу {{userName}}"
+      }
     },
     "VIDEOS": "Відео"
   },
@@ -434,7 +447,61 @@
       "TASK_LIST_DESC": "Список курсів і завдань Librarytricks",
       "UPDATE_TASK_DESC": "Оновлення задачі курсу",
       "CHECK_TASK_DESC": "Перевірка виконаних завдань курсу",
-      "PROFILE_DESC": "Профіль користувача Librarytricks"
+      "PROFILE_DESC": "Профіль користувача Librarytricks",
+      "SHOP_DESC": "Librarytricks магазин де можна купити спортивний товар за валюту (skillz)"
+    },
+    "SHOP": {
+      "BUY": "Купити",
+      "VIEW": "Переглянути",
+      "TITLE": "Магазин",
+      "UPDATE": "Оновити",
+      "PAY": "Оплатити",
+      "ORDER": "Замовити",
+      "PRODUCT": {
+        "CREATE_PRODUCT": "Створити товар",
+        "PRODUCT_CATEGORY": "Категорія товару",
+        "CATEGORY": "Категорія",
+        "CATEGORIES": {
+          "BALL": "М'ячі",
+          "CLOTHES": "Одяг",
+          "FOOTWEAR": "Взуття",
+          "ACCESSORIES": "Аксесуари"
+        },
+        "PRODUCT_SIZES": "Розміри",
+        "TITLE": "Назва товару",
+        "DETAILS_DESCRIPTION": "Деталі товару",
+        "PRICE": "Ціна",
+        "SKILLZ": "Skillz",
+        "CREATE": "Створити",
+        "AVAILABLE": "Є в наявності",
+        "SALE": "Скидка",
+        "MANUFACTURER": "Виробник",
+        "UNAVAILABLE": "Товар тимчасово недоступний",
+        "UPDATE_TITLE": "Оновлення товару"
+      },
+      "CHECKOUT": {
+        "TITLE": "Оплата товару",
+        "CONTACT_PERSON": "Контактна інформація отримувача",
+        "NAME": "Ім'я",
+        "SURNAME": "Прізвище",
+        "PHONE": "Телефон",
+        "CITY": "Місто",
+        "DELIVERY": "Тип доставки",
+        "DELIVERY_ADDRESS": "Адреса",
+        "POST": "Пошта",
+        "TAKE_AWAY": "Заберу сам",
+        "ADDITION_INFO": "Додаткова інформація",
+        "ADDITION_INFO_HELP": "Вкажіть розмір, колір, кількість, відділення пошти (якщо замовлення з доставкою) і тд. і тп.",
+        "PAYMENT_METHOD": "Валюта оплати",
+        "NOT_ENOUGH_SKILLZ": "У вас недостатньо (skillz) для придбання даного продукту, вам треба заробити ще {{skillz}} skillz для замовлення данного товару"
+      },
+      "ORDERS": {
+        "TITLE": "Замовлення",
+        "STATUS": {
+          "PENDING": "В обробці",
+          "READY": "Успішно відправлений"
+        }
+      }
     }
   }
 }

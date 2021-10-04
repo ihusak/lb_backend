@@ -46,10 +46,13 @@
       "PASS_TASK": "<b>{{author}}</b> сдал на проверку задачу <b>{{taskName}}</b> в курсе <b>{{courseName}}</b>",
       "CONFIRM_PASS_TASK": "<b>{{author}}</b> принял задачу <b>{{taskName}}</b> в курсе <b>{{courseName}}</b>",
       "VIDEO_APPROVED": "Твое видео было подтвержденно",
-      "VERIFY_VIDEO": "Пользыватель <b>{{author}}</b> создал новый видео пост"
+      "VERIFY_VIDEO": "Пользыватель <b>{{author}}</b> создал новый видео пост",
+      "ORDER_SENT": "Ваш заказ успешно отправлен, ожидайте продукцию <b>{{products}}</b>",
+      "NEW_PRODUCT": "Доступен новый товар: <b>{{products}}</b>"
     },
     "NOT_APPROVED": "Не подтверженные",
     "OFFER": "Оферта",
+    "PRODUCTS": "Товары",
     "RATING": "Рейтинг",
     "REJECT": "Отклонить",
     "REGISTER": "Регистрация",
@@ -90,6 +93,7 @@
     "SIGN_IN": "Логин",
     "SIGN_UP": "Регистрация",
     "STUDENTS": "Студенты",
+    "SUM": "Сумма",
     "TASKS": "Задачи",
     "TASK_NAME": "Название задачи",
     "TASK_DESCRIPTION": "Описание задачи",
@@ -131,7 +135,16 @@
       "VIDEO_MOVED_TO_VERIFICATION": "Видео отправленно на верификацию",
       "INVITATIONS_SENT": "Приглашения отправленны юзерам {{users}}, ждите их подтверждения",
       "EMAIL_EXIST": "Юзер {{userEmail}} уже существует, попробуйте другую почту ребенка",
-      "COURSE_UPDATED": "Курс успешно обновлен"
+      "COURSE_UPDATED": "Курс успешно обновлен",
+      "SHOP": {
+        "PRODUCT_ADDED": "Товар добавлен в корзину",
+        "PRODUCT_CREATED": "Продукт успешно создан",
+        "PRODUCT_UPDATED": "Товар успешно обновлен",
+        "PRODUCT_DELETED": "Товар успешно удален",
+        "PRODUCT_ALREADY_ADDED": "Товар уже находиться у вас в корзине",
+        "ORDERED_SUCCESSFUL": "Ваша заказа успешно отправлен, ожидайте, мы скоро с вам свяжемся",
+        "ORDER_SENT": "Заказ №{{id}} с товарами {{products}} успешно отправлен пользователю {{userName}}"
+      }
     },
     "VIDEOS": "Видео"
   },
@@ -433,7 +446,61 @@
       "TASK_LIST_DESC": "Список курсов и задач Librarytricks",
       "UPDATE_TASK_DESC": "Обновление задачу курса",
       "CHECK_TASK_DESC": "Проверка выполненных заданий курса",
-      "PROFILE_DESC": "Профиль пользователя Librarytricks"
+      "PROFILE_DESC": "Профиль пользователя Librarytricks",
+      "SHOP_DESC": "Librarytricks магазин где можна получить товар за заработанную валюту (skillz)"
+    },
+    "SHOP": {
+      "BUY": "Купить",
+      "VIEW": "Посмотреть",
+      "TITLE": "Магазин",
+      "UPDATE": "Обновить",
+      "PAY": "Оплатить",
+      "ORDER": "Заказать",
+      "PRODUCT": {
+        "CREATE_PRODUCT": "Создание товара",
+        "PRODUCT_CATEGORY": "Категория товара",
+        "CATEGORY": "Категория",
+        "CATEGORIES": {
+          "BALL": "Мячи",
+          "CLOTHES": "Одежда",
+          "FOOTWEAR": "Обувь",
+          "ACCESSORIES": "Акксесуары"
+        },
+        "PRODUCT_SIZES": "Размеры",
+        "TITLE": "Название товара",
+        "DETAILS_DESCRIPTION": "Описание товара",
+        "PRICE": "Цена",
+        "SKILLZ": "Skillz",
+        "CREATE": "Создать",
+        "AVAILABLE": "Есть в наличии",
+        "SALE": "Скидка",
+        "MANUFACTURER": "Производитель",
+        "UNAVAILABLE": "Товар временно недоступен",
+        "UPDATE_TITLE": "Обновление товара"
+      },
+      "CHECKOUT": {
+        "TITLE": "Оплата товара",
+        "CONTACT_PERSON": "Контактная информация получателя",
+        "NAME": "Имя",
+        "SURNAME": "Фамилия",
+        "PHONE": "Телефон",
+        "CITY": "Город",
+        "DELIVERY": "Тип доставки",
+        "DELIVERY_ADDRESS": "Адрес",
+        "POST": "Почта",
+        "TAKE_AWAY": "Заберу сам",
+        "ADDITION_INFO": "Дополнительная информация",
+        "ADDITION_INFO_HELP": "Укажите разме, цвет, колличество, отделение почты (если заказ с доставкой) и тд. и тп.",
+        "PAYMENT_METHOD": "Валюта оплаты",
+        "NOT_ENOUGH_SKILLZ": "У вас не достаточно (skillz) для приобритения, вам нужно заработать еще {{skillz}} skillz для того что бы заказазать данный товар"
+      },
+      "ORDERS": {
+        "TITLE": "Заказы",
+        "STATUS": {
+          "PENDING": "В обработке",
+          "READY": "Отправлен"
+        }
+      }
     }
   }
 }

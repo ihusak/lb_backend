@@ -46,3 +46,5 @@ testem.log
 Thumbs.db
 config.json
 logfile.log
+/uploads/avatars
+/uploads/products
