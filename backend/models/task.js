@@ -1,5 +1,6 @@
 const db = require('../config/db');
 const mongoose = require('mongoose');
+const {response} = require("express");
 const ObjectID = mongoose.Types.ObjectId;
 
 exports.createTask = (task, cb) => {
@@ -7,6 +8,12 @@ exports.createTask = (task, cb) => {
     cb(err, doc);
   });
 };
+
+exports.changeTaskStatus = (userId, status, cb) => {
+  db.get().collection('tasks-status').findOneAndUpdate({userId}, (err, response) => {
+
+  })
+}
 
 exports.getAllTasks = (cb) => {
   db.get().collection('tasks').find({}).toArray((err, tasks) => {

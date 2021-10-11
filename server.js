@@ -14,7 +14,7 @@ const {errorLogger} = require('./backend/config/middleware/logger')
 
 if(!process.env.MONGODB_URI) {
   var corsOptions = {
-  origin: 'http://localhost:4200',
+  origin: 'http://localhost:4200', // depends on local UI port
   credentials: true,
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
 }
@@ -42,7 +42,7 @@ cron.deleteExpiredToken.start();
 db.connect(DB_URL, (err) => {
   if(err) return console.log(err);
   app.listen(PORT, function(){
-    console.log(`Server connected and listen posrt ${PORT}`);
+    console.log(`Server connected and listen port ${PORT}`);
       app.use('/users', require('./backend/routes/users/users'));
       app.use('/roles', require('./backend/routes/roles/roles'));
       app.use('/userInfo', require('./backend/routes/userInfo/userInfo'));

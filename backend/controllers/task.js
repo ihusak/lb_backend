@@ -20,6 +20,12 @@ exports.createTask = (req, res) => {
   })
 }
 
+exports.changeStatusTask = (req, res) => {
+  Task.changeTaskStatus((err, response) => {
+
+  })
+}
+
 exports.getAllTasks = (req, res) => {
   Task.getAllTasks((err, tasks) => {
     if(err) return res.sendStatus(500);
