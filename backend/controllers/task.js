@@ -22,7 +22,8 @@ exports.createTask = (req, res) => {
 
 exports.changeStatusTask = (req, res) => {
   Task.changeTaskStatus((err, response) => {
-
+    if(err) return res.sendStatus(500);
+    return res.json(response);
   })
 }
 

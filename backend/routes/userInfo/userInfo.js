@@ -41,8 +41,8 @@ router.get('/', auth.authUser, userInfo.getUserInfo);
 router.get('/course/:courseId', auth.authUser, userInfo.getUsersInfoByCourse);
 router.get('/all/:roleId', auth.authUser, userInfo.getAllUserInfoByRoleId);
 router.get('/coach/:coachId', auth.authUser, userInfo.getUserInfoByCoach);
-router.put('/task-status/:userId', auth.authUser, userInfo.changeTaskStatus);
-router.put('/accept-task/:userId', auth.authUser, userInfo.acceptStudentTask);
+router.put('/task-status/:userId', auth.authUser, userInfo.changeTaskStatus); // deprecated
+router.put('/accept-task/:userId', auth.authUser, userInfo.acceptStudentTask); // deprecated
 router.post('/request/coach/:id', userInfo.requestCoachPermission);
 router.get('/confirm/coach/:token', userInfo.acceptCoachPermission);
 router.put('/', [auth.authUser, handleUploadImg], userInfo.updateUserInfo);

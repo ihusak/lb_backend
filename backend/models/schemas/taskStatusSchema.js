@@ -5,11 +5,22 @@ const taskStatusSchema = new Schema({
     title: {type: String},
     description: {type: String},
     example: {type: String},
+    reward: {type: Number},
+    nextTask: {id: String},
     course: {
         id: {type: String},
         name: {type: String},
     },
-    status: {type: String, default: ''}
+    reviewExample: {type: String},
+    reject: {type: String},
+    coach: {
+        id: String,
+        name: String
+    },
+    user: {
+        id: String,
+        name: String
+    },
 });
 
 
