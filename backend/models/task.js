@@ -1,7 +1,7 @@
 const db = require('../config/db');
 const mongoose = require('mongoose');
 const ObjectID = mongoose.Types.ObjectId;
-const StatusTask = require('../models/schemas/taskStatusSchema');
+const TaskStatus = require('../models/schemas/taskStatusSchema');
 
 exports.createTask = (task, cb) => {
   db.get().collection('tasks').insertOne(task, (err, doc) => {
@@ -9,17 +9,20 @@ exports.createTask = (task, cb) => {
   });
 };
 
-exports.changeTaskStatus = (userId, status, cb) => {
-  const STATUS_TASK = new StatusTask({
-
+exports.changeTaskStatus = (userId, statusTask, cb) => {
+  const STATUS_TASK = new TaskStatus({
+    status: statusTask.status,
+    taskId: statusTask.taskId,
+    coachId: statusTask.coach,
+    userId: userId,
+    reject: statusTask.reject
   });
-  db.get().collection('tasks-status').findOneAndUpdate({userId}, {$set: STATUS_TASK}, (err, statusTask) => {
+  db.get().collection('tasks-status').findOneAndUpdate({userId: statusTask.taskId}, {$set: STATUS_TASK}, (err, statusTask) => {
     if(statusTask) {
-
+      console.log('1', statusTask);
     } else {
-
+      console.log('2', statusTask);
     }
-    console.log(statusTask);
   })
 }
 
