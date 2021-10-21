@@ -13,7 +13,7 @@ exports.changeTaskStatus = (userId, status, cb) => {
   const STATUS_TASK = new StatusTask({
 
   });
-  db.get().collection('tasks-status').findOneAndUpdate({userId}, {$set: }, (err, statusTask) => {
+  db.get().collection('tasks-status').findOneAndUpdate({userId}, {$set: STATUS_TASK}, (err, statusTask) => {
     if(statusTask) {
 
     } else {
