@@ -21,9 +21,9 @@ exports.createTask = (req, res) => {
 }
 
 exports.changeTaskStatus = (req, res) => {
-  const userId = req.user.id;
+  const userId = req.body.userId;
   const taskStatus = req.body.taskStatus;
-  Task.changeTaskStatus((err, response) => {
+  Task.changeTaskStatus(userId, taskStatus,(err, response) => {
     if(err) return res.sendStatus(500);
     return res.json(response);
   })

@@ -2,6 +2,7 @@ const db = require('../config/db');
 const mongoose = require('mongoose');
 const ObjectID = mongoose.Types.ObjectId;
 const TaskStatus = require('../models/schemas/taskStatusSchema');
+const TaskStatusesEnum = require('../config/enum/taskStatuses');
 
 exports.createTask = (task, cb) => {
   db.get().collection('tasks').insertOne(task, (err, doc) => {
@@ -10,20 +11,32 @@ exports.createTask = (task, cb) => {
 };
 
 exports.changeTaskStatus = (userId, statusTask, cb) => {
-  const STATUS_TASK = new TaskStatus({
-    status: statusTask.status,
-    taskId: statusTask.taskId,
-    coachId: statusTask.coach,
-    userId: userId,
-    reject: statusTask.reject
-  });
-  db.get().collection('tasks-status').findOneAndUpdate({userId: statusTask.taskId}, {$set: STATUS_TASK}, (err, statusTask) => {
-    if(statusTask) {
-      console.log('1', statusTask);
-    } else {
-      console.log('2', statusTask);
-    }
-  })
+  switch (statusTask.status) {
+    case TaskStatusesEnum.PROCESSING:
+      const body = new TaskStatus({
+        status: statusTask.status,
+        taskId: statusTask.taskId,
+        coachId: statusTask.coach,
+        userId: userId
+      });
+      db.get().collection('tasks-status').findOneAndUpdate({userId: body.userId, taskId: body.taskId}, {$set: {status: body.status}}, (err, foundStatusTask) => {
+        console.log('foundStatusTask', foundStatusTask);
+        if(!foundStatusTask) {
+          db.get().collection('tasks-status').insertOne(body, (err, response) => {
+            cb(err, response);
+          })
+        }
+        cb(err, foundStatusTask);
+      })
+      break;
+    case TaskStatusesEnum.PENDING:
+      // db.get().collection('tasks-status').findOneAndUpdate({userId: statusTask.taskId}, {$set: STATUS_TASK}, (err, statusTask) => {
+      //
+      // })
+      break;
+    case TaskStatusesEnum.DONE:
+      break;
+  }
 }
 
 exports.getAllTasks = (cb) => {
