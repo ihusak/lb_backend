@@ -14,7 +14,7 @@ const {errorLogger} = require('./backend/config/middleware/logger')
 
 if(!process.env.MONGODB_URI) {
   var corsOptions = {
-  origin: 'http://localhost:4201', // depends on local UI port
+  origin: 'http://localhost:4200', // depends on local UI port
   credentials: true,
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
 }

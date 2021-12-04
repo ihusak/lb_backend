@@ -6,7 +6,8 @@ const taskStatusSchema = new Schema({
     taskId: {type: String, default: ''},
     coachId: {type: String, default: ''},
     userId: {type: String, default: ''},
-    reject: {type: String, default: null}
+    reject: {type: String, default: null},
+    reviewExample: {type: String, default: null}
 });
 
 

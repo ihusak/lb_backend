@@ -10,33 +10,53 @@ exports.createTask = (task, cb) => {
   });
 };
 
-exports.changeTaskStatus = (userId, statusTask, cb) => {
+exports.changeTaskStatus = (statusTask, cb) => {
+  console.log(statusTask);
+  const body = new TaskStatus({
+    status: statusTask.status,
+    taskId: statusTask.taskId,
+    coachId: statusTask.coachId,
+    userId: statusTask.userId,
+    reviewExample: statusTask.reviewExample
+  });
   switch (statusTask.status) {
     case TaskStatusesEnum.PROCESSING:
-      const body = new TaskStatus({
-        status: statusTask.status,
-        taskId: statusTask.taskId,
-        coachId: statusTask.coach,
-        userId: userId
-      });
-      db.get().collection('tasks-status').findOneAndUpdate({userId: body.userId, taskId: body.taskId}, {$set: {status: body.status}}, (err, foundStatusTask) => {
+      db.get().collection('tasks-status').findOne({userId: body.userId, taskId: body.taskId}, (err, foundStatusTask) => {
         console.log('foundStatusTask', foundStatusTask);
         if(!foundStatusTask) {
           db.get().collection('tasks-status').insertOne(body, (err, response) => {
             cb(err, response);
           })
+        } else {
+          db.get().collection('tasks-status').updateOne({userId: body.userId, taskId: body.taskId},{$set: {reviewExample: body.reviewExample}}, (err, response) => {
+            cb(err, response);
+          })
         }
-        cb(err, foundStatusTask);
       })
       break;
     case TaskStatusesEnum.PENDING:
-      // db.get().collection('tasks-status').findOneAndUpdate({userId: statusTask.taskId}, {$set: STATUS_TASK}, (err, statusTask) => {
-      //
-      // })
+      db.get().collection('tasks-status').findOne({userId: body.userId, taskId: body.taskId}, (err, foundStatusTask) => {
+        console.log('foundStatusTask', foundStatusTask);
+        if(!foundStatusTask) {
+          db.get().collection('tasks-status').insertOne(body, (err, response) => {
+            cb(err, response);
+          })
+        } else {
+          db.get().collection('tasks-status').updateOne({userId: body.userId, taskId: body.taskId},{$set: {reviewExample: body.reviewExample}}, (err, response) => {
+            cb(err, response);
+          })
+        }
+      })
       break;
     case TaskStatusesEnum.DONE:
       break;
   }
+}
+
+exports.getTaskStatusesByCoach = (coachId, cb) => {
+  db.get().collection('tasks-status').find({coachId}).toArray((err, taskStatuses) => {
+    cb(err, taskStatuses)
+  })
 }
 
 exports.getAllTasks = (cb) => {

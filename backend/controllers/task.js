@@ -21,9 +21,15 @@ exports.createTask = (req, res) => {
 }
 
 exports.changeTaskStatus = (req, res) => {
-  const userId = req.body.userId;
   const taskStatus = req.body.taskStatus;
-  Task.changeTaskStatus(userId, taskStatus,(err, response) => {
+  Task.changeTaskStatus(taskStatus,(err, response) => {
+    if(err) return res.sendStatus(500);
+    return res.json(response);
+  })
+}
+exports.getTaskStatusesByCoach = (req, res) => {
+  const coachId = req.params.coachId;
+  Task.getTaskStatusesByCoach(coachId,(err, response) => {
     if(err) return res.sendStatus(500);
     return res.json(response);
   })
