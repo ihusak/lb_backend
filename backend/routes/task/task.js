@@ -4,6 +4,7 @@ const auth = require('../../config/middleware/auth');
 const controller = require('../../controllers/task');
 
 router.get('/list', auth.authUser, controller.getAllTasks);
+router.post('/accept', auth.authUser, controller.acceptTask);
 router.get('/course/:courseId/list', auth.authUser, controller.getTasksByCourse);
 router.get('/:id', auth.authUser, controller.getTaskById);
 router.post('/status/coach/:coachId/course/:courseId', auth.authUser, controller.getStatusTasks); // deprecated

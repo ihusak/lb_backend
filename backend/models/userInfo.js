@@ -16,9 +16,9 @@ const {
 exports.acceptTask = (userId, task, cb) => {
   db.get().collection('userStudentInfo').findOneAndUpdate({'id': userId}, {$set: {
     'currentTask.status': 'Done'
-  }, $push: {'doneTasks': task.taskId}}, {returnOriginal: false}, (err, studentInfo) => {
+  }, $push: {'doneTasks': task.id}}, {returnOriginal: false}, (err, studentInfo) => {
     const studentInfoValue = studentInfo.value;
-    db.get().collection("tasks").find({'course.id': task.courseId}).toArray((err, foundTasks) => {
+    db.get().collection("tasks").find({'course.id': task.course.id}).toArray((err, foundTasks) => {
       if(studentInfoValue.currentTask.course.id !== studentInfoValue.course.id) {
         if(studentInfoValue.rating >= 100) {
           studentInfoValue.rating = 0;

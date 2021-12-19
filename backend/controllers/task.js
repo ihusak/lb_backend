@@ -1,6 +1,14 @@
 const Task = require('../models/task');
 const TaskModel = require('../models/schemas/taskSchema');
 
+exports.acceptTask = (req, res) => {
+  const acceptModel = req.body.acceptModel;
+  Task.acceptTask(acceptModel, (err, result) => {
+    if(err) return res.sendStatus(500);
+    return res.json(result);
+  })
+}
+
 exports.createTask = (req, res) => {
   const task = new TaskModel({
     title: req.body.title,

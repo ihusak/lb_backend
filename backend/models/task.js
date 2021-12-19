@@ -4,6 +4,12 @@ const ObjectID = mongoose.Types.ObjectId;
 const TaskStatus = require('../models/schemas/taskStatusSchema');
 const TaskStatusesEnum = require('../config/enum/taskStatuses');
 
+exports.acceptTask = (task, cb) => {
+  db.get().collection('userStudentInfo').updateOne({id: task.userId}, {$set: {reviewExample: body.reviewExample}}, (err, doc) => {
+    cb(err, doc);
+  });
+};
+
 exports.createTask = (task, cb) => {
   db.get().collection('tasks').insertOne(task, (err, doc) => {
     cb(err, doc);
@@ -55,7 +61,12 @@ exports.changeTaskStatus = (statusTask, cb) => {
 
 exports.getTaskStatusesByCoach = (coachId, cb) => {
   db.get().collection('tasks-status').find({coachId}).toArray((err, taskStatuses) => {
-    cb(err, taskStatuses)
+    const taskStatusesMapped = taskStatuses.map((task) => {
+      task.id = task._id;
+      delete task._id;
+      return task;
+    })
+    cb(err, taskStatusesMapped)
   })
 }
 
